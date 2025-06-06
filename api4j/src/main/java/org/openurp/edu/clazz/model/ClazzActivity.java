@@ -137,7 +137,13 @@ public class ClazzActivity extends LongIdObject implements Comparable<ClazzActiv
     session.setTime(new WeekTime(getTime()));
     session.setClazz(clazz);
     session.getTeachers().addAll(getTeachers());
+    session.setBeginUnit(this.getBeginUnit());
+    session.setEndUnit(this.getEndUnit());
     return session;
+  }
+
+  public boolean canMergerWith(ClazzActivity session) {
+    return canMergerWith(session, true);
   }
 
   /**
@@ -145,7 +151,7 @@ public class ClazzActivity extends LongIdObject implements Comparable<ClazzActiv
    *
    * @return
    */
-  public boolean canMergerWith(ClazzActivity session) {
+  public boolean canMergerWith(ClazzActivity session, boolean strict) {
     if (!Objects.equals(getNature(), session.getNature())) {
       return false;
     }
@@ -174,7 +180,28 @@ public class ClazzActivity extends LongIdObject implements Comparable<ClazzActiv
     if (!Objects.equals(getSubclazz(), session.getSubclazz())) {
       return false;
     }
-    return WeekTimes.canMergerWith(getTime(), session.getTime());
+    return timeCanMergerWith(this, session, strict, 25);
+  }
+
+  public static boolean timeCanMergerWith(ClazzActivity firstCa, ClazzActivity otherCa, boolean strict, int duration) {
+    var me = firstCa.getTime();
+    var other = otherCa.getTime();
+    if (!me.getStartOn().equals(other.getStartOn())) {
+      return false;
+    } else if (me.getWeekstate().equals(other.getWeekstate())) {
+      if (strict) {
+        if (me.getBeginAt().interval(other.getEndAt()) >= duration && other.getBeginAt().interval(me.getEndAt()) >= duration) {
+          return me.getBeginAt().value <= other.getEndAt().value && other.getBeginAt().value <= me.getEndAt().value;
+        } else {
+          return true;
+        }
+      } else {
+        //firstca - otherca || otherca - firstca
+        return firstCa.getEndUnit() + 1 == otherCa.getBeginUnit() || otherCa.getEndUnit() + 1 == firstCa.getBeginUnit();
+      }
+    } else {
+      return me.getBeginAt().equals(other.getBeginAt()) && me.getEndAt().equals(other.getEndAt());
+    }
   }
 
   /**
@@ -195,7 +222,7 @@ public class ClazzActivity extends LongIdObject implements Comparable<ClazzActiv
    * 合并在年份和教学周占用上,可以合并的教学活动<br>
    * 合并标准是年份,教学周,教室,教师,星期
    */
-  public static List<ClazzActivity> mergeActivites(List<ClazzActivity> tobeMerged) {
+  public static List<ClazzActivity> mergeActivites(List<ClazzActivity> tobeMerged, boolean strict) {
     List<ClazzActivity> mergedActivityList = CollectUtils.newArrayList();
     if (CollectUtils.isEmpty(tobeMerged)) return mergedActivityList;
     Collections.sort(tobeMerged);
@@ -211,6 +238,10 @@ public class ClazzActivity extends LongIdObject implements Comparable<ClazzActiv
       }
     }
     return mergedActivityList;
+  }
+
+  public static List<ClazzActivity> mergeActivites(List<ClazzActivity> tobeMerged) {
+    return mergeActivites(tobeMerged, true);
   }
 
   /**

@@ -55,9 +55,6 @@ public class DefaultModule extends AbstractBindModule {
     bind("executePlanCourseGroupService", ExecutivePlanCourseGroupServiceImpl.class);
     bind("executePlanCourseService", ExecutivePlanCourseServiceImpl.class);
     bind("planCompareService", PlanCompareServiceImpl.class);
-    bind("personalPlanCompareService", PersonalPlanCompareServiceImpl.class);
-    bind("personalPlanService", PersonalPlanServiceImpl.class);
-    bind("personalPlanCourseService", PersonalPlanCourseServiceImpl.class);
 
     bind("majorPlanService", MajorPlanServiceImpl.class);
     bind("MajorPlanCourseGroupService", MajorPlanCourseGroupServiceImpl.class);

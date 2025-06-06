@@ -56,7 +56,6 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
 
   private String name;
 
-  private String enName;
   /**
    * 基本信息
    */
@@ -341,14 +340,6 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getEnName() {
-    return enName;
-  }
-
-  public void setEnName(String enName) {
-    this.enName = enName;
   }
 
   public java.sql.Date getStudyOn() {

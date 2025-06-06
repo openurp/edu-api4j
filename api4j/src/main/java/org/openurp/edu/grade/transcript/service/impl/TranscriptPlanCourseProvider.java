@@ -29,7 +29,6 @@ import org.openurp.edu.grade.transcript.service.TranscriptDataProvider;
 import org.openurp.edu.program.model.CourseGroup;
 import org.openurp.edu.program.model.CoursePlan;
 import org.openurp.edu.program.model.PlanCourse;
-import org.openurp.edu.program.model.StdPlan;
 import org.openurp.edu.program.plan.service.CoursePlanProvider;
 
 /*
@@ -55,21 +54,10 @@ public class TranscriptPlanCourseProvider extends BaseServiceImpl implements Tra
     // 找个人计划
     // 没有的话 找专业计划
     List<PlanCourse> planCourses = new ArrayList<PlanCourse>();
-    StdPlan personalPlan = coursePlanProvider.getPersonalPlan(std);
-    if (personalPlan != null) {
-      List<CourseGroup> courseGroups = personalPlan.getGroups();
-      for (CourseGroup courseGroup : courseGroups) {
-        if (courseGroup != null) {
-          planCourses.addAll(courseGroup.getPlanCourses());
-        }
-      }
-    }
-    if (personalPlan == null) {
-      CoursePlan coursePlan = coursePlanProvider.getExecutivePlan(std);
-      if (coursePlan != null) {
-        for (CourseGroup courseGroup : coursePlan.getGroups()) {
-          planCourses.addAll(courseGroup.getPlanCourses());
-        }
+    CoursePlan coursePlan = coursePlanProvider.getExecutivePlan(std);
+    if (coursePlan != null) {
+      for (CourseGroup courseGroup : coursePlan.getGroups()) {
+        planCourses.addAll(courseGroup.getPlanCourses());
       }
     }
     return planCourses;

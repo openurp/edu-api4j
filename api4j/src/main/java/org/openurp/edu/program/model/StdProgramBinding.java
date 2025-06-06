@@ -18,36 +18,43 @@
  */
 package org.openurp.edu.program.model;
 
+import org.beangle.commons.entity.pojo.LongIdObject;
+import org.openurp.base.std.model.Student;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Target;
-import org.openurp.edu.program.model.AbstractPlanCourse;
-import org.openurp.edu.program.model.CourseGroup;
-import org.openurp.edu.program.model.StdCourseGroup;
+@Entity(name = "org.openurp.edu.program.model.StdProgramBinding")
+public class StdProgramBinding extends LongIdObject {
+    /**
+     * 学生
+     */
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Student std;
 
-/**
- * 个人计划的课程
- */
-@Entity(name = "org.openurp.edu.program.model.StdPlanCourse")
-public class StdPlanCourse extends AbstractPlanCourse {
+    /**
+     * 学生
+     */
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Program program;
 
-  private static final long serialVersionUID = 6931101559891478812L;
+    public Student getStd() {
+        return std;
+    }
 
-  /** 课程组 */
-  @Target(StdCourseGroup.class)
-  @NotNull
-  @ManyToOne(fetch = FetchType.LAZY)
-  private CourseGroup group;
+    public void setStd(Student std) {
+        this.std = std;
+    }
 
-  public CourseGroup getGroup() {
-    return group;
-  }
+    public Program getProgram() {
+        return program;
+    }
 
-  public void setGroup(CourseGroup group) {
-    this.group = group;
-  }
-
+    public void setProgram(Program program) {
+        this.program = program;
+    }
 }

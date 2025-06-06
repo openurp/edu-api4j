@@ -24,7 +24,6 @@ import org.openurp.base.time.NumberRangeDigestor;
 import org.openurp.edu.program.model.ExecutivePlanCourse;
 import org.openurp.edu.program.model.MajorPlanCourse;
 import org.openurp.edu.program.model.Program;
-import org.openurp.edu.program.model.StdPlanCourse;
 
 import java.util.Map;
 

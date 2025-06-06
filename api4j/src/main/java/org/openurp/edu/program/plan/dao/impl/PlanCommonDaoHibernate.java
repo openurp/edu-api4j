@@ -62,8 +62,6 @@ public class PlanCommonDaoHibernate extends HibernateEntityDao implements PlanCo
       if (null == mplan.getProgram().getStatus()) {
         mplan.getProgram().setStatus(AuditStatus.UNSUBMITTED);
       }
-    } else if (plan instanceof StdPlan) {
-      StdPlan pplan = (StdPlan) plan;
     }
   }
 

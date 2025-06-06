@@ -135,9 +135,7 @@ public class PersistModule extends AbstractPersistModule {
         ExecutivePlanCourse.class,
         ExecutiveCourseGroup.class,
 
-        org.openurp.edu.program.model.StdPlan.class,
-        org.openurp.edu.program.model.StdPlanCourse.class,
-        org.openurp.edu.program.model.StdCourseGroup.class,
+        org.openurp.edu.program.model.StdProgramBinding.class,
 
         org.openurp.edu.program.flow.CourseAlternativeApply.class,
         org.openurp.edu.program.flow.CourseTypeChangeApply.class,

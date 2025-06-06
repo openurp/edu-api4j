@@ -21,7 +21,6 @@ package org.openurp.edu.program.plan.util;
 import org.beangle.commons.lang.functor.Transformer;
 import org.openurp.edu.program.model.ExecutivePlan;
 import org.openurp.edu.program.model.MajorPlan;
-import org.openurp.edu.program.model.StdPlan;
 
 /**
  * 被CollectionUtils.collect使用，用于从*Plan中收集Program<br>

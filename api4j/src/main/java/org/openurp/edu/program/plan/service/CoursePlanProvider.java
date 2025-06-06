@@ -23,7 +23,6 @@ import org.openurp.base.std.model.Student;
 import org.openurp.edu.program.model.CoursePlan;
 import org.openurp.edu.program.model.ExecutivePlan;
 import org.openurp.edu.program.model.PlanCourse;
-import org.openurp.edu.program.model.StdPlan;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,14 +40,6 @@ public interface CoursePlanProvider {
    * @return
    */
   public ExecutivePlan getExecutivePlan(Student student);
-
-  /**
-   * 获得单个学生的个人计划
-   *
-   * @param student
-   * @return
-   */
-  StdPlan getPersonalPlan(Student student);
 
   /**
    * 获得学生的计划

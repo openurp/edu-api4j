@@ -18,12 +18,10 @@
  */
 package org.openurp.edu.grade.course.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.beangle.commons.collection.CollectUtils;
+import org.beangle.commons.lang.Strings;
 import org.openurp.base.edu.model.Semester;
+import org.openurp.base.service.ProjectPropertyService;
 import org.openurp.base.std.model.Student;
 import org.openurp.edu.grade.course.model.CourseGrade;
 import org.openurp.edu.grade.course.model.StdGpa;
@@ -31,24 +29,67 @@ import org.openurp.edu.grade.course.model.StdSemesterGpa;
 import org.openurp.edu.grade.course.model.StdYearGpa;
 import org.openurp.edu.grade.course.service.CourseGradeProvider;
 import org.openurp.edu.grade.course.service.GpaStatService;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 
-public class BestGpaStatService implements GpaStatService {
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public class DefaultGpaStatService implements GpaStatService {
+
+  private final Map<String, GradeFilter> filters = CollectUtils.newHashMap();
 
   private CourseGradeProvider courseGradeProvider;
 
   private GpaPolicy gpaPolicy;
 
-  private BestGradeFilter bestGradeFilter;
+  private ApplicationContext applicationContext;
+
+  private ProjectPropertyService projectPropertyService;
+
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
+
+  public void setProjectPropertyService(ProjectPropertyService projectPropertyService) {
+    this.projectPropertyService = projectPropertyService;
+  }
+
+  public void afterPropertiesSet() throws Exception {
+    if (null == applicationContext) return;
+    String[] names = applicationContext.getBeanNamesForType(GradeFilter.class);
+    if (null != names && names.length > 0) {
+      for (String name : names) {
+        filters.put(name, (GradeFilter) applicationContext.getBean(name));
+      }
+    }
+  }
 
   public StdGpa stat(Student std, List<CourseGrade> grades) {
-    StdGpa stdGpa = gpaPolicy.calc(std, grades, true);
-    StdGpa stdGpa2 = gpaPolicy.calc(std, bestGradeFilter.filter(grades), false);
-    stdGpa.setGradeCount(stdGpa2.getGradeCount());
-    stdGpa.setCredits(stdGpa2.getCredits());
-    stdGpa.setTotalCredits(stdGpa2.getTotalCredits());
-    stdGpa.setGa(stdGpa2.getGa());
-    stdGpa.setGpa(stdGpa2.getGpa());
-    return stdGpa;
+    String filterNames = projectPropertyService.get(std.getProject(), "edu.grade.gpa_filters", "bestGradeFilter");
+    List<GradeFilter> filters = getFilters(filterNames);
+    if (filters.isEmpty()) {
+      return gpaPolicy.calc(std, grades, true);
+    } else {
+      var filterGrades = grades;
+      for (GradeFilter filter : filters) {
+        filterGrades = filter.filter(filterGrades);
+      }
+      return gpaPolicy.calc(std, filterGrades, true);
+    }
+  }
+
+  private List<GradeFilter> getFilters(String name) {
+    if (null == name || name.isEmpty() || name.equalsIgnoreCase("none")) return Collections.emptyList();
+    String[] filterNames = Strings.split(name, new char[]{'|', ','});
+    List<GradeFilter> myFilters = CollectUtils.newArrayList();
+    for (String filterName : filterNames) {
+      GradeFilter filter = filters.get(filterName);
+      if (null != filter) myFilters.add(filter);
+    }
+    return myFilters;
   }
 
   public void refresh(StdGpa stdGpa) {
@@ -159,10 +200,6 @@ public class BestGpaStatService implements GpaStatService {
 
   public void setGpaPolicy(GpaPolicy gpaPolicy) {
     this.gpaPolicy = gpaPolicy;
-  }
-
-  public void setBestGradeFilter(BestGradeFilter bestGradeFilter) {
-    this.bestGradeFilter = bestGradeFilter;
   }
 
 }
