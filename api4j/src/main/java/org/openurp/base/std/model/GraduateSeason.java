@@ -43,7 +43,7 @@ public class GraduateSeason extends LongIdObject {
   @ManyToOne(fetch = FetchType.LAZY)
   private Project project;
 
-  private java.sql.Date graduateOn;
+  private java.sql.Date graduateIn;
 
   public String getCode() {
     return code;
@@ -69,11 +69,11 @@ public class GraduateSeason extends LongIdObject {
     this.project = project;
   }
 
-  public Date getGraduateOn() {
-    return graduateOn;
+  public Date getGraduateIn() {
+    return graduateIn;
   }
 
-  public void setGraduateOn(Date graduateOn) {
-    this.graduateOn = graduateOn;
+  public void setGraduateIn(Date graduateOn) {
+    this.graduateIn = graduateOn;
   }
 }

@@ -32,10 +32,8 @@ public class ProgramCollector implements Transformer {
   public Object apply(Object input) {
     if (input instanceof MajorPlan) {
       return ((MajorPlan) input).getProgram();
-    } else if (input instanceof ExecutivePlan) {
-      return ((ExecutivePlan) input).getProgram();
     } else {
-      return ((StdPlan) input).getProgram();
+      return ((ExecutivePlan) input).getProgram();
     }
   }
 

@@ -43,9 +43,9 @@ public class Grade extends LongIdObject {
 
   private String enName;
 
-  private java.sql.Date beginOn;
+  private java.sql.Date beginIn;
 
-  private java.sql.Date endOn;
+  private java.sql.Date endIn;
 
   public Project getProject() {
     return project;
@@ -79,20 +79,20 @@ public class Grade extends LongIdObject {
     this.enName = enName;
   }
 
-  public Date getBeginOn() {
-    return beginOn;
+  public Date getBeginIn() {
+    return beginIn;
   }
 
-  public void setBeginOn(Date beginOn) {
-    this.beginOn = beginOn;
+  public void setBeginIn(Date beginIn) {
+    this.beginIn = beginIn;
   }
 
-  public Date getEndOn() {
-    return endOn;
+  public Date getEndIn() {
+    return endIn;
   }
 
-  public void setEndOn(Date endOn) {
-    this.endOn = endOn;
+  public void setEndIn(Date endIn) {
+    this.endIn = endIn;
   }
 
   @Override

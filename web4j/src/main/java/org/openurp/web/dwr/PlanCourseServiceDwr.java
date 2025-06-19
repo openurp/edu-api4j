@@ -31,10 +31,6 @@ public class PlanCourseServiceDwr {
 
   private EntityDao entityDao;
 
-  public StdPlanCourse getPersonalPlanCourse(Long id) {
-    return entityDao.get(StdPlanCourse.class, id);
-  }
-
   public Map<String, Object> getExecutivePlanCourse(Long id) {
     ExecutivePlanCourse pc = entityDao.get(ExecutivePlanCourse.class, id);
     Map<String, Object> datas = new java.util.HashMap<String, Object>();

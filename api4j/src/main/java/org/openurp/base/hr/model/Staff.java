@@ -48,6 +48,8 @@ public class Staff extends LongIdObject {
 
   private String name;
 
+  private String enName;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Gender gender;
 
@@ -86,6 +88,14 @@ public class Staff extends LongIdObject {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getEnName() {
+    return enName;
+  }
+
+  public void setEnName(String enName) {
+    this.enName = enName;
   }
 
   public Gender getGender() {
