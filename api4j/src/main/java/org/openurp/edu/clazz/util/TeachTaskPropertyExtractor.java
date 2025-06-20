@@ -38,7 +38,6 @@ import org.openurp.edu.clazz.model.ClazzActivity;
 import org.openurp.edu.clazz.model.ClazzRestriction;
 import org.openurp.edu.clazz.service.CourseLimitService;
 import org.openurp.edu.exam.util.ExamActivityDigestor;
-import org.openurp.edu.textbook.model.ClazzMaterial;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -191,25 +190,6 @@ public class TeachTaskPropertyExtractor extends DefaultPropertyExtractor {
       return null;
     }
 
-    // 教材
-    else if ("fake.materials".equals(property)) {
-      StringBuilder sb = new StringBuilder();
-      OqlBuilder<ClazzMaterial> query = OqlBuilder.from(ClazzMaterial.class, "book");
-      query.where("book.clazz = :clazz", clazz);
-      ClazzMaterial material = entityDao.uniqueResult(query);
-      if (material != null) {
-        for (Iterator<Textbook> iter = material.getBooks().iterator(); iter.hasNext(); ) {
-          Textbook book = iter.next();
-          sb.append(MessageFormat.format("名称:{0},作者:{1},ISBN:{2},出版社:{3}", book.getName(),
-              book.getAuthor() == null ? "" : book.getAuthor(), book.getIsbn() == null ? "" : book.getIsbn(),
-              book.getPress() == null ? "" : book.getPress().getName()));
-          if (iter.hasNext()) {
-            sb.append("\n");
-          }
-        }
-      }
-      return sb.toString();
-    }
     // 教室可容纳人数
     else if ("courseSchedule.activities.room.capacityOfCourse".equals(property)) {
       Set<Classroom> rooms = new HashSet<Classroom>();

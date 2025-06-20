@@ -51,7 +51,6 @@ import org.openurp.edu.program.model.ExecutiveCourseGroup;
 import org.openurp.edu.program.model.ExecutivePlan;
 import org.openurp.edu.program.model.ExecutivePlanCourse;
 import org.openurp.edu.program.model.ExemptCourse;
-import org.openurp.edu.textbook.model.ClazzMaterial;
 import org.openurp.std.award.Punishment;
 import org.openurp.std.fee.config.TuitionConfig;
 import org.openurp.std.graduation.app.model.GraduateAuditLog;
@@ -183,7 +182,6 @@ public class PersistModule extends AbstractPersistModule {
         org.openurp.edu.room.model.RoomOccupyApp.class,
         org.openurp.edu.room.model.RoomAvailableTime.class,
 
-        ClazzMaterial.class,
         org.openurp.std.info.model.Contact.class, org.openurp.std.info.model.Home.class,
         org.openurp.std.info.model.Examinee.class, org.openurp.std.info.model.Admission.class,
         org.openurp.std.info.model.MajorStudent.class,
