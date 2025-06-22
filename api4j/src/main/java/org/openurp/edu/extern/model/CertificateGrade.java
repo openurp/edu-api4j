@@ -19,16 +19,17 @@
 package org.openurp.edu.extern.model;
 
 import org.beangle.commons.entity.pojo.NumberIdTimeObject;
-import org.openurp.code.edu.model.ExamStatus;
-import org.openurp.code.edu.model.GradingMode;
 import org.openurp.base.std.model.Student;
 import org.openurp.code.edu.model.Certificate;
+import org.openurp.code.edu.model.ExamStatus;
+import org.openurp.code.edu.model.GradingMode;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 
 /**
  * 资格考试成绩 <br>
@@ -64,20 +65,26 @@ public class CertificateGrade extends NumberIdTimeObject<Long> {
   @NotNull
   private boolean passed;
 
-  /** 考试科目 */
+  /**
+   * 考试科目
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   private Certificate certificate;
 
-  /** 准考证号 */
+  /**
+   * 准考证号
+   */
   @Size(max = 50)
   private String examNo;
 
-  /** 证书编号 */
+  /**
+   * 证书编号
+   */
   private String certificateNo;
 
   /***/
-  private java.sql.Date acquiredOn;
+  private java.sql.Date acquiredIn;
 
   private int status;
   /**
@@ -147,12 +154,12 @@ public class CertificateGrade extends NumberIdTimeObject<Long> {
     this.certificateNo = certificateNo;
   }
 
-  public java.sql.Date getAcquiredOn() {
-    return acquiredOn;
+  public Date getAcquiredIn() {
+    return acquiredIn;
   }
 
-  public void setAcquiredOn(java.sql.Date acquiredOn) {
-    this.acquiredOn = acquiredOn;
+  public void setAcquiredIn(Date acquiredIn) {
+    this.acquiredIn = acquiredIn;
   }
 
   public GradingMode getGradingMode() {
