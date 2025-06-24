@@ -112,12 +112,6 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
   protected java.sql.Date endOn;
 
   /**
-   * 入学日期
-   */
-  @NotNull
-  protected java.sql.Date studyOn;
-
-  /**
    * 预计毕业日期
    */
   @NotNull
@@ -340,14 +334,6 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public java.sql.Date getStudyOn() {
-    return studyOn;
-  }
-
-  public void setStudyOn(java.sql.Date studyOn) {
-    this.studyOn = studyOn;
   }
 
   public java.sql.Date getGraduateOn() {
