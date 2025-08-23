@@ -21,6 +21,7 @@ package org.openurp.edu.grade.course.service.impl;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.security.Securities;
+import org.openurp.base.edu.model.Project;
 import org.openurp.base.service.ProjectPropertyService;
 import org.openurp.base.std.model.Student;
 import org.openurp.code.edu.model.CourseTakeType;
@@ -448,26 +449,31 @@ public class DefaultCourseGradeCalculator implements CourseGradeCalculator {
 
   private final Float addDelta(GaGrade gaGrade, Float score, CourseGradeState state) {
     if (null == score) return null;
+    Project project = gaGrade.getCourseGrade().getProject();
     Float delta = getDelta(gaGrade, score, state);
     if (null != delta) {
-      Float ga = new Float(reserve(delta + score, state));
+      Float ga = new Float(reserve(project, delta + score, state));
       gaGrade.setScore(ga);
       return ga;
     } else {
-      Float ga = reserve(score, state);
+      Float ga = reserve(project, score, state);
       gaGrade.setScore(ga);
       return ga;
     }
   }
 
-  protected Float reserve(Float score, CourseGradeState state) {
+  private int getDefaultScorePrecision(Project project) {
+    return Integer.parseInt(projectPropertyService.get(project, "edu.grade.score_precision", "0"));
+  }
+
+  protected Float reserve(Project project, Float score, CourseGradeState state) {
     if (null == score) return score;
-    int precision = (null == state) ? 0 : state.getScorePrecision();
+    int precision = (null == state) ? getDefaultScorePrecision(project) : state.getScorePrecision();
     return numPrecisionReserveMethod.reserve(score, precision);
   }
 
-  protected double reserve(double score, CourseGradeState state) {
-    int precision = (null == state) ? 0 : state.getScorePrecision();
+  protected double reserve(Project project, double score, CourseGradeState state) {
+    int precision = (null == state) ? getDefaultScorePrecision(project) : state.getScorePrecision();
     return numPrecisionReserveMethod.reserve(score, precision);
   }
 

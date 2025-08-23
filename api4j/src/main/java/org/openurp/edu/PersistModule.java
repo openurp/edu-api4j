@@ -88,6 +88,7 @@ public class PersistModule extends AbstractPersistModule {
 
         org.openurp.base.edu.model.Calendar.class,
         org.openurp.base.edu.model.CalendarStage.class,
+        org.openurp.base.edu.model.SchoolYear.class,
         org.openurp.base.edu.model.Semester.class, org.openurp.base.edu.model.SemesterStage.class,
         org.openurp.base.edu.model.TimeSetting.class, org.openurp.base.edu.model.CourseUnit.class,
 
