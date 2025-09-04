@@ -33,6 +33,8 @@ public class SchoolYear extends NumberIdObject<Integer> {
   private int startYear;
   private String name;
 
+  private boolean archived;
+
   public int getStartYear() {
     return startYear;
   }
@@ -47,5 +49,13 @@ public class SchoolYear extends NumberIdObject<Integer> {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isArchived() {
+    return archived;
+  }
+
+  public void setArchived(boolean archived) {
+    this.archived = archived;
   }
 }

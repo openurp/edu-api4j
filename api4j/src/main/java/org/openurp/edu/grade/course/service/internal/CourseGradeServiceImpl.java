@@ -123,7 +123,7 @@ public class CourseGradeServiceImpl extends BaseServiceImpl implements CourseGra
         GradeType gradeType = state.getGradeType();
         ExamGrade examGrade = grade.getExamGrade(gradeType);
         if (null != examGrade) {
-          examGrade.setScorePercent(state.getScorePercent());
+          examGrade.setWeight(state.getWeight());
           updateGradeState(grade.getExamGrade(gradeType), state, grade.getProject());
         }
       }

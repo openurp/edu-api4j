@@ -86,7 +86,7 @@ public class ExamGrade extends NumberIdTimeObject<Long> implements Grade {
   /**
    * 百分比描述<br>
    */
-  private Short scorePercent;
+  private Short weight;
 
   public ExamGrade() {
   }
@@ -189,12 +189,12 @@ public class ExamGrade extends NumberIdTimeObject<Long> implements Grade {
     this.operator = operator;
   }
 
-  public Short getScorePercent() {
-    return scorePercent;
+  public Short getWeight() {
+    return weight;
   }
 
-  public void setScorePercent(Short scorePercent) {
-    this.scorePercent = scorePercent;
+  public void setWeight(Short weight) {
+    this.weight = weight;
   }
 
   @Override

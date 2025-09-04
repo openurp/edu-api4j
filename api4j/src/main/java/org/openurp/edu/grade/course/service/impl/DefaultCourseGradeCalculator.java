@@ -161,7 +161,7 @@ public class DefaultCourseGradeCalculator implements CourseGradeCalculator {
           || examGrade.getExamStatus().getId().equals(ExamStatus.NORMAL)))
         continue;
       Float score = examGrade.getScore();
-      if (examGrade.getScorePercent() != null) myPercent = examGrade.getScorePercent();
+      if (examGrade.getWeight() != null) myPercent = examGrade.getWeight();
       totalPercent += myPercent;
 
       if (null != score) {
@@ -224,10 +224,10 @@ public class DefaultCourseGradeCalculator implements CourseGradeCalculator {
   }
 
   private Short getPercent(ExamGrade eg, CourseGrade cg, CourseGradeState cgs) {
-    if (null != eg.getScorePercent()) return eg.getScorePercent();
+    if (null != eg.getWeight()) return eg.getWeight();
     if (eg.getGradeType().equals(Delay)) {
       ExamGrade end = cg.getExamGrade(End);
-      if (null != end && null != end.getScorePercent()) return end.getScorePercent();
+      if (null != end && null != end.getWeight()) return end.getWeight();
       else return null == cgs ? null : cgs.getPercent(End);
     } else {
       return null == cgs ? null : cgs.getPercent(eg.getGradeType());

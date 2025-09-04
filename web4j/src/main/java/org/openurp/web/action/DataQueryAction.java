@@ -150,7 +150,7 @@ public class DataQueryAction extends RestrictionSupportAction {
     Project p = entityDao.get(Project.class, projectId);
     OqlBuilder<Semester> builder = OqlBuilder.from(Semester.class, "s")
         .where("s.calendar = :calendar", p.getCalendar()).orderBy("s.beginOn")
-        .where("s.archived=false").cacheable();
+        .where("s.year.archived=false").cacheable();
     return entityDao.search(builder);
   }
 

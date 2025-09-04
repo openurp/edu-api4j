@@ -47,9 +47,9 @@ public class ExamGradeState extends AbstractGradeState {
   private String remark;
 
   /**
-   * 百分比描述 <br>
+   * 百分比
    */
-  private Short scorePercent;
+  private Short weight;
 
   public ExamGradeState() {
     super();
@@ -71,12 +71,12 @@ public class ExamGradeState extends AbstractGradeState {
     this.gradeType = gradeType;
   }
 
-  public Short getScorePercent() {
-    return scorePercent;
+  public Short getWeight() {
+    return weight;
   }
 
-  public void setScorePercent(Short scorePercent) {
-    this.scorePercent = scorePercent;
+  public void setWeight(Short weight) {
+    this.weight = weight;
   }
 
   public String getRemark() {

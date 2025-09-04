@@ -197,7 +197,7 @@ public class CourseGradeState extends AbstractGradeState {
       ExamGradeState gradeTypeState = (ExamGradeState) iter.next();
       if (null != gradeType && gradeTypeState.getGradeType().getId()
           .equals(gradeType.getId())) {
-        return gradeTypeState.getScorePercent();
+        return gradeTypeState.getWeight();
       }
     }
     return null;
