@@ -123,8 +123,6 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
   @ManyToOne(fetch = FetchType.LAZY)
   protected StudyType studyType;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Teacher tutor;
   /**
    * 备注
    */
@@ -344,11 +342,4 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
     this.graduateOn = graduateOn;
   }
 
-  public Teacher getTutor() {
-    return tutor;
-  }
-
-  public void setTutor(Teacher tutor) {
-    this.tutor = tutor;
-  }
 }
