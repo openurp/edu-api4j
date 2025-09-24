@@ -20,7 +20,7 @@ package org.openurp.edu.program.plan.service;
 
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Squad;
 import org.openurp.edu.program.model.MajorPlan;
@@ -47,7 +47,7 @@ public class MajorPlanQueryBuilder {
     return query;
   }
 
-  public static OqlBuilder<MajorPlan> build(String grade, StdType stdType, Major major, Direction direction) {
+  public static OqlBuilder<MajorPlan> build(String grade, StdType stdType, Major major, MajorDirection direction) {
     OqlBuilder<MajorPlan> query = OqlBuilder.from(MajorPlan.class, "plan");
     query.where("plan.program.grade = :grade", grade).where("plan.program.major = :major", major);
 

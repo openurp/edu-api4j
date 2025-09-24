@@ -35,7 +35,7 @@ import org.beangle.commons.lang.Objects;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.openurp.code.edu.model.CourseType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 
 /**
  * 专业计划课程组.
@@ -49,7 +49,7 @@ public class ExecutiveCourseGroup extends AbstractCourseGroup {
 
   /** 该组针对的专业方向 */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   public boolean isLeafGroup() {
     return null != getGivenName();
@@ -179,11 +179,11 @@ public class ExecutiveCourseGroup extends AbstractCourseGroup {
         .add(getPlanCourses(), other.getPlanCourses()).isEquals();
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

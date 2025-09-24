@@ -20,7 +20,7 @@ package org.openurp.edu.program.major.service;
 
 import org.beangle.commons.collection.CollectUtils;
 import org.openurp.base.edu.model.Course;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.model.Department;
 import org.openurp.code.std.model.StdType;
@@ -52,7 +52,7 @@ public class MajorPlanGenParameter {
 
   private Major major;
 
-  private Direction direction;
+  private MajorDirection direction;
 
   private Date beginOn;
 
@@ -106,7 +106,7 @@ public class MajorPlanGenParameter {
     this.major = major;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 
@@ -122,7 +122,7 @@ public class MajorPlanGenParameter {
     return major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 

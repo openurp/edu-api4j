@@ -19,10 +19,7 @@
 package org.openurp.edu;
 
 import org.beangle.commons.entity.orm.AbstractPersistModule;
-import org.openurp.base.edu.model.CourseTextbook;
-import org.openurp.base.edu.model.MajorDiscipline;
-import org.openurp.base.edu.model.ProjectProperty;
-import org.openurp.base.edu.model.SchoolLength;
+import org.openurp.base.edu.model.*;
 import org.openurp.base.hr.model.Staff;
 import org.openurp.base.hr.model.Teacher;
 import org.openurp.base.resource.model.Building;
@@ -94,7 +91,7 @@ public class PersistModule extends AbstractPersistModule {
 
         Teacher.class,
         org.openurp.base.edu.model.MajorJournal.class, SchoolLength.class, org.openurp.base.edu.model.Major.class,
-        MajorDiscipline.class, org.openurp.base.edu.model.DirectionJournal.class, org.openurp.base.edu.model.Direction.class,
+        MajorDiscipline.class, MajorDirectionJournal.class, org.openurp.base.edu.model.MajorDirection.class,
 
         org.openurp.base.edu.model.Project.class,
         org.openurp.base.edu.model.ProjectCode.class, org.openurp.base.edu.model.Course.class,

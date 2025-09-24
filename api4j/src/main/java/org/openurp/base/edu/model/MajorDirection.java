@@ -40,10 +40,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  *
  */
-@Entity(name = "org.openurp.base.edu.model.Direction")
+@Entity(name = "org.openurp.base.edu.model.MajorDirection")
 @Cacheable
 @Cache(region = "openurp.base", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Direction extends NumberIdTimeObject<Long> {
+public class MajorDirection extends NumberIdTimeObject<Long> {
 
   private static final long serialVersionUID = -5678184739078006225L;
   /** 专业方向编码 */
@@ -93,13 +93,13 @@ public class Direction extends NumberIdTimeObject<Long> {
   /** 部门 */
   @OneToMany(mappedBy = "direction", cascade = { CascadeType.ALL }, orphanRemoval = true)
   @Cache(region = "openurp.base", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-  private List<DirectionJournal> journals = CollectUtils.newArrayList();
+  private List<MajorDirectionJournal> journals = CollectUtils.newArrayList();
 
-  public Direction() {
+  public MajorDirection() {
     super();
   }
 
-  public Direction(Long id) {
+  public MajorDirection(Long id) {
     super(id);
   }
 
@@ -111,11 +111,11 @@ public class Direction extends NumberIdTimeObject<Long> {
     this.major = major;
   }
 
-  public List<DirectionJournal> getJournals() {
+  public List<MajorDirectionJournal> getJournals() {
     return journals;
   }
 
-  public void setJournals(List<DirectionJournal> journals) {
+  public void setJournals(List<MajorDirectionJournal> journals) {
     this.journals = journals;
   }
 

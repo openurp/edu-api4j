@@ -26,7 +26,7 @@ import org.openurp.code.edu.model.Degree;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.edu.model.StudyType;
 import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Student;
 
@@ -47,7 +47,7 @@ public class ProgramGenParameter {
 
   private Major major;
 
-  private Direction direction;
+  private MajorDirection direction;
 
   private Date beginOn;
 
@@ -86,7 +86,7 @@ public class ProgramGenParameter {
     this.major = major;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 
@@ -106,7 +106,7 @@ public class ProgramGenParameter {
     return major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 

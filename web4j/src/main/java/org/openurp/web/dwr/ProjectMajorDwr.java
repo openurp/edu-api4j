@@ -23,7 +23,7 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.security.core.userdetail.Profile;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.model.Department;
@@ -109,7 +109,7 @@ public class ProjectMajorDwr extends AbstractDwr {
       return Collections.emptyList();
     }
     Date now = new Date();
-    OqlBuilder query = OqlBuilder.from(Direction.class, "s");
+    OqlBuilder query = OqlBuilder.from(MajorDirection.class, "s");
     query.select("str(s.id),s.code, s.name, s.enName").where("s.beginOn<=:now", now)
         .where("(s.endOn is null or s.endOn >= :now)", now).where("s.major.id = :majorId", majorId);
     if (null != levelId) {

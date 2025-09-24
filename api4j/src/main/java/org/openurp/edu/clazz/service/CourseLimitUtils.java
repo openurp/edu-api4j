@@ -21,13 +21,13 @@ package org.openurp.edu.clazz.service;
 import org.beangle.commons.dao.query.builder.Condition;
 import org.beangle.commons.entity.Entity;
 import org.beangle.commons.lang.Strings;
-import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
 import org.openurp.base.edu.model.Major;
-import org.openurp.base.std.model.Squad;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.model.Department;
+import org.openurp.base.std.model.Squad;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.person.model.Gender;
+import org.openurp.code.std.model.StdType;
 import org.openurp.edu.clazz.model.ClazzRestrictionMeta;
 
 public class CourseLimitUtils {
@@ -42,7 +42,7 @@ public class CourseLimitUtils {
       meta = ClazzRestrictionMeta.Department;
     } else if (entity instanceof Major) {
       meta = ClazzRestrictionMeta.Major;
-    } else if (entity instanceof Direction) {
+    } else if (entity instanceof MajorDirection) {
       meta = ClazzRestrictionMeta.Direction;
     } else if (entity instanceof Squad) {
       meta = ClazzRestrictionMeta.Squad;

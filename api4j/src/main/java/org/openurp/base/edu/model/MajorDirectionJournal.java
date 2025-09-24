@@ -34,17 +34,17 @@ import org.openurp.code.edu.model.EducationLevel;
 /**
  * 专业方向建设过程
  */
-@Entity(name = "org.openurp.base.edu.model.DirectionJournal")
+@Entity(name = "org.openurp.base.edu.model.MajorDirectionJournal")
 @Cacheable
 @Cache(region = "openurp.base", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class DirectionJournal extends NumberIdObject<Long> {
+public class MajorDirectionJournal extends NumberIdObject<Long> {
 
   private static final long serialVersionUID = -325648764365874076L;
 
   /** 专业方向 */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /** 培养层次 */
   @NotNull
@@ -67,11 +67,11 @@ public class DirectionJournal extends NumberIdObject<Long> {
   @Size(max = 255)
   private String remark;
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

@@ -29,7 +29,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
 import org.beangle.commons.collection.CollectUtils;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 
 /**
  * 原始计划的课程组
@@ -43,7 +43,7 @@ public class MajorCourseGroup extends AbstractCourseGroup {
 
   /** 该组针对的专业方向 */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /** 培养方案 */
   @ManyToOne(targetEntity = MajorPlan.class)
@@ -98,11 +98,11 @@ public class MajorCourseGroup extends AbstractCourseGroup {
     this.planCourses = planCourses;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

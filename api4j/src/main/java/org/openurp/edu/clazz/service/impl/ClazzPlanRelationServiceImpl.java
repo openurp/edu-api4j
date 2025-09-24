@@ -23,7 +23,7 @@ import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Semester;
 import org.openurp.code.std.model.StdType;
@@ -85,14 +85,14 @@ public class ClazzPlanRelationServiceImpl extends BaseServiceImpl implements Cla
       stdTypes.add(null);
     }
 
-    List<Direction> directions = courseLimitService.extractDirections(clazz.getEnrollment());
+    List<MajorDirection> directions = courseLimitService.extractDirections(clazz.getEnrollment());
     if (CollectUtils.isEmpty(directions)) {
       directions.add(null);
     }
 
     for (Major major : majors) {
       for (StdType stdType : stdTypes) {
-        for (Direction direction : directions) {
+        for (MajorDirection direction : directions) {
           plans.addAll(entityDao.search(ExecutivePlanQueryBuilder.build(grade, stdType, major, direction)));
         }
       }

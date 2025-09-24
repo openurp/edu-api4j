@@ -32,7 +32,7 @@ import org.beangle.security.core.context.SecurityContext;
 import org.beangle.security.core.userdetail.DefaultAccount;
 import org.beangle.security.core.userdetail.Profile;
 import org.beangle.struts2.annotation.Action;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.edu.model.Semester;
@@ -245,8 +245,8 @@ public class DataQueryAction extends RestrictionSupportAction {
 
   }
 
-  private List<Direction> getDirectionCascade() {
-    OqlBuilder<Direction> builder = OqlBuilder.from(Direction.class, "direction").where(
+  private List<MajorDirection> getDirectionCascade() {
+    OqlBuilder<MajorDirection> builder = OqlBuilder.from(MajorDirection.class, "direction").where(
         "direction.beginOn <= :now and (direction.endOn is null or direction.endOn >= :now)",
         new java.util.Date());
     Integer majorId = getInt("majorId");

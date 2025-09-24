@@ -9,7 +9,7 @@
   <groupId>org.openurp.edu</groupId>
   <artifactId>openurp-edu-parent4j</artifactId>
   <packaging>pom</packaging>
-  <version>0.44.3</version>
+  <version>0.47.0</version>
   <name>OpenURP Edu Java API Parent</name>
 
   <properties>

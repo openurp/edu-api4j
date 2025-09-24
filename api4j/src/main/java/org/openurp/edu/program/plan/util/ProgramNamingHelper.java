@@ -19,7 +19,7 @@
 package org.openurp.edu.program.plan.util;
 
 import org.beangle.commons.dao.EntityDao;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Grade;
 import org.openurp.base.std.model.Student;
@@ -69,12 +69,12 @@ public class ProgramNamingHelper {
     return name(entityDao, genParameter.getGrade(), genParameter.getMajor(), genParameter.getDirection());
   }
 
-  private static String name(EntityDao entityDao, Grade grade, Major major, Direction direction) {
+  private static String name(EntityDao entityDao, Grade grade, Major major, MajorDirection direction) {
     String gradeCode = entityDao.get(Grade.class, grade.getId()).getCode();
     String majorName = entityDao.get(Major.class, major.getId()).getName();
     String directionName = "";
     if (null != direction) {
-      directionName = "/" + entityDao.get(Direction.class, direction.getId()).getName();
+      directionName = "/" + entityDao.get(MajorDirection.class, direction.getId()).getName();
     }
     return MessageFormat.format(NAJOR_NAMING_FMT, gradeCode, majorName, directionName);
   }

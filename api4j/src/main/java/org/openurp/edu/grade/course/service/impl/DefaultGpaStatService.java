@@ -119,7 +119,7 @@ public class DefaultGpaStatService implements GpaStatService {
   }
 
   private void merge(StdGpa target, StdGpa source) {
-    target.setGa(source.getGa());
+    target.setWms(source.getWms());
     target.setGpa(source.getGpa());
     target.setGradeCount(source.getGradeCount());
     target.setCredits(source.getCredits());
@@ -135,7 +135,7 @@ public class DefaultGpaStatService implements GpaStatService {
         source.getSemesterGpas().remove(sourceTerm);
         target.add(sourceTerm);
       } else {
-        targetTerm.setGa(sourceTerm.getGa());
+        targetTerm.setWms(sourceTerm.getWms());
         targetTerm.setGpa(sourceTerm.getGpa());
         targetTerm.setGradeCount(sourceTerm.getGradeCount());
         targetTerm.setCredits(sourceTerm.getCredits());
@@ -161,7 +161,7 @@ public class DefaultGpaStatService implements GpaStatService {
         source.getYearGpas().remove(sourceTerm);
         target.add(sourceTerm);
       } else {
-        targetTerm.setGa(sourceTerm.getGa());
+        targetTerm.setWms(sourceTerm.getWms());
         targetTerm.setGpa(sourceTerm.getGpa());
         targetTerm.setGradeCount(sourceTerm.getGradeCount());
         targetTerm.setCredits(sourceTerm.getCredits());

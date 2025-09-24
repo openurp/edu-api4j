@@ -25,7 +25,7 @@ import org.openurp.base.model.Department;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.person.model.Gender;
 import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Squad;
 import org.openurp.edu.clazz.model.ClazzRestriction;
@@ -44,7 +44,7 @@ public interface CourseLimitExtractorService {
 
   public Pair<Boolean, List<Major>> xtractMajorLimit(ClazzRestriction restriction);
 
-  public Pair<Boolean, List<Direction>> xtractDirectionLimit(ClazzRestriction restriction);
+  public Pair<Boolean, List<MajorDirection>> xtractDirectionLimit(ClazzRestriction restriction);
 
   /**
    * 提取培养层次
@@ -92,7 +92,7 @@ public interface CourseLimitExtractorService {
    * @param restriction
    * @return
    */
-  public List<Direction> extractDirections(ClazzRestriction restriction);
+  public List<MajorDirection> extractDirections(ClazzRestriction restriction);
 
   /**
    * 提取Restriction中的上课院系

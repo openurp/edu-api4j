@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Arrays;
 import org.beangle.commons.lang.Strings;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.edu.web.action.BaseAction;
 import org.openurp.web.action.internal.ClazzGsonBuilderHelper;
 import org.openurp.web.action.internal.ClazzGsonBuilderWorker;
@@ -68,9 +68,9 @@ public class DirectionAction extends BaseAction {
       return forward("directionsJSON");
     }
 
-    List<Direction> directions = new ArrayList<Direction>();
+    List<MajorDirection> directions = new ArrayList<MajorDirection>();
     if (Strings.isBlank(warnings)) {
-      OqlBuilder<Direction> query = OqlBuilder.from(Direction.class, "direction");
+      OqlBuilder<MajorDirection> query = OqlBuilder.from(MajorDirection.class, "direction");
       query.where("direction.major.project.id = :projectId", getIntId("project"))
           .where("direction.major.id in (:majorIds)", majorIds).orderBy("direction.code, direction.name");
       if (null != departmentIds && departmentIds.length > 0) {
@@ -83,7 +83,7 @@ public class DirectionAction extends BaseAction {
     String json = gson
         .toJson(ClazzGsonBuilderHelper.genGroupResult(directions, warnings, new ClazzGsonBuilderWorker() {
           public void dirtywork(Object object, Map<String, Object> groups) {
-            Direction rawEntity = (Direction) object;
+            MajorDirection rawEntity = (MajorDirection) object;
             String groupName = rawEntity.getMajor().getName();
             if (groups.get(groupName) == null) {
               groups.put(groupName, new ArrayList<Map<String, Object>>());

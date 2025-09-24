@@ -38,7 +38,7 @@ import org.openurp.base.model.Department;
 import org.openurp.base.std.model.Grade;
 import org.openurp.code.std.model.StdType;
 import org.openurp.base.edu.model.Course;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 
@@ -81,7 +81,7 @@ public class MajorAlternativeCourse extends AbstractCourseSubstitution {
 
   /** 方向 */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /** 备注 */
   @Size(max = 300)
@@ -125,11 +125,11 @@ public class MajorAlternativeCourse extends AbstractCourseSubstitution {
     this.major = major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

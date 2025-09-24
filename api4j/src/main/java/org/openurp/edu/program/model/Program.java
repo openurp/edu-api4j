@@ -26,7 +26,7 @@ import org.hibernate.annotations.Type;
 import org.openurp.code.edu.model.CourseType;
 import org.openurp.code.edu.model.EducationType;
 import org.openurp.base.edu.model.Course;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.model.AuditStatus;
@@ -120,7 +120,7 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
    * 专业方向
    */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /**
    * 学制
@@ -263,11 +263,11 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
     this.major = major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

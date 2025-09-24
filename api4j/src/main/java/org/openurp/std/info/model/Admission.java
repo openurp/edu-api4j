@@ -25,7 +25,7 @@ import javax.persistence.ManyToOne;
 import org.openurp.base.model.Department;
 import org.openurp.code.edu.model.EducationMode;
 import org.openurp.code.edu.model.EnrollMode;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 
 /**
@@ -47,7 +47,7 @@ public class Admission extends StudentInfoBean {
 
   /** 录取方向 */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /** 录取院系 */
   @ManyToOne(fetch = FetchType.LAZY)
@@ -91,11 +91,11 @@ public class Admission extends StudentInfoBean {
     this.department = department;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 
