@@ -106,6 +106,7 @@ public class PersistModule extends AbstractPersistModule {
         org.openurp.base.std.model.Squad.class,
         org.openurp.base.std.model.Student.class,
         org.openurp.base.std.model.StudentState.class,
+        org.openurp.base.std.model.StudentTutor.class,
         ProjectProperty.class,
 
         org.openurp.base.model.Person.class,

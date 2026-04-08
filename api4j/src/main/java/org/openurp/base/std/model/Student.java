@@ -20,24 +20,26 @@ package org.openurp.base.std.model;
 
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.entity.pojo.TemporalEntity;
-import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.EduLevelBasedObject;
 import org.openurp.base.edu.model.Major;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.hr.model.Teacher;
 import org.openurp.base.model.Campus;
 import org.openurp.base.model.Department;
 import org.openurp.base.model.Person;
+import org.openurp.code.edu.model.StudyType;
+import org.openurp.code.person.model.Gender;
 import org.openurp.code.std.model.StdLabel;
 import org.openurp.code.std.model.StdLabelType;
 import org.openurp.code.std.model.StdType;
-import org.openurp.code.edu.model.StudyType;
-import org.openurp.code.person.model.Gender;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -86,6 +88,12 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
   @ManyToMany
   @MapKeyJoinColumn(name = "std_label_type_id")
   protected Map<StdLabelType, StdLabel> labels = CollectUtils.newHashMap();
+
+  /**
+   * 导师
+   */
+  @OneToMany(mappedBy = "std", cascade = {CascadeType.ALL}, orphanRemoval = true)
+  protected Set<StudentTutor> tutors = CollectUtils.newHashSet();
 
   /**
    * 学制 学习年限（允许0.5年出现）1
@@ -290,6 +298,21 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
     states.add(state);
   }
 
+  public List<Teacher> getMajorTutors() {
+    List<StudentTutor> sts = CollectUtils.newArrayList();
+    for (StudentTutor st : tutors) {
+      if (st.getTutorship().equals(Tutorship.Major)) {
+        sts.add(st);
+      }
+    }
+    Collections.sort(sts);
+    List<Teacher> teachers = CollectUtils.newArrayList();
+    for (StudentTutor st : sts) {
+      teachers.add(st.getTutor());
+    }
+    return teachers;
+  }
+
   public Set<StudentState> getStates() {
     return states;
   }
@@ -342,4 +365,11 @@ public class Student extends EduLevelBasedObject<Long> implements TemporalEntity
     this.graduateOn = graduateOn;
   }
 
+  public Set<StudentTutor> getTutors() {
+    return tutors;
+  }
+
+  public void setTutors(Set<StudentTutor> tutors) {
+    this.tutors = tutors;
+  }
 }
