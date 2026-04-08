@@ -66,7 +66,8 @@ public class PlanAuditPersistObserver extends BaseServiceImpl implements PlanAud
       existedResult.setRemark(newResult.getRemark());
 
       existedResult.setUpdatedAt(new Date());
-      existedResult.setAuditStat(newResult.getAuditStat());
+      existedResult.setRequiredCredits(newResult.getRequiredCredits());
+      existedResult.setPassedCredits(newResult.getPassedCredits());
       StringBuilder updates = new StringBuilder();
       mergeGroupResult(existedResult, new GroupResultAdapter(existedResult),
           new GroupResultAdapter(newResult), updates);

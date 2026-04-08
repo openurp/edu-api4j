@@ -21,10 +21,15 @@ package org.openurp.edu.clazz.util;
 import org.beangle.commons.bean.comparators.MultiPropertyComparator;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.lang.Strings;
-import org.beangle.orm.hibernate.udt.*;
 import org.beangle.commons.lang.tuple.Pair;
 import org.beangle.commons.text.i18n.TextResource;
-import org.openurp.base.edu.model.*;
+import org.beangle.orm.hibernate.udt.WeekDay;
+import org.beangle.orm.hibernate.udt.WeekState;
+import org.beangle.orm.hibernate.udt.WeekTime;
+import org.beangle.orm.hibernate.udt.Weeks;
+import org.openurp.base.edu.model.Semester;
+import org.openurp.base.edu.model.TimeSetting;
+import org.openurp.base.edu.model.WeekTimeBuilder;
 import org.openurp.base.hr.model.Teacher;
 import org.openurp.base.resource.model.Classroom;
 import org.openurp.edu.clazz.model.Clazz;
@@ -72,8 +77,13 @@ public class ScheduleDigestor {
 
   private String delimeter = ",";
 
+  private static Map<Integer, String> weekdayNames = new HashMap<>();
+
   private ScheduleDigestor() {
     super();
+    for (WeekDay wd : WeekDay.All) {
+      weekdayNames.put(wd.getId(), wd.getName().replace("星期", "周"));
+    }
   }
 
   public static ScheduleDigestor getInstance() {
@@ -176,22 +186,22 @@ public class ScheduleDigestor {
         if (null != textResource && textResource.getLocale().getLanguage().equals("en")) {
           CourseArrangeBuf.replace(replaceStart, replaceStart + day.length(), weekday.getEnName() + ".");
         } else {
-          CourseArrangeBuf.replace(replaceStart, replaceStart + day.length(), weekday.getName());
+          CourseArrangeBuf.replace(replaceStart, replaceStart + day.length(), weekdayNames.get(weekday.getId()));
         }
       }
       replaceStart = CourseArrangeBuf.indexOf(units);
       if (-1 != replaceStart) {
         Pair<Integer, Integer> rs = timeSetting.getUnitLevel(activity.getTime().getBeginAt(), activity
-                .getTime().getEndAt());
+            .getTime().getEndAt());
         CourseArrangeBuf.replace(replaceStart, replaceStart + units.length(),
-                rs.getLeft() + "-" + rs.getRight());
+            rs.getLeft() + "-" + rs.getRight());
       }
       replaceStart = CourseArrangeBuf.indexOf(time);
       if (-1 != replaceStart) {
         // 如果教学活动中有具体时间
         CourseArrangeBuf.replace(replaceStart, replaceStart + time.length(), activity.getTime().getBeginAt()
-                .toString()
-                + "-" + activity.getTime().getEndAt().toString());
+            .toString()
+            + "-" + activity.getTime().getEndAt().toString());
       }
       replaceStart = CourseArrangeBuf.indexOf(clazz);
       if (-1 != replaceStart) {
@@ -200,15 +210,15 @@ public class ScheduleDigestor {
       replaceStart = CourseArrangeBuf.indexOf(course);
       if (-1 != replaceStart) {
         CourseArrangeBuf.replace(replaceStart, replaceStart + course.length(), activity.getClazz()
-                .getCourse().getName()
-                + "(" + activity.getClazz().getCourse().getCode() + ")");
+            .getCourse().getName()
+            + "(" + activity.getClazz().getCourse().getCode() + ")");
       }
       replaceStart = CourseArrangeBuf.indexOf(weeks);
       if (-1 != replaceStart) {
         // 以本年度的最后一周(而不是从教学日历周数计算而来)作为结束周进行缩略.
         // 是因为很多日历指定的周数,仅限于教学使用了.
         CourseArrangeBuf.replace(replaceStart, replaceStart + weeks.length(),
-                WeekTimeBuilder.digestWeekTime(activity.getTime(), semester) + " ");
+            WeekTimeBuilder.digestWeekTime(activity.getTime(), semester) + " ");
       }
       SimpleDateFormat sdf = new SimpleDateFormat("M月dd日起");
       replaceStart = CourseArrangeBuf.indexOf(starton);
@@ -265,7 +275,7 @@ public class ScheduleDigestor {
       CourseArrangeBuf.append(" ").append(delimeter);
     }
     if (CourseArrangeBuf.lastIndexOf(delimeter) != -1) CourseArrangeBuf.delete(
-            CourseArrangeBuf.lastIndexOf(delimeter), CourseArrangeBuf.length());
+        CourseArrangeBuf.lastIndexOf(delimeter), CourseArrangeBuf.length());
     return CourseArrangeBuf.toString();
   }
 
@@ -285,7 +295,7 @@ public class ScheduleDigestor {
     if (room) {
       if (!target.getRooms().equals(other.getRooms())) return false;
     }
-    return WeekTimes.canMergerWith(target.getTime(), other.getTime());
+    return ClazzActivity.timeCanMergerWith(target, other, false, 25);
   }
 
   public static List<ClazzActivity> merge(Semester semester, Collection<ClazzActivity> activities,
@@ -302,7 +312,7 @@ public class ScheduleDigestor {
       if (ca.getTime().getStartYear() != semester.getStartYear()) {
         LocalDate nextYearStart = activity.getTime().getStartOn().toLocalDate();
         LocalDate thisYearStart = WeekTime.getStartOn(semester.getStartYear(), activity.getTime()
-                .getWeekday());
+            .getWeekday());
         int weeks = Weeks.between(thisYearStart, nextYearStart);
         activity.getTime().setStartOn(java.sql.Date.valueOf(thisYearStart));
         activity.getTime().setWeekstate(new WeekState(activity.getTime().getWeekstate().value << weeks));
@@ -317,7 +327,7 @@ public class ScheduleDigestor {
             added.getTime().setEndAt(activity.getTime().getEndAt());
           }
           added.getTime().setWeekstate(
-                  new WeekState(added.getTime().getWeekstate().value | activity.getTime().getWeekstate().value));
+              new WeekState(added.getTime().getWeekstate().value | activity.getTime().getWeekstate().value));
           merged = true;
         }
       }

@@ -23,9 +23,9 @@ import org.openurp.edu.program.major.service.impl.MajorPlanAuditServiceImpl;
 import org.openurp.edu.program.major.service.impl.MajorPlanCourseGroupServiceImpl;
 import org.openurp.edu.program.major.service.impl.MajorPlanCourseServiceImpl;
 import org.openurp.edu.program.major.service.impl.MajorPlanServiceImpl;
-import org.openurp.edu.program.plan.dao.hibernate.ExecutionPlanCourseDaoHibernate;
-import org.openurp.edu.program.plan.dao.hibernate.ExecutionPlanCourseGroupDaoHibernate;
-import org.openurp.edu.program.plan.dao.hibernate.ExecutionPlanDaoHibernate;
+import org.openurp.edu.program.plan.dao.hibernate.ExecutivePlanCourseDaoHibernate;
+import org.openurp.edu.program.plan.dao.hibernate.ExecutivePlanCourseGroupDaoHibernate;
+import org.openurp.edu.program.plan.dao.hibernate.ExecutivePlanDaoHibernate;
 import org.openurp.edu.program.plan.dao.impl.PlanCommonDaoHibernate;
 import org.openurp.edu.program.plan.dao.impl.PlanCourseCommonDaoHibernate;
 import org.openurp.edu.program.plan.dao.impl.PlanCourseGroupCommonDaoHibernate;
@@ -44,20 +44,17 @@ public class DefaultModule extends AbstractBindModule {
             "init*=PROPAGATION_REQUIRED", "add*=PROPAGATION_REQUIRED", "approved*=PROPAGATION_REQUIRED",
             "rejected*=PROPAGATION_REQUIRED", "*=PROPAGATION_REQUIRED,readOnly"));
     // props("*=PROPAGATION_REQUIRED"));
-    bind("executePlanDao", TransactionProxyFactoryBean.class).proxy("target", ExecutionPlanDaoHibernate.class)
+    bind("executePlanDao", TransactionProxyFactoryBean.class).proxy("target", ExecutivePlanDaoHibernate.class)
         .parent("baseTransactionProxyExt");
     bind("executePlanCourseGroupDao", TransactionProxyFactoryBean.class)
-        .proxy("target", ExecutionPlanCourseGroupDaoHibernate.class).parent("baseTransactionProxyExt");
+        .proxy("target", ExecutivePlanCourseGroupDaoHibernate.class).parent("baseTransactionProxyExt");
     bind("executePlanCourseDao", TransactionProxyFactoryBean.class)
-        .proxy("target", ExecutionPlanCourseDaoHibernate.class).parent("baseTransactionProxyExt");
+        .proxy("target", ExecutivePlanCourseDaoHibernate.class).parent("baseTransactionProxyExt");
 
-    bind("executePlanService", ExecutionPlanServiceImpl.class);
-    bind("executePlanCourseGroupService", ExecutionPlanCourseGroupServiceImpl.class);
-    bind("executePlanCourseService", ExecutionPlanCourseServiceImpl.class);
+    bind("executePlanService", ExecutivePlanServiceImpl.class);
+    bind("executePlanCourseGroupService", ExecutivePlanCourseGroupServiceImpl.class);
+    bind("executePlanCourseService", ExecutivePlanCourseServiceImpl.class);
     bind("planCompareService", PlanCompareServiceImpl.class);
-    bind("personalPlanCompareService", PersonalPlanCompareServiceImpl.class);
-    bind("personalPlanService", PersonalPlanServiceImpl.class);
-    bind("personalPlanCourseService", PersonalPlanCourseServiceImpl.class);
 
     bind("majorPlanService", MajorPlanServiceImpl.class);
     bind("MajorPlanCourseGroupService", MajorPlanCourseGroupServiceImpl.class);

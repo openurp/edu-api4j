@@ -30,7 +30,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 课程基本信息
@@ -89,6 +88,11 @@ public class Course extends ProjectBasedObject<Long> implements Comparable<Cours
   private List<CourseHour> hours = CollectUtils.newArrayList();
 
   /**
+   * 分类课时
+   */
+  @OneToMany(mappedBy = "course", cascade = {CascadeType.ALL}, orphanRemoval = true)
+  private List<CourseJournal> journals = CollectUtils.newArrayList();
+  /**
    * 周课时
    */
   private int weekHours;
@@ -115,11 +119,6 @@ public class Course extends ProjectBasedObject<Long> implements Comparable<Cours
    */
   @ManyToOne(fetch = FetchType.LAZY)
   private CourseNature nature;
-  /**
-   * 课程分类
-   */
-  @ManyToOne(fetch = FetchType.LAZY)
-  private CourseCategory category;
 
   /**
    * 考试方式
@@ -132,13 +131,6 @@ public class Course extends ProjectBasedObject<Long> implements Comparable<Cours
    */
   @ManyToOne(fetch = FetchType.LAZY)
   private GradingMode gradingMode;
-
-  /**
-   * 能力等级
-   */
-  @ManyToMany
-  @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "edu.course")
-  private Set<CourseAbilityRate> abilityRates = CollectUtils.newHashSet();
 
   private java.sql.Date beginOn;
 
@@ -283,12 +275,13 @@ public class Course extends ProjectBasedObject<Long> implements Comparable<Cours
     this.examMode = examMode;
   }
 
-  public Set<CourseAbilityRate> getAbilityRates() {
-    return abilityRates;
-  }
-
-  public void setAbilityRates(Set<CourseAbilityRate> abilityRates) {
-    this.abilityRates = abilityRates;
+  public CourseJournal getJournal(Semester semester) {
+    for (CourseJournal j : journals) {
+      if (!j.getBeginOn().after(semester.getBeginOn()) && (null == j.getEndOn() || j.getEndOn().after(semester.getBeginOn()))) {
+        return j;
+      }
+    }
+    return new CourseJournal(this);
   }
 
   public String getCreditHourString() {
@@ -398,19 +391,19 @@ public class Course extends ProjectBasedObject<Long> implements Comparable<Cours
     }
   }
 
-  public CourseCategory getCategory() {
-    return category;
-  }
-
-  public void setCategory(CourseCategory category) {
-    this.category = category;
-  }
-
   public boolean isCalgp() {
     return calgp;
   }
 
   public void setCalgp(boolean calgp) {
     this.calgp = calgp;
+  }
+
+  public List<CourseJournal> getJournals() {
+    return journals;
+  }
+
+  public void setJournals(List<CourseJournal> journals) {
+    this.journals = journals;
   }
 }

@@ -147,7 +147,7 @@ public class DefaultGpaPolicy implements GpaPolicy {
         }
         yearGrades.addAll(semesterGrades);
         stdTermGpa.setGpa(this.calcGpa(semesterGrades));
-        stdTermGpa.setGa(this.calcGa(semesterGrades));
+        stdTermGpa.setWms(this.calcGa(semesterGrades));
         stdTermGpa.setGradeCount(semesterGrades.size());
         Float[] stats = statCredits(semesterGrades);
         stdTermGpa.setTotalCredits(stats[0]);
@@ -160,7 +160,7 @@ public class DefaultGpaPolicy implements GpaPolicy {
         stdGpa.add(stdYearGpa);
         List<CourseGrade> yearGrades = yearGradeMap.get(year);
         stdYearGpa.setGpa(this.calcGpa(yearGrades));
-        stdYearGpa.setGa(this.calcGa(yearGrades));
+        stdYearGpa.setWms(this.calcGa(yearGrades));
         stdYearGpa.setGradeCount(yearGrades.size());
         Float[] stats = statCredits(yearGrades);
         stdYearGpa.setTotalCredits(stats[0]);
@@ -169,7 +169,7 @@ public class DefaultGpaPolicy implements GpaPolicy {
     }
 
     stdGpa.setGpa(this.calcGpa(grades));
-    stdGpa.setGa(this.calcGa(grades));
+    stdGpa.setWms(this.calcGa(grades));
     Map<Course, CourseGrade> courseMap = CollectUtils.newHashMap();
     for (CourseGrade grade : grades) {
       CourseGrade exist = courseMap.get(grade.getCourse());

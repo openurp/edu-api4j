@@ -25,7 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.beangle.commons.entity.pojo.LongIdObject;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.model.Campus;
 import org.openurp.base.model.Department;
@@ -60,7 +60,7 @@ public class StudentState extends LongIdObject {
 
   /** 方向 */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /** 行政班级 */
   @ManyToOne(fetch = FetchType.LAZY)
@@ -150,11 +150,11 @@ public class StudentState extends LongIdObject {
     this.major = major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

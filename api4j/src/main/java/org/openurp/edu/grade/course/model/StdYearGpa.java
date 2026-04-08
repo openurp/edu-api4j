@@ -46,7 +46,7 @@ public class StdYearGpa extends LongIdObject {
   private Float gpa;
 
   /** 平均分 */
-  private Float ga;
+  private Float wms;
 
   /** 获得学分 */
   private Float credits;
@@ -81,12 +81,12 @@ public class StdYearGpa extends LongIdObject {
     this.gpa = gpa;
   }
 
-  public Float getGa() {
-    return ga;
+  public Float getWms() {
+    return wms;
   }
 
-  public void setGa(Float ga) {
-    this.ga = ga;
+  public void setWms(Float wms) {
+    this.wms = wms;
   }
 
   public Float getCredits() {

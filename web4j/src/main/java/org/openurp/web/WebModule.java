@@ -23,7 +23,7 @@ import org.beangle.commons.inject.Scope;
 import org.beangle.commons.inject.bind.AbstractBindModule;
 import org.openurp.base.util.String2RatioConvertor;
 import org.openurp.edu.web.helper.ClazzSearchHelper;
-import org.openurp.edu.web.helper.ExecutionPlanSearchHelper;
+import org.openurp.edu.web.helper.ExecutivePlanSearchHelper;
 import org.openurp.service.squartz.URPSchedulerFactoryBean;
 import org.openurp.web.action.DataQueryAction;
 import org.openurp.web.action.HomeAction;
@@ -68,6 +68,6 @@ public class WebModule extends AbstractBindModule {
     bind("baseInfoSearchHelper", BaseInfoSearchHelper.class);
     bind("squadSearchHelper", SquadSearchHelper.class);
     bind("clazzSearchHelper", ClazzSearchHelper.class);
-    bind("executePlanSearchHelper", ExecutionPlanSearchHelper.class);
+    bind("executePlanSearchHelper", ExecutivePlanSearchHelper.class);
   }
 }

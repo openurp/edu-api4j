@@ -18,7 +18,7 @@
  */
 package org.openurp.edu.program.plan.service;
 
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 
 /**
  * 个人培养计划同步的时候出现的异常
@@ -35,11 +35,11 @@ public class PersonalPlanSyncException extends Exception {
 
   private String enName = "There are no Major Teach Plan matched with this Student's Teach Plan";
 
-  private ExecutionPlan executePlan;
+  private ExecutivePlan executePlan;
 
-  public PersonalPlanSyncException(ExecutionPlan stdExecutionPlan) {
+  public PersonalPlanSyncException(ExecutivePlan p) {
     super();
-    this.executePlan = stdExecutionPlan;
+    this.executePlan = p;
   }
 
   public PersonalPlanSyncException() {
@@ -66,11 +66,11 @@ public class PersonalPlanSyncException extends Exception {
     return name;
   }
 
-  public ExecutionPlan getExecutionPlan() {
+  public ExecutivePlan getExecutivePlan() {
     return executePlan;
   }
 
-  public void setExecutionPlan(ExecutionPlan executePlan) {
+  public void setExecutivePlan(ExecutivePlan executePlan) {
     this.executePlan = executePlan;
   }
 

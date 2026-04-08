@@ -117,20 +117,6 @@ public interface CourseGroup extends Entity<Long>, Cloneable, Comparable<CourseG
    */
   public void setCredits(float credits);
 
-  /**
-   * 获得组内要求门数
-   *
-   * @return 组内要求门数
-   */
-  public short getCourseCount();
-
-  /**
-   * 设置组内要求门数
-   *
-   * @param requiredCount 组内要求门数
-   */
-  public void setCourseCount(short requiredCount);
-
   public List<PlanCourse> getPlanCourses();
 
   /**

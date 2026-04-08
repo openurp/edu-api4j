@@ -18,19 +18,18 @@
  */
 package org.openurp.code.edu.model;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-
 import org.beangle.commons.entity.pojo.Code;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.openurp.code.school;
 
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
 /**
  * 课程类别
- *
  *
  * @since 2005-9-7
  */
@@ -47,23 +46,32 @@ public class CourseType extends Code<Integer> {
   @ManyToOne(fetch = FetchType.LAZY)
   private CourseType parent;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  private CourseModule module;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  private CourseRank rank;
+
   /**
-   * 是否理论课:true:理论课 false:实践课
+   * @return
    */
-  private boolean practical;
-
-  /**是否专业课*/
-  private boolean major;
-
-  /**是否选修课*/
-  private boolean optional;
-
-  public boolean isPractical() {
-    return practical;
+  @Deprecated
+  public boolean isMajor() {
+    if (null == module) return false;
+    return module.isMajor();
   }
 
-  public void setPractical(boolean practical) {
-    this.practical = practical;
+  @Deprecated
+  public boolean isOptional() {
+    if (null == rank) return false;
+    return !rank.isCompulsory();
+  }
+
+
+  @Deprecated
+  public boolean isPractical() {
+    if (null == module) return false;
+    return module.isPractical();
   }
 
   public CourseType() {
@@ -74,27 +82,27 @@ public class CourseType extends Code<Integer> {
     super(id);
   }
 
-  public boolean isMajor() {
-    return major;
-  }
-
-  public void setMajor(boolean major) {
-    this.major = major;
-  }
-
-  public boolean isOptional() {
-    return optional;
-  }
-
-  public void setOptional(boolean optional) {
-    this.optional = optional;
-  }
-
   public CourseType getParent() {
     return parent;
   }
 
   public void setParent(CourseType parent) {
     this.parent = parent;
+  }
+
+  public CourseModule getModule() {
+    return module;
+  }
+
+  public void setModule(CourseModule module) {
+    this.module = module;
+  }
+
+  public CourseRank getRank() {
+    return rank;
+  }
+
+  public void setRank(CourseRank rank) {
+    this.rank = rank;
   }
 }

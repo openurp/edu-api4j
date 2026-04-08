@@ -20,10 +20,10 @@ package org.openurp.base.service.impl;
 
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
-import org.openurp.base.model.Campus;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.edu.model.Semester;
 import org.openurp.base.edu.model.TimeSetting;
+import org.openurp.base.model.Campus;
 import org.openurp.base.service.TimeSettingService;
 
 import java.util.List;
@@ -39,28 +39,24 @@ public class TimeSettingServiceImpl extends BaseServiceImpl implements TimeSetti
   }
 
   public TimeSetting getClosestTimeSetting(Project project, Semester semester, Campus campus) {
-
     if (null != campus) {
-      OqlBuilder settingBuilder = OqlBuilder.hql("select  ts from " + TimeSetting.class.getName()
-          + "  ts where ts.project.id=" + project.getId() + " and ts.campus.id=" + campus.getId())
-          .cacheable();
-      List<TimeSetting> settings = entityDao.search(settingBuilder);
+      List<TimeSetting> settings = getSettings(project, semester, campus);
       if (!settings.isEmpty()) return settings.get(0);
     }
-    OqlBuilder settingBuilder = OqlBuilder.hql(" from " + TimeSetting.class.getName()
-        + "  ts where ts.campus is null and ts.project.id=" + project.getId()).cacheable();
-    List<TimeSetting> settings = entityDao.search(settingBuilder);
+    List<TimeSetting> settings = getSettings(project, semester, null);
     if (!settings.isEmpty()) {
       return settings.get(0);
     } else {
-      OqlBuilder searchAll = OqlBuilder.hql(" from " + TimeSetting.class.getName()
-          + "  ts where ts.project.id=" + project.getId()).cacheable();
-      settings = entityDao.search(searchAll);
-      if (!settings.isEmpty()) {
-        return settings.get(0);
-      } else {
-        return null;
-      }
+      return null;
     }
+  }
+
+  private List<TimeSetting> getSettings(Project project, Semester semester, Campus campus) {
+    var query = OqlBuilder.from(TimeSetting.class, "ts");
+    query.where("ts.project=:project", project);
+    if (null != campus) query.where("ts.campus=:campus", campus);
+    query.where("ts.beginOn <=:now and (ts.endOn is null or ts.endOn >=:now)", semester.getBeginOn());
+    query.cacheable();
+    return entityDao.search(query);
   }
 }

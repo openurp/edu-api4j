@@ -81,7 +81,7 @@ public class Major extends NumberIdTimeObject<Long> {
 
   /** 获得方向 */
   @OneToMany(mappedBy = "major", cascade = { CascadeType.ALL }, orphanRemoval = true)
-  private Set<Direction> directions = CollectUtils.newHashSet();
+  private Set<MajorDirection> directions = CollectUtils.newHashSet();
 
   /** 建设过程 */
   @OneToMany(mappedBy = "major", cascade = { CascadeType.ALL }, orphanRemoval = true)
@@ -110,11 +110,11 @@ public class Major extends NumberIdTimeObject<Long> {
     super(id);
   }
 
-  public Set<Direction> getDirections() {
+  public Set<MajorDirection> getDirections() {
     return directions;
   }
 
-  public void setDirections(Set<Direction> directions) {
+  public void setDirections(Set<MajorDirection> directions) {
     this.directions = directions;
   }
 

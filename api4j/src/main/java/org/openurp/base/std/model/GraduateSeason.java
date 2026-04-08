@@ -28,6 +28,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 @Entity(name = "org.openurp.base.std.model.GraduateSeason")
 @Cacheable
@@ -42,7 +43,7 @@ public class GraduateSeason extends LongIdObject {
   @ManyToOne(fetch = FetchType.LAZY)
   private Project project;
 
-  private int graduateYear;
+  private java.sql.Date graduateIn;
 
   public String getCode() {
     return code;
@@ -68,11 +69,11 @@ public class GraduateSeason extends LongIdObject {
     this.project = project;
   }
 
-  public int getGraduateYear() {
-    return graduateYear;
+  public Date getGraduateIn() {
+    return graduateIn;
   }
 
-  public void setGraduateYear(int graduateYear) {
-    this.graduateYear = graduateYear;
+  public void setGraduateIn(Date graduateOn) {
+    this.graduateIn = graduateOn;
   }
 }

@@ -19,10 +19,7 @@
 package org.openurp.edu;
 
 import org.beangle.commons.entity.orm.AbstractPersistModule;
-import org.openurp.base.edu.model.CourseTextbook;
-import org.openurp.base.edu.model.MajorDiscipline;
-import org.openurp.base.edu.model.ProjectProperty;
-import org.openurp.base.edu.model.SchoolLength;
+import org.openurp.base.edu.model.*;
 import org.openurp.base.hr.model.Staff;
 import org.openurp.base.hr.model.Teacher;
 import org.openurp.base.resource.model.Building;
@@ -47,6 +44,9 @@ import org.openurp.edu.clazz.model.*;
 import org.openurp.edu.grade.plan.model.AuditCourseResult;
 import org.openurp.edu.grade.plan.model.AuditGroupResult;
 import org.openurp.edu.grade.plan.model.AuditPlanResult;
+import org.openurp.edu.program.model.ExecutiveCourseGroup;
+import org.openurp.edu.program.model.ExecutivePlan;
+import org.openurp.edu.program.model.ExecutivePlanCourse;
 import org.openurp.edu.program.model.ExemptCourse;
 import org.openurp.std.award.Punishment;
 import org.openurp.std.fee.config.TuitionConfig;
@@ -67,10 +67,11 @@ public class PersistModule extends AbstractPersistModule {
         PoliticalStatus.class, IdType.class, FamilyRelationship.class, PassportType.class,
         HouseholdType.class, VisaType.class, Country.class, Division.class, RailwayStation.class,
         ProfessionalTitle.class, ProfessionalGrade.class, TutorType.class, WorkStatus.class,
-        EduCategory.class, EducationType.class).cache("openurp.base");
+        EduCategory.class, EducationType.class, EducationDegree.class).cache("openurp.base");
 
     add(UserCategory.class, DayPart.class, BookType.class, BookAwardType.class, CourseAbilityRate.class,
-        TeachingNature.class, CourseType.class, CourseCategory.class, CourseNature.class, TeachingMethod.class,
+        TeachingNature.class, CourseType.class, CourseRank.class, CourseCategory.class, CourseNature.class,
+        TeachingMethod.class, CourseModule.class,
         CourseTakeType.class, EducationLevel.class, ExamMode.class, ExamForm.class, ExamStatus.class,
         ElectionMode.class, ExamType.class, GradeType.class, GradingMode.class, StdLabel.class,
         StdLabelType.class, StdType.class, TeachLangType.class, ExamDeferReason.class)
@@ -84,15 +85,17 @@ public class PersistModule extends AbstractPersistModule {
 
         org.openurp.base.edu.model.Calendar.class,
         org.openurp.base.edu.model.CalendarStage.class,
+        org.openurp.base.edu.model.SchoolYear.class,
         org.openurp.base.edu.model.Semester.class, org.openurp.base.edu.model.SemesterStage.class,
         org.openurp.base.edu.model.TimeSetting.class, org.openurp.base.edu.model.CourseUnit.class,
 
         Teacher.class,
         org.openurp.base.edu.model.MajorJournal.class, SchoolLength.class, org.openurp.base.edu.model.Major.class,
-        MajorDiscipline.class, org.openurp.base.edu.model.DirectionJournal.class, org.openurp.base.edu.model.Direction.class,
+        MajorDiscipline.class, MajorDirectionJournal.class, org.openurp.base.edu.model.MajorDirection.class,
 
         org.openurp.base.edu.model.Project.class,
         org.openurp.base.edu.model.ProjectCode.class, org.openurp.base.edu.model.Course.class,
+        org.openurp.base.edu.model.CourseJournal.class,
         Classroom.class, org.openurp.base.edu.model.CourseHour.class, CourseTextbook.class,
         org.openurp.base.edu.model.Textbook.class, org.openurp.edu.clazz.model.StdCourseAbility.class,
         org.openurp.base.edu.model.CourseLevel.class,
@@ -103,6 +106,7 @@ public class PersistModule extends AbstractPersistModule {
         org.openurp.base.std.model.Squad.class,
         org.openurp.base.std.model.Student.class,
         org.openurp.base.std.model.StudentState.class,
+        org.openurp.base.std.model.StudentTutor.class,
         ProjectProperty.class,
 
         org.openurp.base.model.Person.class,
@@ -125,13 +129,11 @@ public class PersistModule extends AbstractPersistModule {
         org.openurp.edu.program.model.MajorPlanCourse.class,
         org.openurp.edu.program.model.MajorCourseGroup.class,
 
-        org.openurp.edu.program.model.ExecutionPlan.class,
-        org.openurp.edu.program.model.ExecutionPlanCourse.class,
-        org.openurp.edu.program.model.ExecutionCourseGroup.class,
+        ExecutivePlan.class,
+        ExecutivePlanCourse.class,
+        ExecutiveCourseGroup.class,
 
-        org.openurp.edu.program.model.StdPlan.class,
-        org.openurp.edu.program.model.StdPlanCourse.class,
-        org.openurp.edu.program.model.StdCourseGroup.class,
+        org.openurp.edu.program.model.StdProgramBinding.class,
 
         org.openurp.edu.program.flow.CourseAlternativeApply.class,
         org.openurp.edu.program.flow.CourseTypeChangeApply.class,
@@ -179,7 +181,6 @@ public class PersistModule extends AbstractPersistModule {
         org.openurp.edu.room.model.RoomOccupyApp.class,
         org.openurp.edu.room.model.RoomAvailableTime.class,
 
-        org.openurp.edu.textbook.model.Material.class,
         org.openurp.std.info.model.Contact.class, org.openurp.std.info.model.Home.class,
         org.openurp.std.info.model.Examinee.class, org.openurp.std.info.model.Admission.class,
         org.openurp.std.info.model.MajorStudent.class,
@@ -218,8 +219,6 @@ public class PersistModule extends AbstractPersistModule {
         org.openurp.edu.clazz.app.model.CourseMailSetting.class,
         ScheduleSetting.class,
 
-        org.openurp.std.graduation.model.DegreeAuditItem.class,
-        org.openurp.std.graduation.model.GraduateAuditItem.class,
         org.openurp.std.graduation.model.GraduateResult.class, DegreeResult.class,
         org.openurp.std.graduation.model.GraduateBatch.class,
         GraduateAuditLog.class,

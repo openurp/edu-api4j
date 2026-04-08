@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * 培养计划和培养计划的对比服务类<br>
  * 可以对专业培养计划(执行计划), 个人培养计划, 原始计划 这三种计划进行两两之间的对比<br>
- * 因为这三个计划的父类都是ExecutionPlan
+ * 因为这三个计划的父类都是ExecutivePlan
  */
 public interface PlanCompareService {
 
@@ -38,7 +38,7 @@ public interface PlanCompareService {
    * @param rightPlan
    * @return <pre>
    *     CourseType<br>
-   *       List<? extends ExecutionPlanCourse>[]<br>
+   *       List<? extends ExecutivePlanCourse>[]<br>
    *         [0]  leftPlan的课程<br>
    *         [1]  rightPlan中的课程
    *         </pre>

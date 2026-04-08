@@ -9,13 +9,15 @@
   <groupId>org.openurp.edu</groupId>
   <artifactId>openurp-edu-parent4j</artifactId>
   <packaging>pom</packaging>
-  <version>0.38.1</version>
+  <version>0.48.0</version>
   <name>OpenURP Edu Java API Parent</name>
 
   <properties>
     <java.version>17</java.version>
-    <beangle3.version>3.11.2</beangle3.version>
+    <beangle3.version>3.11.6</beangle3.version>
     <quartz.version>2.3.2</quartz.version>
+    <mvn.compiler.version>3.13.0</mvn.compiler.version>
+    <mvn.javadoc.version>3.6.3</mvn.javadoc.version>
   </properties>
 
   <modules>
@@ -24,10 +26,10 @@
   </modules>
 
   <dependencies>
-   <dependency>
+    <dependency>
       <groupId>org.beangle.commons</groupId>
       <artifactId>beangle-commons-model</artifactId>
-     <version>${beangle3.version}</version>
+      <version>${beangle3.version}</version>
     </dependency>
     <dependency>
       <groupId>org.beangle.commons</groupId>
@@ -80,4 +82,19 @@
       <version>2.3.0</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <!-- central发布插件 -->
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.6.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

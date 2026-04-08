@@ -103,9 +103,9 @@ public class SemesterServiceImpl extends BaseServiceImpl implements SemesterServ
 
   public Semester getSemester(Calendar calendar, String schoolYear, String name) {
     OqlBuilder query = OqlBuilder.from(Semester.class, "semester");
-    query.where("semester.calendar=:calendar", calendar);
-    query.where("semester.schoolYear=:schoolYear", schoolYear);
-    query.where("semester.name=:name", name);
+    query.where("semester.calendar = :calendar", calendar);
+    query.where("semester.year.name = :schoolYear", schoolYear);
+    query.where("semester.name = :name", name);
     List semesters = entityDao.search(query);
     if (semesters.isEmpty()) {
       return null;
@@ -209,9 +209,6 @@ public class SemesterServiceImpl extends BaseServiceImpl implements SemesterServ
     entityDao.remove(semester);
   }
 
-  /**
-   * @see org.openurp.base.edu.service.service.system.semester.SemesterService#updateSemester(org.openurp.base.model.Semester)
-   */
   public void saveSemester(Semester semester) {
     if (null == semester) return;
     if (Strings.isEmpty(semester.getCode())) semester.setCode(semester.getSchoolYear() + semester.getName());
@@ -219,9 +216,6 @@ public class SemesterServiceImpl extends BaseServiceImpl implements SemesterServ
     entityDao.saveOrUpdate(semester);
   }
 
-  /**
-   * @see org.openurp.base.edu.service.service.system.semester.SemesterService#checkDateCollision(org.openurp.base.model.Semester)
-   */
   public boolean checkDateCollision(Semester semester) {
     if (null == semester) return false;
     OqlBuilder<Semester> builder = OqlBuilder.from(Semester.class, "semester");

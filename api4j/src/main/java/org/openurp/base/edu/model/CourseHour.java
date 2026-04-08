@@ -53,11 +53,6 @@ public class CourseHour extends LongIdObject {
   private int creditHours;
 
   /**
-   * 周数
-   */
-  private int weeks;
-
-  /**
    * 课程
    */
   @NotNull
@@ -87,17 +82,4 @@ public class CourseHour extends LongIdObject {
   public void setCreditHours(int creditHours) {
     this.creditHours = creditHours;
   }
-
-  public void setWeeks(int weeks) {
-    this.weeks = weeks;
-  }
-
-  public Integer getWeeks() {
-    return weeks;
-  }
-
-  public void setWeeks(Integer weeks) {
-    this.weeks = weeks;
-  }
-
 }

@@ -21,7 +21,6 @@ package org.openurp.std.graduation.app.model;
 import org.beangle.commons.entity.pojo.LongIdObject;
 import org.beangle.commons.lang.Strings;
 import org.openurp.base.std.model.Student;
-import org.openurp.std.graduation.model.GraduateAuditItem;
 import org.openurp.std.graduation.model.GraduateResult;
 
 import javax.persistence.Column;
@@ -106,19 +105,8 @@ public class GraduateAuditLog extends LongIdObject {
     resultString.append(MessageFormat.format("最终结果：{0}", result.getPassed() ? "通过" : "未通过"));
     resultString.append(MessageFormat.format("\n毕结业结论：{0}",
         result.getEducationResult() == null ? "无" : result.getEducationResult().getName()));
-    for (GraduateAuditItem resultItem : result.getItems()) {
-      String passStr = "未审核";
-      if (resultItem.getPassed() != null && resultItem.getPassed()) {
-        passStr = "已通过";
-      }
-      if (resultItem.getPassed() != null && !resultItem.getPassed()) {
-        passStr = "未通过";
-      }
-      resultString.append(MessageFormat.format("\r\n{0}：{1}", resultItem.getName(), passStr));
-      if (Strings.isNotBlank(resultItem.getComments())) {
-        resultString.append("(").append(resultItem.getComments()).append(")");
-      }
-    }
+    resultString.append("已通过:" + result.getPassedItems());
+    resultString.append("未通过:" + result.getFailedItems());
 
     if (Strings.isNotBlank(result.getComments())) {
       resultString.append("\r\n备注：").append(result.getComments());

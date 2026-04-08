@@ -18,36 +18,31 @@
  */
 package org.openurp.edu.exam.model;
 
+import org.beangle.commons.collection.CollectUtils;
+import org.beangle.commons.entity.pojo.LongIdObject;
+import org.beangle.commons.lang.Strings;
+import org.beangle.orm.hibernate.udt.HourMinute;
+import org.hibernate.annotations.Type;
+import org.openurp.base.edu.model.Course;
+import org.openurp.base.edu.model.Project;
+import org.openurp.base.edu.model.Semester;
+import org.openurp.base.model.Campus;
+import org.openurp.base.model.Department;
+import org.openurp.base.resource.model.Building;
+import org.openurp.base.resource.model.Classroom;
+import org.openurp.code.edu.model.ClassroomType;
+import org.openurp.code.edu.model.ExamType;
+import org.openurp.edu.clazz.model.Clazz;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.beangle.commons.collection.CollectUtils;
-import org.beangle.commons.entity.pojo.LongIdObject;
-import org.beangle.commons.lang.Strings;
-import org.beangle.orm.hibernate.udt.HourMinute;
-import org.hibernate.annotations.Type;
-import org.openurp.base.resource.model.Building;
-import org.openurp.base.model.Campus;
-import org.openurp.base.model.Department;
-import org.openurp.code.edu.model.ClassroomType;
-import org.openurp.code.edu.model.ExamType;
-import org.openurp.base.resource.model.Classroom;
-import org.openurp.base.edu.model.Course;
-import org.openurp.base.edu.model.Project;
-import org.openurp.base.edu.model.Semester;
-import org.openurp.edu.clazz.model.Clazz;
 /**
  * 排考任务
  */
@@ -55,31 +50,43 @@ import org.openurp.edu.clazz.model.Clazz;
 public class ExamTask extends LongIdObject {
 
   private static final long serialVersionUID = -5162834520002681798L;
-  /** 代码 */
+  /**
+   * 代码
+   */
   @NotNull
   @Size(max = 300)
   private String code;
-  /** 项目 */
+  /**
+   * 项目
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   private Project project;
 
-  /** 学期 */
+  /**
+   * 学期
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   private Semester semester;
 
-  /** 开课院系 */
+  /**
+   * 开课院系
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   private Department teachDepart;
 
-  /** 考试类型 */
+  /**
+   * 考试类型
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   private ExamType examType;
 
-  /** 排考批次 */
+  /**
+   * 排考批次
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   private ExamGroup group;
 
@@ -87,45 +94,65 @@ public class ExamTask extends LongIdObject {
   @OrderBy("stdCount DESC")
   private List<ExamActivity> activities = CollectUtils.newArrayList();
 
-  /** 考试日期 */
+  /**
+   * 考试日期
+   */
   private java.sql.Date examOn;
 
-  /** 开始时间 */
+  /**
+   * 开始时间
+   */
   @Type(type = "org.beangle.orm.hibernate.udt.HourMinuteType")
   private HourMinute beginAt = HourMinute.Zero;
 
-  /** 结束时间 */
+  /**
+   * 结束时间
+   */
   @Type(type = "org.beangle.orm.hibernate.udt.HourMinuteType")
   private HourMinute endAt = HourMinute.Zero;
 
-  /** 时间已经分配 */
+  /**
+   * 时间已经分配
+   */
   private boolean timeAllotted;
 
-  /** 考生人数 */
+  /**
+   * 考生人数
+   */
   private int stdCount;
 
-  /** 特定教学楼 */
+  /**
+   * 特定教学楼
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   private Building building;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private ExamRoomGroup roomGroup;
 
-  /** 特定教室 */
+  /**
+   * 特定教室
+   */
   @ManyToMany
   private Set<Classroom> rooms = CollectUtils.newHashSet();
 
   @Size(max = 255)
   private String remark;
 
-  /** 最大学生上课冲突 */
+  /**
+   * 最大学生上课冲突
+   */
   private Float maxCourseConflictRatio;
 
-  /** 考试教室类型 */
+  /**
+   * 考试教室类型
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   private ClassroomType roomType;
 
-  /** 时长(以分钟为单位) */
+  /**
+   * 时长(以分钟为单位)
+   */
   private short duration;
 
   /**
@@ -133,10 +160,14 @@ public class ExamTask extends LongIdObject {
    */
   private java.sql.Date minExamOn;
 
-  /** 考试周 */
+  /**
+   * 考试周
+   */
   private Short examWeek;
 
-  /** 是否集中安排 */
+  /**
+   * 是否集中安排
+   */
   private boolean centralized;
 
   public boolean isEmptyTime() {
@@ -178,7 +209,11 @@ public class ExamTask extends LongIdObject {
   }
 
   public void buildCode() {
-    this.code = getCourseCodes();
+    var c = getCourseCodes();
+    if (c.length() > 50) {
+      c = c.substring(0, 50);
+    }
+    this.code = c;
   }
 
   public List<Clazz> getClazzes() {

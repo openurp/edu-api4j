@@ -20,7 +20,7 @@ package org.openurp.edu.clazz.service;
 
 import org.openurp.base.edu.model.Semester;
 import org.openurp.edu.clazz.model.Clazz;
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public interface ClazzPlanRelationService {
    * @param plan
    * @return
    */
-  public List<Clazz> relatedClazzes(ExecutionPlan plan);
+  public List<Clazz> relatedClazzes(ExecutivePlan plan);
 
   /**
    * 获得和计划关联的教学任务
@@ -45,7 +45,7 @@ public interface ClazzPlanRelationService {
    * @param semester
    * @return
    */
-  public List<Clazz> relatedClazzes(ExecutionPlan plan, Semester semester);
+  public List<Clazz> relatedClazzes(ExecutivePlan plan, Semester semester);
 
   /**
    * 可能会和这个课程有关联的培养计划(也就是说不是直接查询数据库中已有的关联关系)
@@ -53,6 +53,6 @@ public interface ClazzPlanRelationService {
    * @param clazz
    * @return
    */
-  public List<ExecutionPlan> possibleRelatePlans(Clazz clazz);
+  public List<ExecutivePlan> possibleRelatePlans(Clazz clazz);
 
 }

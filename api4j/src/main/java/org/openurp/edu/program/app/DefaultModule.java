@@ -19,14 +19,14 @@
 package org.openurp.edu.program.app;
 
 import org.beangle.commons.inject.bind.AbstractBindModule;
-import org.openurp.edu.program.app.dao.hibernate.ExecutionPlanCourseGroupModifyApplyDaoHibernate;
-import org.openurp.edu.program.app.dao.hibernate.ExecutionPlanCourseGroupModifyAuditDaoHibernate;
-import org.openurp.edu.program.app.dao.hibernate.ExecutionPlanCourseModifyApplyDaoHibernate;
-import org.openurp.edu.program.app.dao.hibernate.ExecutionPlanCourseModifyAuditDaoHibernate;
-import org.openurp.edu.program.app.service.impl.ExecutionPlanCourseGroupModifyApplyServiceImpl;
-import org.openurp.edu.program.app.service.impl.ExecutionPlanCourseGroupModifyAuditServiceImpl;
-import org.openurp.edu.program.app.service.impl.ExecutionPlanCourseModifyApplyServiceImpl;
-import org.openurp.edu.program.app.service.impl.ExecutionPlanCourseModifyAuditServiceImpl;
+import org.openurp.edu.program.app.dao.hibernate.ExecutivePlanCourseGroupModifyApplyDaoHibernate;
+import org.openurp.edu.program.app.dao.hibernate.ExecutivePlanCourseGroupModifyAuditDaoHibernate;
+import org.openurp.edu.program.app.dao.hibernate.ExecutivePlanCourseModifyApplyDaoHibernate;
+import org.openurp.edu.program.app.dao.hibernate.ExecutivePlanCourseModifyAuditDaoHibernate;
+import org.openurp.edu.program.app.service.impl.ExecutivePlanCourseGroupModifyApplyServiceImpl;
+import org.openurp.edu.program.app.service.impl.ExecutivePlanCourseGroupModifyAuditServiceImpl;
+import org.openurp.edu.program.app.service.impl.ExecutivePlanCourseModifyApplyServiceImpl;
+import org.openurp.edu.program.app.service.impl.ExecutivePlanCourseModifyAuditServiceImpl;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
 public class DefaultModule extends AbstractBindModule {
@@ -34,18 +34,18 @@ public class DefaultModule extends AbstractBindModule {
   @Override
   protected void doBinding() {
     bind("executePlanCourseModifyApplyDao", TransactionProxyFactoryBean.class)
-        .proxy("target", ExecutionPlanCourseModifyApplyDaoHibernate.class).parent("baseTransactionProxyExt");
+        .proxy("target", ExecutivePlanCourseModifyApplyDaoHibernate.class).parent("baseTransactionProxyExt");
     bind("executePlanCourseModifyAuditDao", TransactionProxyFactoryBean.class)
-        .proxy("target", ExecutionPlanCourseModifyAuditDaoHibernate.class).parent("baseTransactionProxyExt");
+        .proxy("target", ExecutivePlanCourseModifyAuditDaoHibernate.class).parent("baseTransactionProxyExt");
     bind("executePlanCourseGroupModifyApplyDao", TransactionProxyFactoryBean.class)
-        .proxy("target", ExecutionPlanCourseGroupModifyApplyDaoHibernate.class).parent("baseTransactionProxyExt");
+        .proxy("target", ExecutivePlanCourseGroupModifyApplyDaoHibernate.class).parent("baseTransactionProxyExt");
     bind("executePlanCourseGroupModifyAuditDao", TransactionProxyFactoryBean.class)
-        .proxy("target", ExecutionPlanCourseGroupModifyAuditDaoHibernate.class).parent("baseTransactionProxyExt");
+        .proxy("target", ExecutivePlanCourseGroupModifyAuditDaoHibernate.class).parent("baseTransactionProxyExt");
 
-    bind("executePlanCourseModifyApplyService", ExecutionPlanCourseModifyApplyServiceImpl.class);
-    bind("executePlanCourseModifyAuditService", ExecutionPlanCourseModifyAuditServiceImpl.class);
-    bind("executePlanCourseGroupModifyApplyService", ExecutionPlanCourseGroupModifyApplyServiceImpl.class);
-    bind("executePlanCourseGroupModifyAuditService", ExecutionPlanCourseGroupModifyAuditServiceImpl.class);
+    bind("executePlanCourseModifyApplyService", ExecutivePlanCourseModifyApplyServiceImpl.class);
+    bind("executePlanCourseModifyAuditService", ExecutivePlanCourseModifyAuditServiceImpl.class);
+    bind("executePlanCourseGroupModifyApplyService", ExecutivePlanCourseGroupModifyApplyServiceImpl.class);
+    bind("executePlanCourseGroupModifyAuditService", ExecutivePlanCourseGroupModifyAuditServiceImpl.class);
 
   }
 

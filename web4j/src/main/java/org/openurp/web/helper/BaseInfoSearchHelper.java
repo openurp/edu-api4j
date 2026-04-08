@@ -27,7 +27,7 @@ import org.beangle.struts2.helper.Params;
 import org.beangle.struts2.helper.QueryHelper;
 import org.openurp.base.resource.model.Building;
 import org.openurp.base.resource.model.Classroom;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.edu.model.Semester;
@@ -243,8 +243,8 @@ public class BaseInfoSearchHelper extends SearchHelper {
    * @param moduleName
    * @return
    */
-  public OqlBuilder<Direction> buildDirectionQuery(Project project) {
-    OqlBuilder<Direction> builder = OqlBuilder.from(Direction.class, "direction");
+  public OqlBuilder<MajorDirection> buildDirectionQuery(Project project) {
+    OqlBuilder<MajorDirection> builder = OqlBuilder.from(MajorDirection.class, "direction");
     builder.where("direction.project=:project", project);
     QueryHelper.populateConditions(builder);
     builder.limit(QueryHelper.getPageLimit());
@@ -263,8 +263,8 @@ public class BaseInfoSearchHelper extends SearchHelper {
    * @param levelId 培养层次ID
    * @return
    */
-  public OqlBuilder<Direction> buildDirectionQuery(Project project, Long levelId) {
-    OqlBuilder<Direction> builder = OqlBuilder.from(Direction.class, "direction");
+  public OqlBuilder<MajorDirection> buildDirectionQuery(Project project, Long levelId) {
+    OqlBuilder<MajorDirection> builder = OqlBuilder.from(MajorDirection.class, "direction");
     builder.where("direction.project=:project", project);
     QueryHelper.populateConditions(builder);
     builder.limit(QueryHelper.getPageLimit());

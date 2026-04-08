@@ -27,6 +27,7 @@ import org.beangle.struts2.view.component.Form;
 import org.beangle.struts2.view.component.UIBean;
 import org.beangle.struts2.view.template.Theme;
 import org.openurp.base.edu.model.Project;
+import org.openurp.base.edu.model.SchoolYear;
 import org.openurp.base.edu.model.Semester;
 import org.openurp.web.view.component.semester.ui.SemesterCalendarUI;
 import org.openurp.web.view.component.semester.ui.SemesterUIFactory;
@@ -151,7 +152,8 @@ public abstract class AbstractSemesterCalendarUI extends UIBean {
           try {
             colneValue = (Semester) (value = BeanUtils.cloneBean(value));
             if (yearFormat) {
-              colneValue.setSchoolYear(editSchoolYear(colneValue.getSchoolYear()));
+              colneValue.setYear(new SchoolYear());
+              colneValue.getYear().setName(editSchoolYear(colneValue.getSchoolYear()));
             }
             if (termFormat) {
               colneValue.setName(editTerm(colneValue.getName()));

@@ -24,6 +24,7 @@ import org.beangle.commons.lang.Numbers;
 import org.beangle.commons.lang.Strings;
 import org.hibernate.annotations.Type;
 import org.openurp.base.time.Terms;
+import org.openurp.code.edu.model.CourseRank;
 import org.openurp.code.edu.model.CourseType;
 import org.openurp.edu.program.utils.PlanUtils;
 
@@ -44,46 +45,68 @@ import java.util.Set;
 public abstract class AbstractCourseGroup extends LongIdObject implements CourseGroup, Cloneable {
 
   private static final long serialVersionUID = 1347767253840431206L;
-  /** 自定义组名 */
+  /**
+   * 自定义组名
+   */
   @Size(max = 100)
   private String givenName;
 
-  /** 要求完成组数 */
+  /**
+   * 要求完成组数
+   */
   protected short subCount;
 
-  /** 课程类别 */
+  /**
+   * 课程类别
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   protected CourseType courseType;
 
-  /** 要求学分 */
+  /**
+   * 要求学分
+   */
   private float credits;
 
-  /**学时数*/
+  /**
+   * 学时数
+   */
   private int creditHours;
 
-  /**分类学时比例*/
+  /**
+   * 分类学时比例
+   */
   private String hourRatios;
 
-  /** 要求门数 */
-  private short courseCount;
-
-  /** 备注 */
+  /**
+   * 备注
+   */
   @Size(max = 2000)
   private String remark;
 
-  /** 学期学分分布 */
+  /**
+   * 学期学分分布
+   */
   private String termCredits;
 
-  /** index no */
+  /**
+   * index no
+   */
   @Size(max = 30)
   @NotNull
   private String indexno;
 
-  /**是否自动累计学分*/
-  private boolean autoAddup;
+  /**
+   * 是否是必须的
+   */
+  private boolean required;
 
-  /**开课学期*/
+  @ManyToOne(fetch = FetchType.LAZY)
+  private CourseRank rank;
+
+  /**
+   * 开课学期
+   */
   @NotNull
   @Type(type = "org.openurp.base.time.hibernate.TermsType")
   protected Terms terms = Terms.Empty;
@@ -95,6 +118,7 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
     if (null != givenName) sb.append(" ").append(givenName);
     return sb.toString();
   }
+
   public int getIndex() {
     String index = Strings.substringAfterLast(indexno, ".");
     if (Strings.isEmpty(index)) index = indexno;
@@ -115,6 +139,7 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
     group.setParent(this);
     getChildren().add(group);
   }
+
   public String getGivenName() {
     return givenName;
   }
@@ -125,7 +150,9 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
 
   public void addPlanCourse(PlanCourse planCourse) {
     for (PlanCourse planCourse1 : getPlanCourses()) {
-      if (planCourse.getCourse().equals(planCourse1.getCourse())) { return; }
+      if (planCourse.getCourse().equals(planCourse1.getCourse())) {
+        return;
+      }
     }
     planCourse.setGroup(this);
     getPlanCourses().add(planCourse);
@@ -179,14 +206,6 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
     this.credits = credits;
   }
 
-  public short getCourseCount() {
-    return courseCount;
-  }
-
-  public void setCourseCount(short courseCount) {
-    this.courseCount = courseCount;
-  }
-
   public String getTermCredits() {
     return termCredits;
   }
@@ -203,13 +222,9 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
     this.indexno = indexno;
   }
 
-  @Override
   public boolean isAutoAddup() {
-    return autoAddup;
-  }
-
-  public void setAutoAddup(boolean autoAddup) {
-    this.autoAddup = autoAddup;
+    if (null == rank) return true;
+    else return rank.isCompulsory();
   }
 
   public Terms getTerms() {
@@ -249,7 +264,9 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
   }
 
   public List<PlanCourse> getPlanCourses(String terms) {
-    if (Strings.isEmpty(terms)) { return new ArrayList<PlanCourse>(getPlanCourses()); }
+    if (Strings.isEmpty(terms)) {
+      return new ArrayList<PlanCourse>(getPlanCourses());
+    }
     Set<PlanCourse> result = CollectUtils.newHashSet();
     Integer[] termSeq = Strings.splitToInt(terms);
     for (int i = 0; i < termSeq.length; i++) {
@@ -258,8 +275,8 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
     return new ArrayList<PlanCourse>(result);
   }
 
-  public List<PlanCourse> getOrderedPlanCourses(){
-    Collections.sort(this.getPlanCourses(),new PlanCourseComparator());
+  public List<PlanCourse> getOrderedPlanCourses() {
+    Collections.sort(this.getPlanCourses(), new PlanCourseComparator());
     return this.getPlanCourses();
   }
 
@@ -282,5 +299,21 @@ public abstract class AbstractCourseGroup extends LongIdObject implements Course
   @Override
   public void setHourRatios(String hourRatios) {
     this.hourRatios = hourRatios;
+  }
+
+  public boolean isRequired() {
+    return required;
+  }
+
+  public void setRequired(boolean required) {
+    this.required = required;
+  }
+
+  public CourseRank getRank() {
+    return rank;
+  }
+
+  public void setRank(CourseRank rank) {
+    this.rank = rank;
   }
 }

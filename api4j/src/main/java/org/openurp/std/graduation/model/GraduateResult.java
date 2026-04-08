@@ -18,22 +18,24 @@
  */
 package org.openurp.std.graduation.model;
 
-import java.util.List;
+import org.beangle.commons.entity.pojo.LongIdObject;
+import org.openurp.base.std.model.Student;
+import org.openurp.code.edu.model.EducationResult;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.beangle.commons.collection.CollectUtils;
-import org.beangle.commons.entity.pojo.LongIdObject;
-import org.openurp.code.edu.model.EducationResult;
-import org.openurp.base.std.model.Student;
 
 @Entity(name = "org.openurp.std.graduation.model.GraduateResult")
 public class GraduateResult extends LongIdObject {
   private static final long serialVersionUID = -1856339635822733136L;
 
-  /** 所属的毕业审核批次 */
+  /**
+   * 所属的毕业审核批次
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   private GraduateBatch batch;
@@ -44,21 +46,7 @@ public class GraduateResult extends LongIdObject {
 
   private int batchNo;
 
-  /** 获得学分 */
-  private float acquiredCredits;
-
-  /** 要求学分 */
-  private float requiredCredits;
-
-  /** 修读学分 */
-  private float electedCredits;
-
   private java.util.Date updatedAt;
-
-  /** 毕业审核详细结果 */
-  @OneToMany(mappedBy = "result", orphanRemoval = true, targetEntity = GraduateAuditItem.class, cascade = {
-      CascadeType.ALL })
-  private List<GraduateAuditItem> items = CollectUtils.newArrayList();
 
   /**
    * 是否通过毕业审核
@@ -66,36 +54,34 @@ public class GraduateResult extends LongIdObject {
    */
   private Boolean passed;
 
-  /** 锁定毕业审核结果 */
+  /**
+   * 锁定毕业审核结果
+   */
   @NotNull
   private boolean locked;
 
-  /** 是否已发布 */
+  /**
+   * 是否已发布
+   */
   @NotNull
   private boolean published;
 
-  /** 毕业备注 */
+  /**
+   * 毕业备注
+   */
   @Size(max = 500)
-  @Column(name="graduate_comments")
+  @Column(name = "remark")
   private String comments;
 
-  /** 毕结业情况 */
+  /**
+   * 毕结业情况
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   private EducationResult educationResult;
 
-  /**
-   * @return the items
-   */
-  public List<GraduateAuditItem> getItems() {
-    return items;
-  }
+  private String passedItems;
 
-  /**
-   * @param items the items to set
-   */
-  public void setItems(List<GraduateAuditItem> items) {
-    this.items = items;
-  }
+  private String failedItems;
 
   /**
    * @return the passed
@@ -197,35 +183,37 @@ public class GraduateResult extends LongIdObject {
     this.std = std;
   }
 
-  public float getAcquiredCredits() {
-    return acquiredCredits;
-  }
-
-  public void setAcquiredCredits(float acquiredCredits) {
-    this.acquiredCredits = acquiredCredits;
-  }
-
-  public float getRequiredCredits() {
-    return requiredCredits;
-  }
-
-  public void setRequiredCredits(float requiredCredits) {
-    this.requiredCredits = requiredCredits;
-  }
-
-  public float getElectedCredits() {
-    return electedCredits;
-  }
-
-  public void setElectedCredits(float electedCredits) {
-    this.electedCredits = electedCredits;
-  }
-
   public int getBatchNo() {
     return batchNo;
   }
 
   public void setBatchNo(int batchNo) {
     this.batchNo = batchNo;
+  }
+
+  public void add(boolean passed, String item) {
+    if (passed) {
+      if (passedItems == null) passedItems = item;
+      else passedItems += ("," + item);
+    }else{
+      if (failedItems == null) failedItems = item;
+      else failedItems += ("," + item);
+    }
+  }
+
+  public String getPassedItems() {
+    return passedItems;
+  }
+
+  public void setPassedItems(String passedItems) {
+    this.passedItems = passedItems;
+  }
+
+  public String getFailedItems() {
+    return failedItems;
+  }
+
+  public void setFailedItems(String failedItems) {
+    this.failedItems = failedItems;
   }
 }

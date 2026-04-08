@@ -22,7 +22,7 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.openurp.base.model.Department;
 import org.openurp.base.std.model.Squad;
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 import org.openurp.edu.program.model.Program;
 
 import java.util.Set;
@@ -41,7 +41,7 @@ public class SquadQueryBuilder {
    * @param plan
    * @return
    */
-  public static OqlBuilder<Squad> build(ExecutionPlan plan) {
+  public static OqlBuilder<Squad> build(ExecutivePlan plan) {
     Program program = plan.getProgram();
     OqlBuilder<Squad> query = OqlBuilder.from(Squad.class, "squad");
     query.where("squad.grade=:grade", program.getGrade());

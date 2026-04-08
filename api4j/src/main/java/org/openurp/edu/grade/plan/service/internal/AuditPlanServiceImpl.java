@@ -79,7 +79,6 @@ public class AuditPlanServiceImpl extends BaseServiceImpl implements PlanAuditSe
     planAuditResult.setPassed(false);
     planAuditResult.setRemark(null);
     planAuditResult.setUpdatedAt(new Date());
-    planAuditResult.setAuditStat(new AuditStat());
     context.setResult(planAuditResult);
 
     // 获得学生对应的计划
@@ -114,18 +113,7 @@ public class AuditPlanServiceImpl extends BaseServiceImpl implements PlanAuditSe
         }
       }
     }
-    planAuditResult.getAuditStat().setRequiredCredits(requiredCredits);
-
-    // 课程组的门数要求应该根据审核学期的变化而变化，目前门数没有分学期的数据存储，所以凡是部分审核的，那么门数要求为0
-    int requiredCount = 0;
-    if (!context.isPartial()) {
-      for (CourseGroup group : context.getCoursePlan().getGroups()) {
-        if (group.getParent() == null) {
-          requiredCount += group.getCourseCount();
-        }
-      }
-    }
-    planAuditResult.getAuditStat().setRequiredCount(requiredCount);
+    planAuditResult.setRequiredCredits(requiredCredits);
 
     auditGroup(context, courseGroupAdapter, groupResultAdapter);
 
@@ -165,8 +153,7 @@ public class AuditPlanServiceImpl extends BaseServiceImpl implements PlanAuditSe
       for (Iterator<AuditPlanListener> it1 = listeners.iterator(); it1.hasNext(); ) {
         AuditPlanListener listener = it1.next();
         if (!listener.startGroupAudit(context, children, childResult)) {
-          planAuditResult.getAuditStat().reduceRequired(childResult.getAuditStat().getRequiredCredits(),
-              childResult.getAuditStat().getRequiredCount());
+          planAuditResult.reduceRequired(childResult.getAuditStat().getRequiredCredits());
           groupAuditResult.removeChild(childResult);
           planAuditResult.removeGroupResult(childResult);
           continue groupAudit;

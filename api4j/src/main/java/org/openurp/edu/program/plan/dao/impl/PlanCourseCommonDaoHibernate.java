@@ -25,7 +25,6 @@ import org.openurp.edu.program.plan.dao.PlanCommonDao;
 import org.openurp.edu.program.plan.dao.PlanCourseCommonDao;
 import org.openurp.edu.program.plan.dao.PlanCourseGroupCommonDao;
 import org.openurp.edu.program.model.*;
-import org.openurp.edu.program.plan.util.PlanTermCreditTool;
 import org.openurp.edu.program.plan.util.ProgramHibernateClassGetter;
 
 import java.util.List;
@@ -70,11 +69,11 @@ public class PlanCourseCommonDaoHibernate extends HibernateEntityDao implements 
     saveOrUpdate(plan);
   }
 
-  public ExecutionPlanCourse getExecutionPlanCourseByCourse(ExecutionPlan executePlan, Course course) {
+  public ExecutivePlanCourse getExecutivePlanCourseByCourse(ExecutivePlan executePlan, Course course) {
     OqlBuilder query = OqlBuilder.from(ProgramHibernateClassGetter.hibernateClass(executePlan), "plan");
     query.select("planCourse").join("plan.groups", "cgroup").join("cgroup.planCourses", "planCourse")
         .where("planCourse.course=:course", course).where("plan.id = :planId", executePlan.getId());
-    List<? extends ExecutionPlanCourse> courses = search(query);
+    List<? extends ExecutivePlanCourse> courses = search(query);
     if (null == courses || courses.size() == 0) { return null; }
     return courses.get(0);
   }

@@ -22,7 +22,7 @@ import org.beangle.commons.entity.Entity;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.lang.IDEnum;
 import org.openurp.code.edu.model.EducationType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Squad;
 import org.openurp.base.model.Department;
@@ -35,7 +35,7 @@ public enum ClazzRestrictionMeta implements IDEnum {
 
   Grade(1, String.class, "年级"), StdType(2, StdType.class, "学生类别"),
   Gender(3, Gender.class, "性别"), Department(4, Department.class, "院系"),
-  Major(5, Major.class, "专业"), Direction(6, Direction.class, "方向"),
+  Major(5, Major.class, "专业"), Direction(6, MajorDirection.class, "方向"),
   Squad(7, Squad.class, "班级"), Level(8, EducationLevel.class, "培养层次"),
   EduType(9, EducationType.class, "培养类型"), StdLabel(11, StdLabel.class, "学生标签");
 

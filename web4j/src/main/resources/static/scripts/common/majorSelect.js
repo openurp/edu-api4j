@@ -134,12 +134,14 @@
        defaultValues[this.directionSelectId] = jQuery('#' + this.directionSelectId).val();
        dwr.util.removeAllOptions(this.directionSelectId);
        var majorVal = jQuery('#' + this.majorSelectId).val();
+       var levelVal = jQuery('#' + this.levelSelectId).val();
+       var departVal = jQuery('#' + this.departSelectId).val();
        if(this.directionNullable) {
            dwr.util.addOptions(this.directionSelectId,[{'id':'','name':'...'}],'id','name');
        }
        if(majorVal != "") {
            projectMajor3Select = this;
-           projectMajorDwr.directions(majorVal,setDirectionOptions);
+           projectMajorDwr.directions(levelVal,departVal,majorVal,setDirectionOptions);
         }
     }
 
@@ -177,10 +179,12 @@
          if (mySelects[i].directionNullable) {
              dwr.util.addOptions(mySelects[i].directionSelectId, [{'id':'','name':'...'}],'id','name');
          }
+         var levelVal = jQuery('#' +  mySelects[i].levelSelectId).val();
+         var departVal = jQuery('#' +  mySelects[i].departSelectId).val();
          var majorVal = jQuery('#' + mySelects[i].majorSelectId).val();
          if(majorVal != "") {
             projectMajor3Select = mySelects[i];
-            projectMajorDwr.directions(majorVal,setDirectionOptions);       
+            projectMajorDwr.directions(levelVal,departVal,majorVal,setDirectionOptions);
          }
        }
     }

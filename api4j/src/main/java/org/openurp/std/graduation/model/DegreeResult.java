@@ -18,16 +18,16 @@
  */
 package org.openurp.std.graduation.model;
 
-import java.util.List;
+import org.beangle.commons.entity.pojo.LongIdObject;
+import org.openurp.base.std.model.Student;
+import org.openurp.code.edu.model.Degree;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.beangle.commons.collection.CollectUtils;
-import org.beangle.commons.entity.pojo.LongIdObject;
-import org.openurp.code.edu.model.Degree;
-import org.openurp.base.std.model.Student;
 
 @Entity(name = "org.openurp.std.graduation.model.DegreeResult")
 public class DegreeResult extends LongIdObject {
@@ -55,13 +55,6 @@ public class DegreeResult extends LongIdObject {
   private float ga;
 
   /**
-   * 学位审核详细结果
-   */
-  @OneToMany(mappedBy = "result", orphanRemoval = true, targetEntity = DegreeAuditItem.class, cascade = {
-          CascadeType.ALL})
-  private List<DegreeAuditItem> items = CollectUtils.newArrayList();
-
-  /**
    * 是否通过毕业审核
    * 可以为空，空代表还没有审核过
    */
@@ -82,7 +75,7 @@ public class DegreeResult extends LongIdObject {
    * 毕业备注
    */
   @Size(max = 500)
-  @Column(name="degree_comments")
+  @Column(name = "remark")
   private String comments;
 
   /**
@@ -101,19 +94,9 @@ public class DegreeResult extends LongIdObject {
    */
   private java.sql.Date foreignLangPassedOn;
 
-  /**
-   * @return the items
-   */
-  public List<DegreeAuditItem> getItems() {
-    return items;
-  }
+  private String passedItems;
 
-  /**
-   * @param items the items to set
-   */
-  public void setItems(List<DegreeAuditItem> items) {
-    this.items = items;
-  }
+  private String failedItems;
 
   /**
    * @return the passed
@@ -237,5 +220,31 @@ public class DegreeResult extends LongIdObject {
 
   public void setForeignLangPassedOn(java.sql.Date foreignLangPassedOn) {
     this.foreignLangPassedOn = foreignLangPassedOn;
+  }
+
+  public String getPassedItems() {
+    return passedItems;
+  }
+
+  public void setPassedItems(String passedItems) {
+    this.passedItems = passedItems;
+  }
+
+  public String getFailedItems() {
+    return failedItems;
+  }
+
+  public void setFailedItems(String failedItems) {
+    this.failedItems = failedItems;
+  }
+
+  public void add(boolean passed, String item) {
+    if (passed) {
+      if (passedItems == null) passedItems = item;
+      else passedItems += ("," + item);
+    } else {
+      if (failedItems == null) failedItems = item;
+      else failedItems += ("," + item);
+    }
   }
 }

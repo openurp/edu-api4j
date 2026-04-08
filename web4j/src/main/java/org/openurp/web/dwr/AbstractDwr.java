@@ -36,23 +36,26 @@ public abstract class AbstractDwr {
 
   protected void prepareSecurity(HttpServletRequest request, HttpServletResponse response) {
     SecurityContext.set(securityContextBuilder.build(request, response));
-    if (null == ActionContext.getContext()) {
-      ActionContext context = new ActionContext(new HashMap<String, Object>());
-      HttpSession s = request.getSession();
-      if (null != s) {
-        Enumeration<String> names = s.getAttributeNames();
-        Map<String, Object> session = new HashMap<String, Object>();
-        while (names.hasMoreElements()) {
-          String name = names.nextElement();
-          session.put(name, s.getAttribute(name));
-        }
-        context.setSession(session);
-        context.put(StrutsStatics.HTTP_REQUEST, request);
+    ActionContext context = new ActionContext(new HashMap<String, Object>());
+    HttpSession s = request.getSession();
+    if (null != s) {
+      Enumeration<String> names = s.getAttributeNames();
+      Map<String, Object> session = new HashMap<String, Object>();
+      while (names.hasMoreElements()) {
+        String name = names.nextElement();
+        session.put(name, s.getAttribute(name));
       }
-      HttpParameters params = HttpParameters.create().build();
-      context.setParameters(params);
-      ActionContext.setContext(context);
+      context.setSession(session);
     }
+    context.put(StrutsStatics.HTTP_REQUEST, request);
+    HttpParameters params = HttpParameters.create().build();
+    context.setParameters(params);
+    ActionContext.setContext(context);
+  }
+
+  protected void cleanSecurity() {
+    SecurityContext.clear();
+    ActionContext.setContext(null);
   }
 
   public void setSecurityContextBuilder(SecurityContextBuilder securityContextBuilder) {

@@ -60,7 +60,7 @@ public class TranscriptPlanCourse extends BaseServiceImpl implements TranscriptD
     // planCourses.addAll(courseGroup.getPlanCourses());
     // }
     // if(personalPlan == null){
-    CoursePlan coursePlan = coursePlanProvider.getExecutionPlan(std);
+    CoursePlan coursePlan = coursePlanProvider.getExecutivePlan(std);
     if (coursePlan != null) {
       for (CourseGroup courseGroup : coursePlan.getGroups()) {
         planCourses.addAll(courseGroup.getPlanCourses());

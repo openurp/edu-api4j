@@ -19,6 +19,7 @@
 package org.openurp.edu.grade.plan.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -33,6 +34,7 @@ import javax.validation.constraints.Size;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.entity.pojo.NumberIdTimeObject;
 import org.hibernate.annotations.NaturalId;
+import org.openurp.base.edu.model.Course;
 import org.openurp.code.edu.model.CourseType;
 import org.openurp.base.std.model.Student;
 
@@ -50,9 +52,17 @@ public class AuditPlanResult extends NumberIdTimeObject<Long> {
   @ManyToOne(fetch = FetchType.LAZY)
   private Student std;
 
-  /** 学分审核结果 */
-  @Embedded
-  private AuditStat auditStat = new AuditStat();
+  /**
+   * 要求学分
+   */
+  private float requiredCredits;
+
+  /**
+   * 总的通过学分
+   */
+  private float passedCredits;
+
+  private transient Set<Course> passedCourses = CollectUtils.newHashSet();
 
   /** 各课程组审核结果 */
   @OneToMany(mappedBy = "planResult", orphanRemoval = true, cascade = { CascadeType.ALL })
@@ -100,14 +110,6 @@ public class AuditPlanResult extends NumberIdTimeObject<Long> {
 
   public void setGroupResults(List<AuditGroupResult> groupAuditResults) {
     this.groupResults = groupAuditResults;
-  }
-
-  public AuditStat getAuditStat() {
-    return auditStat;
-  }
-
-  public void setAuditStat(AuditStat auditStat) {
-    this.auditStat = auditStat;
   }
 
   public void addGroupResult(AuditGroupResult rs) {
@@ -191,4 +193,37 @@ public class AuditPlanResult extends NumberIdTimeObject<Long> {
     this.archived = archived;
   }
 
+  public float getRequiredCredits() {
+    return requiredCredits;
+  }
+
+  public void setRequiredCredits(float requiredCredits) {
+    this.requiredCredits = requiredCredits;
+  }
+
+  public float getPassedCredits() {
+    return passedCredits;
+  }
+
+  public void setPassedCredits(float passedCredits) {
+    this.passedCredits = passedCredits;
+  }
+
+  public Set<Course> getPassedCourses() {
+    return passedCourses;
+  }
+
+  public void setPassedCourses(Set<Course> passedCourses) {
+    this.passedCourses = passedCourses;
+  }
+  public void addCredits(float credits) {
+    this.passedCredits += credits;
+  }
+  /**
+   * 减去要求学分和门数
+   */
+  public void reduceRequired(float credits) {
+    this.requiredCredits -= credits;
+    this.requiredCredits = this.requiredCredits < 0 ? 0 : this.requiredCredits;
+  }
 }

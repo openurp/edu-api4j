@@ -24,7 +24,7 @@ import org.beangle.commons.entity.pojo.LongIdObject;
 import org.openurp.base.model.User;
 import org.openurp.base.edu.model.Course;
 import org.openurp.base.edu.model.Semester;
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 
 /**
  * 开课,不开课申请
@@ -43,7 +43,7 @@ public class PlanTask extends LongIdObject {
 
   private Semester semester;
 
-  private ExecutionPlan teachPlan;
+  private ExecutivePlan teachPlan;
 
   private Course course;
 
@@ -112,11 +112,11 @@ public class PlanTask extends LongIdObject {
     this.flag = flag;
   }
 
-  public ExecutionPlan getExecutionPlan() {
+  public ExecutivePlan getExecutivePlan() {
     return teachPlan;
   }
 
-  public void setExecutionPlan(ExecutionPlan teachPlan) {
+  public void setExecutivePlan(ExecutivePlan teachPlan) {
     this.teachPlan = teachPlan;
   }
 

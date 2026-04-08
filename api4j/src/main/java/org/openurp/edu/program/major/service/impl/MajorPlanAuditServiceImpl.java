@@ -35,33 +35,25 @@ public class MajorPlanAuditServiceImpl extends BaseServiceImpl implements MajorP
     for (MajorPlan plan : plans) {
       if (canTransferTo(plan.getProgram().getStatus(), status)) {
         plan.getProgram().setStatus(status);
-        plan.setStatus(status);
         entityDao.saveOrUpdate(plan.getProgram(), plan);
         Program program = plan.getProgram();
-        OqlBuilder<ExecutionPlan> q = OqlBuilder.from(ExecutionPlan.class, "ep");
+        OqlBuilder<ExecutivePlan> q = OqlBuilder.from(ExecutivePlan.class, "ep");
         q.where("ep.program=:program", program);
-        List<ExecutionPlan> eps = entityDao.search(q);
-        for (ExecutionPlan ep : eps) {
-          ep.setStatus(status);
-        }
-        entityDao.saveOrUpdate(eps);
+        List<ExecutivePlan> eps = entityDao.search(q);
 
         if (status.equals(AuditStatus.ACCEPTED)) {
           if (eps.isEmpty()) {
-            ExecutionPlan ep = new ExecutionPlan();
+            ExecutivePlan ep = new ExecutivePlan();
             ep.setProgram(program);
-            ep.setStatus(AuditStatus.ACCEPTED);
             ep.setUpdatedAt(new java.util.Date());
-            ep.setBeginOn(plan.getBeginOn());
-            ep.setEndOn(plan.getEndOn());
-            ep.setStartTerm(plan.getStartTerm());
-            ep.setEndTerm(plan.getEndTerm());
             ep.setDepartment(program.getDepartment());
             ep.setCredits(plan.getCredits());
+            ep.setHourRatios(plan.getHourRatios());
+            ep.setCreditHours(plan.getCreditHours());
             entityDao.saveOrUpdate(ep);
             for (CourseGroup cg : plan.getGroups()) {
               if (cg.getParent() == null) {
-                planCourseGroupCommonDao.copyCourseGroup(cg, null, ep, ExecutionCourseGroup.class, ExecutionPlanCourse.class);
+                planCourseGroupCommonDao.copyCourseGroup(cg, null, ep, ExecutiveCourseGroup.class, ExecutivePlanCourse.class);
               }
             }
           }
@@ -75,7 +67,6 @@ public class MajorPlanAuditServiceImpl extends BaseServiceImpl implements MajorP
       if (canTransferTo(plan.getProgram().getStatus(), AuditStatus.REJECTED)) {
         if (plan.getProgram().getStatus() == AuditStatus.ACCEPTED) {
           plan.getProgram().setStatus(AuditStatus.REJECTED);
-          plan.setStatus(AuditStatus.REJECTED);
           entityDao.saveOrUpdate(plan);
         }
       }
@@ -86,7 +77,6 @@ public class MajorPlanAuditServiceImpl extends BaseServiceImpl implements MajorP
     for (MajorPlan plan : plans) {
       if (canTransferTo(plan.getProgram().getStatus(), AuditStatus.SUBMITTED)) {
         plan.getProgram().setStatus(AuditStatus.SUBMITTED);
-        plan.setStatus(AuditStatus.SUBMITTED);
       }
     }
     entityDao.saveOrUpdate(plans);

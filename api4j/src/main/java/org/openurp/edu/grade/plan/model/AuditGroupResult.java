@@ -219,7 +219,6 @@ public class AuditGroupResult extends LongIdObject {
    * 级联添加已经通过的课程，直到计划
    *
    * @param groupResult
-   * @param auditStat
    * @param course
    */
   private void addPassedCourse(AuditGroupResult groupResult, Course course) {
@@ -231,16 +230,14 @@ public class AuditGroupResult extends LongIdObject {
     if (!auditStat.getPassedCourses().contains(course)) {
       auditStat.getPassedCourses().add(course);
       auditStat.addCredits(course.getCredits(std.getLevel()));
-      auditStat.addNum(1);
     }
     // 递归调用上级组，或者更新整个计划
     if (null != groupResult.getParent()) addPassedCourse(groupResult.getParent(), course);
     else {
-      AuditStat planAuditStat = groupResult.getPlanResult().getAuditStat();
-      if (!planAuditStat.getPassedCourses().contains(course)) {
-        planAuditStat.getPassedCourses().add(course);
-        planAuditStat.addCredits(course.getCredits(std.getLevel()));
-        planAuditStat.addNum(1);
+      var planResult = groupResult.getPlanResult();
+      if (!planResult.getPassedCourses().contains(course)) {
+        planResult.getPassedCourses().add(course);
+        planResult.addCredits(course.getCredits(std.getLevel()));
       }
     }
   }

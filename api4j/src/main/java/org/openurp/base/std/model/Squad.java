@@ -21,7 +21,7 @@ package org.openurp.base.std.model;
 import org.beangle.commons.collection.CollectUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.EduLevelBasedObject;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.model.Campus;
@@ -96,7 +96,7 @@ public class Squad extends EduLevelBasedObject<Long> {
    * 方向
    */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
   /**
    * 学生类别
    */
@@ -207,11 +207,11 @@ public class Squad extends EduLevelBasedObject<Long> {
     this.major = major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 

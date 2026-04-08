@@ -55,7 +55,7 @@
   [/#if]
 
   <script src='${base}/dwr/interface/projectMajorDwr.js'></script>
-  <script src='${base}/static/scripts/common/majorSelect.js?v=20230702'></script>
+  <script src='${base}/static/scripts/common/majorSelect.js?v=20240602'></script>
   <script type="text/javascript">
     var projectArray = new Array();
     projectArray[0]={'id':"${thisProject.id}",'name':''};

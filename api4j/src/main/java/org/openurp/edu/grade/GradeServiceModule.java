@@ -52,7 +52,7 @@ public class GradeServiceModule extends AbstractBindModule {
     bind("courseGradeProvider", CourseGradeProviderImpl.class);
     bind("courseGradeCalculator", DefaultCourseGradeCalculator.class);
     bind("gpaService", DefaultGpaService.class);
-    bind("bestGpaStatService", BestGpaStatService.class);
+    bind("defaultGpaStatService", DefaultGpaStatService.class);
     bind("gradeCourseTypeProvider", GradeCourseTypeProviderImpl.class);
 
     bind("makeupStdStrategy", MakeupByExamStrategy.class);

@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
- *
- */
 package org.openurp.web.dwr;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +23,14 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.security.core.userdetail.Profile;
-import org.openurp.base.model.Department;
-import org.openurp.code.edu.model.EducationLevel;
-import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
-import org.openurp.base.std.model.Squad;
+import org.openurp.base.model.Department;
 import org.openurp.base.service.ProjectContext;
+import org.openurp.base.std.model.Squad;
+import org.openurp.code.edu.model.EducationLevel;
+import org.openurp.code.std.model.StdType;
 
 import java.util.Collections;
 import java.util.Date;
@@ -52,31 +49,37 @@ public class ProjectMajorDwr extends AbstractDwr {
   }
 
   public List[] levelAndDeparts(HttpServletRequest request, Integer projectId, String resourceName) {
-    prepareSecurity(request, null);
-    Project project = entityDao.get(Project.class, projectId);
-    Profile profile = null;
-    if (!projectContext.getProfiles().isEmpty()) {
-      profile = projectContext.getCurrentProfile();
-    }
-    List<Object[]> departInfos = CollectUtils.newArrayList();
-    java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
-    for (Department depart : (null == profile) ? project.getDepartments() : projectContext.getDeparts()) {
-      if (depart.getEndOn() == null || depart.getEndOn().after(now)) {
-        departInfos.add(new Object[]{depart.getId(), depart.getName()});
+    try {
+      prepareSecurity(request, null);
+      Project project = entityDao.get(Project.class, projectId);
+      Profile profile = null;
+      if (!projectContext.getProfiles().isEmpty()) {
+        profile = projectContext.getCurrentProfile();
       }
-    }
+      List<Object[]> departInfos = CollectUtils.newArrayList();
+      java.sql.Date now = new java.sql.Date(System.currentTimeMillis());
+      for (Department depart : (null == profile) ? project.getDepartments() : projectContext.getDeparts()) {
+        if (depart.getEndOn() == null || depart.getEndOn().after(now)) {
+          departInfos.add(new Object[]{depart.getId(), depart.getName()});
+        }
+      }
 
-    List<Object[]> levelInfos = CollectUtils.newArrayList();
-    for (EducationLevel level : (null == profile) ? project.getLevels()
-        : projectContext.getEducationLevels()) {
-      levelInfos.add(new Object[]{level.getId(), level.getName()});
-    }
+      List<Object[]> levelInfos = CollectUtils.newArrayList();
+      for (EducationLevel level : (null == profile) ? project.getLevels()
+          : projectContext.getEducationLevels()) {
+        levelInfos.add(new Object[]{level.getId(), level.getName()});
+      }
 
-    List<Object[]> stdTypeInfos = CollectUtils.newArrayList();
-    for (StdType stdType : (null == profile) ? project.getStdTypes() : projectContext.getStdTypes()) {
-      stdTypeInfos.add(new Object[]{stdType.getId(), stdType.getName()});
+      List<Object[]> stdTypeInfos = CollectUtils.newArrayList();
+      for (StdType stdType : (null == profile) ? project.getStdTypes() : projectContext.getStdTypes()) {
+        stdTypeInfos.add(new Object[]{stdType.getId(), stdType.getName()});
+      }
+      cleanSecurity();
+      return new List[]{levelInfos, departInfos, stdTypeInfos};
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new List[]{Collections.emptyList(), Collections.emptyList(), Collections.emptyList(),};
     }
-    return new List[]{levelInfos, departInfos, stdTypeInfos};
   }
 
   public List majors(Integer projectId, Integer levelId, Integer departId) {
@@ -101,14 +104,20 @@ public class ProjectMajorDwr extends AbstractDwr {
   }
 
   // FIXME 没有把院系的条件加入进来
-  public List<Object[]> directions(Long majorId) {
+  public List<Object[]> directions(Integer levelId, Integer departId, Long majorId) {
     if (null == majorId) {
       return Collections.emptyList();
     }
     Date now = new Date();
-    OqlBuilder query = OqlBuilder.from(Direction.class, "s");
+    OqlBuilder query = OqlBuilder.from(MajorDirection.class, "s");
     query.select("str(s.id),s.code, s.name, s.enName").where("s.beginOn<=:now", now)
         .where("(s.endOn is null or s.endOn >= :now)", now).where("s.major.id = :majorId", majorId);
+    if (null != levelId) {
+      query.where("exists(from s.journals as j where j.level.id=:levelId)", levelId);
+    }
+    if (null != departId) {
+      query.where("exists(from s.journals as j where j.depart.id=:departId)", departId);
+    }
     query.orderBy("s.name");
     return entityDao.search(query);
   }

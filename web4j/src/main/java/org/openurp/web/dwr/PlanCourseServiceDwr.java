@@ -18,32 +18,28 @@
  */
 package org.openurp.web.dwr;
 
-import java.util.Map;
-
 import org.beangle.commons.dao.EntityDao;
-import org.beangle.orm.hibernate.udt.WeekStates;
+import org.openurp.base.edu.model.Course;
 import org.openurp.base.time.NumberRangeDigestor;
-import org.openurp.edu.program.model.ExecutionPlanCourse;
+import org.openurp.edu.program.model.ExecutivePlanCourse;
 import org.openurp.edu.program.model.MajorPlanCourse;
-import org.openurp.edu.program.model.StdPlanCourse;
+import org.openurp.edu.program.model.Program;
+
+import java.util.Map;
 
 public class PlanCourseServiceDwr {
 
   private EntityDao entityDao;
 
-  public StdPlanCourse getPersonalPlanCourse(Long id) {
-    return entityDao.get(StdPlanCourse.class, id);
-  }
-
-  public Map<String, Object> getExecutionPlanCourse(Long id) {
-    ExecutionPlanCourse pc = entityDao.get(ExecutionPlanCourse.class, id);
+  public Map<String, Object> getExecutivePlanCourse(Long id) {
+    ExecutivePlanCourse pc = entityDao.get(ExecutivePlanCourse.class, id);
     Map<String, Object> datas = new java.util.HashMap<String, Object>();
     datas.put("id", pc.getId().toString());
-    datas.put("course", pc.getCourse());
-    datas.put("department", pc.getDepartment());
+    datas.put("course", convertCourse(pc.getCourse(), pc.getGroup().getPlan().getProgram()));
     datas.put("terms", pc.getTerms().toString());
     if (pc.getWeekstate() != null) datas.put("weekstate", NumberRangeDigestor.digest(pc.getWeekstate()));
     datas.put("compulsory", pc.isCompulsory());
+    datas.put("remark", pc.getRemark());
     return datas;
   }
 
@@ -51,13 +47,27 @@ public class PlanCourseServiceDwr {
     MajorPlanCourse pc = entityDao.get(MajorPlanCourse.class, id);
     Map<String, Object> datas = new java.util.HashMap<String, Object>();
     datas.put("id", pc.getId().toString());
-    datas.put("course", pc.getCourse());
-    datas.put("department", pc.getDepartment());
+    datas.put("course", convertCourse(pc.getCourse(), pc.getGroup().getPlan().getProgram()));
     datas.put("terms", pc.getTerms().toString());
     if (pc.getWeekstate() != null) datas.put("weekstate", NumberRangeDigestor.digest(pc.getWeekstate()));
     datas.put("compulsory", pc.isCompulsory());
+    datas.put("remark", pc.getRemark());
     return datas;
   }
+
+  private Map<String, Object> convertCourse(Course c, Program p) {
+    Map<String, Object> course = new java.util.HashMap<String, Object>();
+    course.put("id", c.getId());
+    course.put("name", c.getName());
+    course.put("defaultCredits", c.getCredits(p.getLevel()));
+    course.put("creditHours", c.getCreditHours());
+    course.put("weekHours", c.getWeekHours());
+    if (c.getWeeks() != null) {
+      course.put("weeks", c.getWeeks());
+    }
+    return course;
+  }
+
   public void setEntityDao(EntityDao entityDao) {
     this.entityDao = entityDao;
   }

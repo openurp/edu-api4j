@@ -94,18 +94,6 @@ public interface CoursePlan extends Entity<Long>, Cloneable {
    */
   public Date getEndOn();
 
-  /**
-   * 这个计划的学期数
-   */
-  int getTermsCount();
-
-  void setStartTerm(int startTerm);
-
-  void setEndTerm(int endTerm);
-
-  int getStartTerm();
-
-  int getEndTerm();
 
   Program getProgram();
 }

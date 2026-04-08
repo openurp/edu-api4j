@@ -53,7 +53,7 @@ public class GroupResultAdapter extends AuditGroupResult {
   }
 
   public AuditStat getAuditStat() {
-    return result.getAuditStat();
+    return new PlanAuditStat(result);
   }
 
   public void attachTo(AuditPlanResult planResult) {
@@ -111,7 +111,8 @@ public class GroupResultAdapter extends AuditGroupResult {
   }
 
   public void setAuditStat(AuditStat auditStat) {
-    result.setAuditStat(auditStat);
+    result.setRequiredCredits(auditStat.getRequiredCredits());
+    result.setPassedCredits(auditStat.getPassedCredits());
   }
 
   @Override

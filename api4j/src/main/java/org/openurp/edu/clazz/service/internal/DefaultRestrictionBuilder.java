@@ -20,13 +20,13 @@ package org.openurp.edu.clazz.service.internal;
 
 import org.beangle.commons.entity.Entity;
 import org.beangle.commons.lang.Strings;
-import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
 import org.openurp.base.edu.model.Major;
-import org.openurp.base.std.model.Squad;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.model.Department;
+import org.openurp.base.std.model.Squad;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.person.model.Gender;
+import org.openurp.code.std.model.StdType;
 import org.openurp.edu.clazz.model.ClazzRestriction;
 import org.openurp.edu.clazz.model.ClazzRestrictionItem;
 import org.openurp.edu.clazz.model.ClazzRestrictionMeta;
@@ -168,7 +168,7 @@ public class DefaultRestrictionBuilder implements RestrictionBuilder {
       item = getOrCreateItem(ClazzRestrictionMeta.Department);
     } else if (first instanceof Major) {
       item = getOrCreateItem(ClazzRestrictionMeta.Major);
-    } else if (first instanceof Direction) {
+    } else if (first instanceof MajorDirection) {
       item = getOrCreateItem(ClazzRestrictionMeta.Direction);
     } else if (first instanceof Squad) {
       item = getOrCreateItem(ClazzRestrictionMeta.Squad);

@@ -71,7 +71,7 @@ public interface PlanCommonDao {
    * @param term [1..maxTerm]
    * @return
    */
-  public Float getCreditByTerm(ExecutionPlan plan, int term);
+  public Float getCreditByTerm(ExecutivePlan plan, int term);
 
   public boolean hasCourse(CourseGroup cgroup, Course course, PlanCourse planCourse);
 }

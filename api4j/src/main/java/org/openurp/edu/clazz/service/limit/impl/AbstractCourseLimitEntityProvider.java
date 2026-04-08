@@ -25,8 +25,8 @@ import org.beangle.commons.entity.Entity;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.commons.lang.Arrays;
 import org.beangle.commons.lang.tuple.Pair;
-import org.openurp.edu.clazz.model.ClazzRestrictionMeta;
 import org.openurp.base.service.ProjectContext;
+import org.openurp.edu.clazz.model.ClazzRestrictionMeta;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +34,7 @@ import java.util.Map;
 
 public abstract class AbstractCourseLimitEntityProvider<T extends Entity<?>> extends AbstractCourseLimitContentProvider<T> {
   protected ProjectContext projectContext;
+
   @Override
   protected Map<String, T> getContentMap(Object[] content) {
     List<T> entities = entityDao.get(getMeta().getContentType().getName(), "id", content);
@@ -114,7 +115,12 @@ public abstract class AbstractCourseLimitEntityProvider<T extends Entity<?>> ext
 
   public Pair<String, String> getContentIdTitle(T entity) {
     try {
-      String name = PropertyUtils.getProperty(entity, "name");
+      String name = null;
+      try {
+        name = PropertyUtils.getProperty(entity, "shortName");
+      } catch (Exception e) {
+      }
+      if (null == name) name = PropertyUtils.getProperty(entity, "name");
       return new Pair<>(entity.getId().toString(), name);
     } catch (Exception e) {
       throw new RuntimeException(e);

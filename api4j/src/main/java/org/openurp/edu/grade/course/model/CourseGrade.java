@@ -18,9 +18,20 @@
  */
 package org.openurp.edu.grade.course.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import org.beangle.commons.collection.CollectUtils;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.NaturalId;
+import org.openurp.base.edu.model.Course;
+import org.openurp.base.edu.model.CourseJournal;
+import org.openurp.code.edu.model.CourseTakeType;
+import org.openurp.code.edu.model.CourseType;
+import org.openurp.code.edu.model.ExamMode;
+import org.openurp.code.edu.model.GradeType;
+import org.openurp.edu.clazz.model.Clazz;
+import org.openurp.edu.clazz.model.CourseTaker;
+import org.openurp.edu.grade.AbstractGrade;
+import org.openurp.edu.grade.Grade;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,20 +39,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.beangle.commons.collection.CollectUtils;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.NaturalId;
-import org.openurp.code.edu.model.CourseTakeType;
-import org.openurp.code.edu.model.ExamMode;
-import org.openurp.code.edu.model.GradeType;
-import org.openurp.code.edu.model.CourseType;
-import org.openurp.base.edu.model.Course;
-import org.openurp.edu.clazz.model.Clazz;
-import org.openurp.edu.clazz.model.CourseTaker;
-import org.openurp.edu.grade.AbstractGrade;
-import org.openurp.edu.grade.Grade;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 课程成绩实现
@@ -60,7 +60,9 @@ public class CourseGrade extends AbstractGrade {
    */
   private String crn;
 
-  /** 教学任务 */
+  /**
+   * 教学任务
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   private Clazz clazz;
 
@@ -87,14 +89,20 @@ public class CourseGrade extends AbstractGrade {
 
   private transient Map<GradeType, Grade> gradeMap;
 
-  /** 考核方式 */
+  /**
+   * 考核方式
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   private ExamMode examMode;
 
-  /** 是否免听 */
+  /**
+   * 是否免听
+   */
   private boolean freeListening;
 
-  /** 备注 */
+  /**
+   * 备注
+   */
   @Size(max = 255)
   private String remark;
 
@@ -310,4 +318,7 @@ public class CourseGrade extends AbstractGrade {
     this.createdAt = createdAt;
   }
 
+  public CourseJournal getCourseJournal() {
+    return course.getJournal(this.semester);
+  }
 }

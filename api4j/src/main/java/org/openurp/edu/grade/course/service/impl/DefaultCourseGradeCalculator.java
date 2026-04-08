@@ -21,6 +21,7 @@ package org.openurp.edu.grade.course.service.impl;
 import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.entity.metadata.Model;
 import org.beangle.security.Securities;
+import org.openurp.base.edu.model.Project;
 import org.openurp.base.service.ProjectPropertyService;
 import org.openurp.base.std.model.Student;
 import org.openurp.code.edu.model.CourseTakeType;
@@ -160,7 +161,7 @@ public class DefaultCourseGradeCalculator implements CourseGradeCalculator {
           || examGrade.getExamStatus().getId().equals(ExamStatus.NORMAL)))
         continue;
       Float score = examGrade.getScore();
-      if (examGrade.getScorePercent() != null) myPercent = examGrade.getScorePercent();
+      if (examGrade.getWeight() != null) myPercent = examGrade.getWeight();
       totalPercent += myPercent;
 
       if (null != score) {
@@ -223,10 +224,10 @@ public class DefaultCourseGradeCalculator implements CourseGradeCalculator {
   }
 
   private Short getPercent(ExamGrade eg, CourseGrade cg, CourseGradeState cgs) {
-    if (null != eg.getScorePercent()) return eg.getScorePercent();
+    if (null != eg.getWeight()) return eg.getWeight();
     if (eg.getGradeType().equals(Delay)) {
       ExamGrade end = cg.getExamGrade(End);
-      if (null != end && null != end.getScorePercent()) return end.getScorePercent();
+      if (null != end && null != end.getWeight()) return end.getWeight();
       else return null == cgs ? null : cgs.getPercent(End);
     } else {
       return null == cgs ? null : cgs.getPercent(eg.getGradeType());
@@ -448,26 +449,31 @@ public class DefaultCourseGradeCalculator implements CourseGradeCalculator {
 
   private final Float addDelta(GaGrade gaGrade, Float score, CourseGradeState state) {
     if (null == score) return null;
+    Project project = gaGrade.getCourseGrade().getProject();
     Float delta = getDelta(gaGrade, score, state);
     if (null != delta) {
-      Float ga = new Float(reserve(delta + score, state));
+      Float ga = new Float(reserve(project, delta + score, state));
       gaGrade.setScore(ga);
       return ga;
     } else {
-      Float ga = reserve(score, state);
+      Float ga = reserve(project, score, state);
       gaGrade.setScore(ga);
       return ga;
     }
   }
 
-  protected Float reserve(Float score, CourseGradeState state) {
+  private int getDefaultScorePrecision(Project project) {
+    return Integer.parseInt(projectPropertyService.get(project, "edu.grade.score_precision", "0"));
+  }
+
+  protected Float reserve(Project project, Float score, CourseGradeState state) {
     if (null == score) return score;
-    int precision = (null == state) ? 0 : state.getScorePrecision();
+    int precision = (null == state) ? getDefaultScorePrecision(project) : state.getScorePrecision();
     return numPrecisionReserveMethod.reserve(score, precision);
   }
 
-  protected double reserve(double score, CourseGradeState state) {
-    int precision = (null == state) ? 0 : state.getScorePrecision();
+  protected double reserve(Project project, double score, CourseGradeState state) {
+    int precision = (null == state) ? getDefaultScorePrecision(project) : state.getScorePrecision();
     return numPrecisionReserveMethod.reserve(score, precision);
   }
 

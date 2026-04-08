@@ -116,7 +116,7 @@ public interface PlanCourseGroupCommonDao {
    * @param terms
    * @return
    */
-  List<Course> extractCourseInCourseGroup(ExecutionCourseGroup group, String terms);
+  List<Course> extractCourseInCourseGroup(ExecutiveCourseGroup group, String terms);
 
   /**
    * 获得一个课程组内，属于terms学期的计划课程
@@ -125,7 +125,7 @@ public interface PlanCourseGroupCommonDao {
    * @param terms
    * @return
    */
-  List<ExecutionPlanCourse> extractPlanCourseInCourseGroup(ExecutionCourseGroup group, Set<String> terms);
+  List<ExecutivePlanCourse> extractPlanCourseInCourseGroup(ExecutiveCourseGroup group, Set<String> terms);
 
   /**
    * 统计从当前课程组往下（包括当前课程组）所有层级的学分要求<br>

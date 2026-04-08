@@ -21,12 +21,12 @@ package org.openurp.base.edu.model;
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.entity.pojo.NumberIdObject;
 import org.beangle.commons.lang.Objects;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.*;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
@@ -56,12 +56,9 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
   @Size(max = 32)
   private String code;
 
-  /**
-   * 学年度,格式2005-2006
-   */
   @NotNull
-  @Size(max = 50)
-  private String schoolYear;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private SchoolYear year;
 
   /**
    * 学期名称
@@ -103,9 +100,6 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
   @Cascade({CascadeType.ALL})
   private List<SemesterStage> stages;
 
-  @NotNull
-  private boolean archived;
-
   public String getRemark() {
     return remark;
   }
@@ -122,9 +116,9 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
     this.id = id;
   }
 
-  public Semester(String schoolYear, String name, Date beginOn, Date endOn) {
+  public Semester(SchoolYear year, String name, Date beginOn, Date endOn) {
     super();
-    this.schoolYear = schoolYear;
+    this.year = year;
     this.name = name;
     this.beginOn = beginOn;
     this.endOn = endOn;
@@ -155,14 +149,6 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
   public boolean contains(java.util.Date date) {
     if (date.before(getBeginOn()) || date.after(getEndOn())) return false;
     else return true;
-  }
-
-  public String getSchoolYear() {
-    return schoolYear;
-  }
-
-  public void setSchoolYear(String schoolYear) {
-    this.schoolYear = schoolYear;
   }
 
   public String getName() {
@@ -283,7 +269,7 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return Objects.toStringBuilder(this).add("schoolYear", this.schoolYear).add("name", this.name)
+    return Objects.toStringBuilder(this).add("year", this.year.getName()).add("name", this.name)
         .add("beginOn", this.getBeginOn()).add("endOn", this.getEndOn()).toString();
   }
 
@@ -293,8 +279,7 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
    * @see java.lang.Comparable#compareTo(Object)
    */
   public int compareTo(Semester other) {
-    return Objects.compareBuilder().add(this.schoolYear, other.getSchoolYear())
-        .add(this.beginOn, other.getBeginOn()).toComparison();
+    return Objects.compareBuilder().add(this.beginOn, other.getBeginOn()).toComparison();
   }
 
   public List<SemesterStage> getStages() {
@@ -305,11 +290,15 @@ public class Semester extends NumberIdObject<Integer> implements Comparable<Seme
     this.stages = stages;
   }
 
-  public boolean isArchived() {
-    return archived;
+  public String getSchoolYear() {
+    return year.getName();
   }
 
-  public void setArchived(boolean archived) {
-    this.archived = archived;
+  public SchoolYear getYear() {
+    return year;
+  }
+
+  public void setYear(SchoolYear year) {
+    this.year = year;
   }
 }

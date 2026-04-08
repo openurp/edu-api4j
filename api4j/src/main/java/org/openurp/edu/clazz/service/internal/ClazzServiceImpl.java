@@ -126,7 +126,7 @@ public class ClazzServiceImpl extends BaseServiceImpl implements ClazzService {
     if (CollectUtils.isNotEmpty(projects) && CollectUtils.isNotEmpty(departments)) {
       OqlBuilder<Department> query = OqlBuilder.from(Department.class, "department");
       query.where(
-          "exists (from org.openurp.edu.program.model.ExecutionPlan plan"
+          "exists (from org.openurp.edu.program.model.ExecutivePlan plan"
               + " where plan.program.department=department and plan.program.major.project in (:projects)"
               + " and plan.program.department in (:departs)"
               + " and current_date() >= plan.program.beginOn and (plan.program.endOn is null or current_date() <= plan.program.endOn))",

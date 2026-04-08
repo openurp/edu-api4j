@@ -29,7 +29,7 @@ import org.beangle.commons.lang.Strings;
 import org.openurp.base.time.Terms;
 import org.openurp.edu.program.model.CourseGroup;
 import org.openurp.edu.program.model.CoursePlan;
-import org.openurp.edu.program.model.ExecutionCourseGroup;
+import org.openurp.edu.program.model.ExecutiveCourseGroup;
 import org.openurp.edu.program.model.PlanCourse;
 
 /**
@@ -158,7 +158,7 @@ public class PlanTermCreditTool {
   public static void updateTermsCount(CoursePlan plan, Integer oldTermsCount, Integer newTermsCount,
       EntityDao entityDao) {
     for (Iterator<CourseGroup> it = plan.getGroups().iterator(); it.hasNext();) {
-      ExecutionCourseGroup group = (ExecutionCourseGroup) it.next();
+      ExecutiveCourseGroup group = (ExecutiveCourseGroup) it.next();
 
       String newCreditPerTerms = PlanTermCreditTool.buildCourseGroupTermCredits(
           transformToFloat(group.getTermCredits()), oldTermsCount, newTermsCount);

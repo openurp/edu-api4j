@@ -19,11 +19,11 @@
 package org.openurp.edu.program.model;
 
 import org.beangle.commons.entity.pojo.LongIdObject;
-import org.hibernate.annotations.Type;
 import org.openurp.code.edu.model.CourseType;
-import org.openurp.base.model.AuditStatus;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -46,57 +46,20 @@ public abstract class AbstractCoursePlan extends LongIdObject implements CourseP
   @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
   protected Program program;
   /**
-   * 审核状态
-   */
-  @NotNull
-  @Type(type = "org.beangle.orm.hibernate.udt.IDEnumType")
-  private AuditStatus status = AuditStatus.UNSUBMITTED;
-
-  /**
    * 要求学分
    */
   @NotNull
   private float credits;
-
   /**
-   * 起始学期
+   * 课时
    */
-  private int startTerm;
-
+  private int creditHours;
   /**
-   * 结束学期
+   * 课时比例
    */
-  private int endTerm;
-
-  /** 开始日期 */
-  @NotNull
-  private java.sql.Date beginOn;
-
-  /** 结束日期 结束日期包括在有效期内 */
-  @NotNull
-  private java.sql.Date endOn;
+  private String hourRatios;
 
   private java.util.Date updatedAt;
-
-  public int getStartTerm() {
-    return startTerm;
-  }
-
-  public void setStartTerm(int startTerm) {
-    this.startTerm = startTerm;
-  }
-
-  public int getEndTerm() {
-    return endTerm;
-  }
-
-  public void setEndTerm(int endTerm) {
-    this.endTerm = endTerm;
-  }
-
-  public int getTermsCount() {
-    return endTerm - startTerm + 1;
-  }
 
   public float getCredits() {
     return credits;
@@ -104,6 +67,18 @@ public abstract class AbstractCoursePlan extends LongIdObject implements CourseP
 
   public void setCredits(float credits) {
     this.credits = credits;
+  }
+
+  public int getEndTerm() {
+    return program.getEndTerm();
+  }
+
+  public int getStartTerm() {
+    return program.getStartTerm();
+  }
+
+  public int getTermsCount() {
+    return getEndTerm() - getStartTerm() + 1;
   }
 
   public void addGroup(CourseGroup group) {
@@ -145,30 +120,14 @@ public abstract class AbstractCoursePlan extends LongIdObject implements CourseP
     this.program = program;
   }
 
-  public AuditStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(AuditStatus status) {
-    this.status = status;
-  }
-
   @Override
   public Date getBeginOn() {
-    return beginOn;
-  }
-
-  public void setBeginOn(Date beginOn) {
-    this.beginOn = beginOn;
+    return program.getBeginOn();
   }
 
   @Override
   public Date getEndOn() {
-    return endOn;
-  }
-
-  public void setEndOn(Date endOn) {
-    this.endOn = endOn;
+    return program.getEndOn();
   }
 
   public java.util.Date getUpdatedAt() {
@@ -177,5 +136,21 @@ public abstract class AbstractCoursePlan extends LongIdObject implements CourseP
 
   public void setUpdatedAt(java.util.Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public int getCreditHours() {
+    return creditHours;
+  }
+
+  public void setCreditHours(int creditHours) {
+    this.creditHours = creditHours;
+  }
+
+  public String getHourRatios() {
+    return hourRatios;
+  }
+
+  public void setHourRatios(String hourRatios) {
+    this.hourRatios = hourRatios;
   }
 }

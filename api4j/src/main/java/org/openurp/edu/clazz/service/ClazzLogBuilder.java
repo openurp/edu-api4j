@@ -52,7 +52,7 @@ public class ClazzLogBuilder {
     }
     empty.put(LESSON_ID, String.valueOf(clazz.getId()));
     empty.put(LESSON_PROJECT, String.valueOf(clazz.getProject().getName()));
-    empty.put(LESSON_SEMESTER, clazz.getSemester().getSchoolYear() + "-" + clazz.getSemester().getName());
+    empty.put(LESSON_SEMESTER, clazz.getSemester().getId().toString());
     empty.put(LESSON_NO, clazz.getCrn());
     empty.put(COURSE_CODE, clazz.getCourse().getCode());
     empty.put(COURSE_NAME, clazz.getCourse().getName());

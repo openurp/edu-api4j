@@ -7,7 +7,6 @@ Student.beginOn=Regist On
 Student.endOn=End On
 Student.graduateOn=Graduate On
 Student.studyType=Study Type
-Student.tutor=Tutor
 Student.remark=Remark
 
 StudentState=Student Journal

@@ -28,7 +28,7 @@ import org.openurp.base.model.Department;
 import org.openurp.code.edu.model.EducationLevel;
 import org.openurp.code.person.model.Gender;
 import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Squad;
 import org.openurp.edu.clazz.model.Clazz;
@@ -88,10 +88,10 @@ public interface CourseLimitService {
 
   public Pair<Boolean, List<Major>> xtractMajorLimit(ClazzRestriction group);
 
-  public Map<ClazzRestriction, Pair<Boolean, List<Direction>>> xtractDirectionLimit(
+  public Map<ClazzRestriction, Pair<Boolean, List<MajorDirection>>> xtractDirectionLimit(
       Enrollment teachclass);
 
-  public Pair<Boolean, List<Direction>> xtractDirectionLimit(ClazzRestriction group);
+  public Pair<Boolean, List<MajorDirection>> xtractDirectionLimit(ClazzRestriction group);
 
   public void limitEnrollment(boolean operator, Enrollment teachclass, String... grades);
 
@@ -153,9 +153,9 @@ public interface CourseLimitService {
    * @param teachclass
    * @return
    */
-  public List<Direction> extractDirections(Enrollment teachclass);
+  public List<MajorDirection> extractDirections(Enrollment teachclass);
 
-  public List<Direction> extractDirections(ClazzRestriction group);
+  public List<MajorDirection> extractDirections(ClazzRestriction group);
 
   /**
    * 提取教学班中的上课院系

@@ -66,7 +66,7 @@ public class ClazzSearchHelper extends SearchHelper {
   /**
    * 查找教学任务task<br>
    * 1)查找行政班级中以:adminClass.name为参数<br>
-   * 2)查询排课情况以:courseActivity开头<br>
+   * 2)查询排课情况以:clazzActivity开头<br>
    * 3)查询排考情况以:examActivity开头<br>
    * 4)考试安排完成:clazz.schedule.isExamArrangeComplete<br>
    * 5)排考查询分组情况:arrangeInfo.examGrouped<br>
@@ -153,7 +153,8 @@ public class ClazzSearchHelper extends SearchHelper {
       query.where("clazz.status = :status", AuditStatus.valueOf(status.toUpperCase()));
     }
     // 查询课程安排情况
-    Long buildingId = Params.getLong("fack.building.id");
+    Long buildingId = Params.getLong("classroom.building.id");
+    String classroomName = Params.get("classroom.name");
     Integer weekday = Params.getInt("fake.time.weekday");
     String courseUnit = Params.get("courseActivity.time.beginAt");
     if (null == courseUnit) courseUnit = Params.get("fake.time.unit");
@@ -172,28 +173,37 @@ public class ClazzSearchHelper extends SearchHelper {
       }
     }
 
-    if (null != buildingId || Strings.isNotBlank(courseUnit) || null != weekday || null != activityWeekState) {
-      StringBuilder activityQuery = new StringBuilder(
-          "exists( from clazz.schedule.activities as courseActivity where 1=1 ");
+    if (null != buildingId || Strings.isNotBlank(courseUnit) || null != weekday || null != activityWeekState || Strings.isNotBlank(classroomName)) {
+      StringBuilder activityQuery = new StringBuilder("exists( from clazz.schedule.activities as ca where 1=1 ");
       if (Strings.isNotBlank(courseUnit)) {
         if (courseUnit.contains(":")) {
-          activityQuery.append("and courseActivity.time.beginAt <= :beginAt"
-              + " and courseActivity.time.endAt >= :beginAt ");
+          activityQuery.append("and ca.time.beginAt <= :beginAt and ca.time.endAt >= :beginAt ");
           query.param("beginAt", new HourMinute(courseUnit));
         } else {
-          activityQuery.append("and courseActivity.beginUnit <= :beginAt and courseActivity.endUnit >= :beginAt ");
+          activityQuery.append("and ca.beginUnit <= :beginAt and ca.endUnit >= :beginAt ");
           query.param("beginAt", Short.valueOf(courseUnit));
         }
       }
       if (null != weekday) {
-        activityQuery.append(" and courseActivity.time.startOn in (:startOn)");
+        activityQuery.append(" and ca.time.startOn in (:startOn)");
         query.param("startOn", WeekTimeBuilder.getYearStartOns(semester, WeekDay.get(weekday)));
       }
 
-      if (null != activityWeekState) activityQuery.append(" and bitand(courseActivity.time.weekstate,"
+      if (null != activityWeekState) activityQuery.append(" and bitand(ca.time.weekstate,"
           + activityWeekState + ")>0");
-      if (null != buildingId) activityQuery
-          .append(" and exists(from courseActivity.rooms as cr where cr.room.building.id=" + buildingId + ")");
+      if (null != buildingId) {
+        activityQuery.append(" and exists(from ca.rooms as cr where cr.building.id=" + buildingId + ")");
+      }
+      if (Strings.isNotBlank(classroomName)) {
+        if (classroomName.contains(" ") || classroomName.contains(",")) {
+          query.param("roomNames", Strings.split(classroomName));
+          activityQuery.append(" and exists(from ca.rooms as cr where cr.name in (:roomNames))");
+        } else {
+          activityQuery.append(" and exists(from ca.rooms as cr where cr.name like :roomName)");
+          query.param("roomName", "%" + classroomName + "%");
+        }
+
+      }
       activityQuery.append(")");
       query.where(activityQuery.toString());
     }

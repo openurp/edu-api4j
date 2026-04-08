@@ -62,13 +62,6 @@ public class DefaultGroupResultBuilder implements GroupResultBuilder {
     }
     result.getAuditStat().setRequiredCredits(requiredCredits);
 
-    // 课程组的门数要求应该根据审核学期的变化而变化，目前门数没有分学期的数据存储，所以凡是部分审核的，那么门数要求为0
-    if (context.isPartial()) {
-      result.getAuditStat().setRequiredCount(0);
-    } else {
-      result.getAuditStat().setRequiredCount(group.getCourseCount());
-    }
-
     result.setCourseType(group.getCourseType());
     result.setName(group.getName());
     result.setSubCount(group.getSubCount());

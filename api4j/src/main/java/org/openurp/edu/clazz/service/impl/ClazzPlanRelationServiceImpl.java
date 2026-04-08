@@ -23,7 +23,7 @@ import org.beangle.commons.dao.EntityDao;
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Semester;
 import org.openurp.code.std.model.StdType;
@@ -31,8 +31,8 @@ import org.openurp.base.std.model.Squad;
 import org.openurp.edu.clazz.model.Clazz;
 import org.openurp.edu.clazz.service.ClazzPlanRelationService;
 import org.openurp.edu.clazz.service.CourseLimitService;
-import org.openurp.edu.program.model.ExecutionPlan;
-import org.openurp.edu.program.plan.service.ExecutionPlanQueryBuilder;
+import org.openurp.edu.program.model.ExecutivePlan;
+import org.openurp.edu.program.plan.service.ExecutivePlanQueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +43,13 @@ public class ClazzPlanRelationServiceImpl extends BaseServiceImpl implements Cla
 
   private EntityDao entityDao;
 
-  public List<Clazz> relatedClazzes(ExecutionPlan plan) {
+  public List<Clazz> relatedClazzes(ExecutivePlan plan) {
     OqlBuilder query = OqlBuilder.from(Clazz.class, "clazz");
     query.where("clazz.planId = :planId", plan.getId());
     return entityDao.search(query);
   }
 
-  public List<Clazz> relatedClazzes(ExecutionPlan plan, Semester semester) {
+  public List<Clazz> relatedClazzes(ExecutivePlan plan, Semester semester) {
     OqlBuilder query = OqlBuilder.from(Clazz.class, "clazz");
     query.where("clazz.planId = :planId", plan.getId());
     query.where("clazz.semester=:semester", semester);
@@ -57,14 +57,14 @@ public class ClazzPlanRelationServiceImpl extends BaseServiceImpl implements Cla
   }
 
 
-  public List<ExecutionPlan> possibleRelatePlans(Clazz clazz) {
-    List<ExecutionPlan> plans = new ArrayList<ExecutionPlan>();
+  public List<ExecutivePlan> possibleRelatePlans(Clazz clazz) {
+    List<ExecutivePlan> plans = new ArrayList<ExecutivePlan>();
 
     List<Squad> squades = courseLimitService.extractSquades(clazz.getEnrollment());
     // 如果有行政班的，那么就关联到行政班对应的培养计划
     if (CollectUtils.isNotEmpty(squades)) {
       for (Squad squad : squades) {
-        plans.addAll(entityDao.search(ExecutionPlanQueryBuilder.build(squad)));
+        plans.addAll(entityDao.search(ExecutivePlanQueryBuilder.build(squad)));
       }
       return plans;
     }
@@ -85,15 +85,15 @@ public class ClazzPlanRelationServiceImpl extends BaseServiceImpl implements Cla
       stdTypes.add(null);
     }
 
-    List<Direction> directions = courseLimitService.extractDirections(clazz.getEnrollment());
+    List<MajorDirection> directions = courseLimitService.extractDirections(clazz.getEnrollment());
     if (CollectUtils.isEmpty(directions)) {
       directions.add(null);
     }
 
     for (Major major : majors) {
       for (StdType stdType : stdTypes) {
-        for (Direction direction : directions) {
-          plans.addAll(entityDao.search(ExecutionPlanQueryBuilder.build(grade, stdType, major, direction)));
+        for (MajorDirection direction : directions) {
+          plans.addAll(entityDao.search(ExecutivePlanQueryBuilder.build(grade, stdType, major, direction)));
         }
       }
     }

@@ -23,7 +23,7 @@ import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.beangle.commons.lang.Strings;
 import org.beangle.commons.lang.tuple.Pair;
 import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Squad;
 import org.openurp.base.model.Department;
@@ -83,10 +83,10 @@ public class CourseLimitExtractorServiceImpl extends BaseServiceImpl implements 
     return CollectUtils.newArrayList();
   }
 
-  public List<Direction> extractDirections(ClazzRestriction restriction) {
+  public List<MajorDirection> extractDirections(ClazzRestriction restriction) {
     for (ClazzRestrictionItem item : restriction.getItems()) {
       if (ClazzRestrictionMeta.Direction.equals(item.getMeta().getId()) && (item.isIncluded())) {
-        return entityDao.get(Direction.class, Strings.splitToLong(item.getContents()));
+        return entityDao.get(MajorDirection.class, Strings.splitToLong(item.getContents()));
       }
     }
     return CollectUtils.newArrayList();
@@ -137,13 +137,13 @@ public class CourseLimitExtractorServiceImpl extends BaseServiceImpl implements 
     return new Pair<Boolean, List<Department>>(Boolean.TRUE, new ArrayList<Department>());
   }
 
-  public Pair<Boolean, List<Direction>> xtractDirectionLimit(ClazzRestriction restriction) {
+  public Pair<Boolean, List<MajorDirection>> xtractDirectionLimit(ClazzRestriction restriction) {
     for (ClazzRestrictionItem item : restriction.getItems()) {
       if (ClazzRestrictionMeta.Direction.equals(item.getMeta().getId())) {
-        return new Pair<Boolean, List<Direction>>(item.isIncluded(), entityDao.get(Direction.class, Strings.splitToLong(item.getContents())));
+        return new Pair<Boolean, List<MajorDirection>>(item.isIncluded(), entityDao.get(MajorDirection.class, Strings.splitToLong(item.getContents())));
       }
     }
-    return new Pair<Boolean, List<Direction>>(Boolean.TRUE, new ArrayList<Direction>());
+    return new Pair<Boolean, List<MajorDirection>>(Boolean.TRUE, new ArrayList<MajorDirection>());
   }
 
   public Pair<Boolean, List<String>> xtractGradeLimit(ClazzRestriction restriction) {

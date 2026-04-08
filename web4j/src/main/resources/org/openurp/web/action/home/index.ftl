@@ -113,6 +113,43 @@
   .control-sidebar, .control-sidebar::before {
     width:13rem;
   }
+  [#--override bootstrap--]
+  .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  a {
+    color: var(--primary-color);
+  }
+  .btn-primary {
+    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  .sidebar.nav-legacy > .nav-item > .nav-link.active {
+    border-color: var(--primary-color);
+  }
+  .sidebar-dark-lightblue .nav-sidebar.nav-legacy > .nav-item > .nav-link.active, .sidebar-light-lightblue .nav-sidebar.nav-legacy > .nav-item > .nav-link.active {
+    border-color: var(--primary-color);
+  }
+  .card-primary.card-outline {
+    border-top: 3px solid var(--primary-color);
+  }
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: var(--primary-color);
+  }
+  .btn-primary:focus, .btn-primary.focus {
+    background-color: var(--primary-color);
+  }
+  .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
 </style>
 <div class="wrapper">
     <nav id="main_header" class="main-header navbar navbar-expand navbar-dark navbar-lightblue border-bottom-0">
@@ -268,7 +305,7 @@
           </div>
           <div class="mb-2">
             每页数据量<select id="page_size_selector">
-              [#list [10,20,30,50,70,100,300] as ps]
+              [#list [20,30,50,70,100,300] as ps]
               <option value="${ps}" [#if ps==20]selected[/#if]>${ps}</option>
               [/#list]
             </select>
@@ -308,7 +345,8 @@
       [#if nav.profiles??]
       emsnav.createProfileNav();
       [/#if]
-      emsnav.setup(params);
+      var theme={"primaryColor": "#007bff","navbarBgColor": "#3c8dbc", "searchBgColor": "#e1ecff", "gridbarBgColor": "#c7dbff", "gridBorderColor": "#006cb2"}
+      emsnav.setup(theme,params);
       emsnav.enableSearch('menu_searcher');
       window.emsnav=emsnav;
     });

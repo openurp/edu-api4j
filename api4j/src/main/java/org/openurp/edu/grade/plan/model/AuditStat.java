@@ -18,35 +18,32 @@
  */
 package org.openurp.edu.grade.plan.model;
 
-import java.util.Set;
-
-import javax.persistence.Embeddable;
-
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.entity.Component;
 import org.openurp.base.edu.model.Course;
 
+import javax.persistence.Embeddable;
+import java.util.Set;
+
 /**
  * 课程审核统计结果
- *
- *
  */
 @Embeddable
 public class AuditStat implements Component {
 
-  /** 要求学分 */
+  /**
+   * 要求学分
+   */
   private float requiredCredits;
 
-  /** 总的通过学分 */
+  /**
+   * 总的通过学分
+   */
   private float passedCredits;
 
-  /** 要求门数 */
-  private int requiredCount;
-
-  /** 总的通过门数 */
-  private int passedCount;
-
-  /** 总的通过课程 */
+  /**
+   * 总的通过课程
+   */
   private transient Set<Course> passedCourses = CollectUtils.newHashSet();
 
   /**
@@ -60,27 +57,20 @@ public class AuditStat implements Component {
 
   public AuditStat(float creditCompleted, int totalNum) {
     this.passedCredits = creditCompleted;
-    this.passedCount = totalNum;
   }
 
   public void addCredits(float credits) {
     this.passedCredits += credits;
   }
 
-  public void addNum(int num) {
-    this.passedCount += num;
-  }
-
   public boolean isPassed() {
-    return getRequiredCredits() <= (getPassedCredits() + getConvertedCredits())
-        && getRequiredCount() <= getPassedCount();
+    return getRequiredCredits() <= (getPassedCredits() + getConvertedCredits());
   }
 
   /**
    * 获取所修学分和所需学分的差值
    *
-   * @param returnNegative
-   *          是否返回负数
+   * @param returnNegative 是否返回负数
    * @return
    */
   public float getCreditNeeded(boolean returnNegative) {
@@ -94,14 +84,6 @@ public class AuditStat implements Component {
     } else {
       return needToComplete;
     }
-  }
-
-  public int getRequiredCount() {
-    return requiredCount;
-  }
-
-  public void setRequiredCount(int requiredCountRequired) {
-    this.requiredCount = requiredCountRequired;
   }
 
   public float getPassedCredits() {
@@ -128,14 +110,6 @@ public class AuditStat implements Component {
     this.passedCourses = passCourses;
   }
 
-  public int getPassedCount() {
-    return passedCount;
-  }
-
-  public void setPassedCount(int totalRequiredCount) {
-    this.passedCount = totalRequiredCount;
-  }
-
   public float getConvertedCredits() {
     return convertedCredits;
   }
@@ -146,13 +120,9 @@ public class AuditStat implements Component {
 
   /**
    * 减去要求学分和门数
-   *
-   * @param num
    */
-  public void reduceRequired(float credits, int num) {
+  public void reduceRequired(float credits) {
     this.requiredCredits -= credits;
     this.requiredCredits = this.requiredCredits < 0 ? 0 : this.requiredCredits;
-    this.requiredCount -= num;
-    this.requiredCount = this.requiredCount < 0 ? 0 : this.requiredCount;
   }
 }

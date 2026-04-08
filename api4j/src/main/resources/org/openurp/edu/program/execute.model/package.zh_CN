@@ -1,24 +1,24 @@
 
-ExecutionPlanCourseBean=专业计划课程
-ExecutionPlanCourse.courseGroup=课程组
+ExecutivePlanCourse=专业计划课程
+ExecutivePlanCourse.courseGroup=课程组
 
-ExecutionPlanBean=专业计划
-ExecutionPlan.program=培养方案
-ExecutionPlan.groups=课程组
-ExecutionPlan.startTerm=起始学期
-ExecutionPlan.endTerm=结束学期
-ExecutionPlan.comments=审核备注
+ExecutivePlan=专业计划
+ExecutivePlan.program=培养方案
+ExecutivePlan.groups=课程组
+ExecutivePlan.startTerm=起始学期
+ExecutivePlan.endTerm=结束学期
+ExecutivePlan.comments=审核备注
 
-ReferenceGroupBean=引用共享组.
+ReferenceGroup=引用共享组.
 ReferenceGroup.shareCourseGroup=共享组.
 ReferenceGroup.requiredCourses=必修课程.
 ReferenceGroup.excludeCourses=排除课程.
 
-ExecutionPlanCourseGroupBean=专业计划课程组.
-ExecutionPlanCourseGroup.microName=自定义名称
-ExecutionPlanCourseGroup.direction=该组针对的专业方向
-ExecutionPlanCourseGroup.referenceGroup=引用组
-ExecutionPlanCourseGroup.plan=专业计划
-ExecutionPlanCourseGroup.parent=上级组
-ExecutionPlanCourseGroup.children=下级组列表
-ExecutionPlanCourseGroup.planCourses=计划课程列表
+ExecutivePlanCourseGroup=专业计划课程组.
+ExecutivePlanCourseGroup.microName=自定义名称
+ExecutivePlanCourseGroup.direction=该组针对的专业方向
+ExecutivePlanCourseGroup.referenceGroup=引用组
+ExecutivePlanCourseGroup.plan=专业计划
+ExecutivePlanCourseGroup.parent=上级组
+ExecutivePlanCourseGroup.children=下级组列表
+ExecutivePlanCourseGroup.planCourses=计划课程列表

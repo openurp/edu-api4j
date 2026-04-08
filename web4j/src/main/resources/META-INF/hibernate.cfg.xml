@@ -5,13 +5,13 @@
   <session-factory>
     <mapping class="org.openurp.edu.grade.app.model.AuditSetting"/>
     <mapping class="org.openurp.edu.grade.app.model.GradeModifyApply"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionPlanCourseModify"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionPlanCourseModifyDetail"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionPlanCourseModifyDetailBefore"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionPlanCourseModifyDetailAfter"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionCourseGroupModify"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionCourseGroupModifyDetail"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionCourseGroupModifyDetailBefore"/>
-    <mapping class="org.openurp.edu.program.app.model.ExecutionCourseGroupModifyDetailAfter"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutivePlanCourseModify"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutivePlanCourseModifyDetail"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutivePlanCourseModifyDetailBefore"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutivePlanCourseModifyDetailAfter"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutiveCourseGroupModify"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutiveCourseGroupModifyDetail"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutiveCourseGroupModifyDetailBefore"/>
+    <mapping class="org.openurp.edu.program.app.model.ExecutiveCourseGroupModifyDetailAfter"/>
   </session-factory>
 </hibernate-configuration>

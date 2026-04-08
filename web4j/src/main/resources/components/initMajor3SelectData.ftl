@@ -1,7 +1,7 @@
 [#ftl]
 <script src="${base}/dwr/interface/departmentDao.js"></script>
 <script src="${base}/dwr/interface/majorDao.js"></script>
-<script src="${base}/static/scripts/common/majorSelect.js?v=202212"></script>
+<script src="${base}/static/scripts/common/majorSelect.js?v=202412"></script>
 <script type="text/javascript">
   var levelArray = new Array();
   [#list levels as level]

@@ -146,7 +146,7 @@ public class ShareCourseGroup extends LongIdObject implements Cloneable {
   }
 
   public Object cloneToExecuteCourseGroup() {
-    ExecutionCourseGroup courseGroup = Model.newInstance(ExecutionCourseGroup.class);
+    ExecutiveCourseGroup courseGroup = Model.newInstance(ExecutiveCourseGroup.class);
     courseGroup.setCourseType(getCourseType());
     courseGroup.setIndexno(getIndexno());
     courseGroup.setChildren(new ArrayList<CourseGroup>());

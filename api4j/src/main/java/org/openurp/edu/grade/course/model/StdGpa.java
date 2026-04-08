@@ -76,7 +76,7 @@ public class StdGpa extends NumberIdTimeObject<Long> {
   /**
    * 平均分
    */
-  private Float ga;
+  private Float wms;
 
   /**
    * 获得学分
@@ -110,7 +110,7 @@ public class StdGpa extends NumberIdTimeObject<Long> {
     this.yearGpas = CollectUtils.newArrayList();
     this.credits = 0f;
     this.gradeCount = 0;
-    this.ga = new Float(0);
+    this.wms = new Float(0);
     this.gpa = new Float(0);
   }
 
@@ -198,12 +198,12 @@ public class StdGpa extends NumberIdTimeObject<Long> {
     this.credits = credits;
   }
 
-  public Float getGa() {
-    return ga;
+  public Float getWms() {
+    return wms;
   }
 
-  public void setGa(Float ga) {
-    this.ga = ga;
+  public void setWms(Float wms) {
+    this.wms = wms;
   }
 
   public Float getTotalCredits() {

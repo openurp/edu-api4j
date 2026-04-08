@@ -23,7 +23,7 @@ import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.dao.impl.BaseServiceImpl;
 import org.openurp.edu.program.model.CourseGroup;
 import org.openurp.edu.program.model.CoursePlan;
-import org.openurp.edu.program.model.ExecutionPlanCourse;
+import org.openurp.edu.program.model.ExecutivePlanCourse;
 import org.openurp.edu.program.model.PlanCourse;
 import org.openurp.edu.program.plan.service.PlanCompareService;
 import org.openurp.edu.program.plan.util.CourseTypeWrapper;
@@ -66,7 +66,7 @@ public class PlanCompareServiceImpl extends BaseServiceImpl implements PlanCompa
     if (onlyInRightCourseTypes.size() > 0) {
       for (String courseType : onlyInRightCourseTypes) {
         result.put(courseType, null);
-        List<ExecutionPlanCourse>[] planCourses = new ArrayList[2];
+        List<ExecutivePlanCourse>[] planCourses = new ArrayList[2];
         planCourses[0] = new ArrayList();
         planCourses[1] = new ArrayList(getGroup(rightPlan, courseType).getPlanCourses());
         Collections.sort(planCourses[1], PlanCourseWrapper.COMPARATOR);
@@ -90,7 +90,7 @@ public class PlanCompareServiceImpl extends BaseServiceImpl implements PlanCompa
 
         if (onlyInLeftPlanCourses.size() != 0 || onlyInRightPlanCourses.size() != 0) {
           result.put(courseType, null);
-          List<ExecutionPlanCourse>[] planCourses = new ArrayList[2];
+          List<ExecutivePlanCourse>[] planCourses = new ArrayList[2];
           planCourses[0] = new ArrayList(onlyInLeftPlanCourses);
           planCourses[1] = new ArrayList(onlyInRightPlanCourses);
           Collections.sort(planCourses[0], PlanCourseWrapper.COMPARATOR);

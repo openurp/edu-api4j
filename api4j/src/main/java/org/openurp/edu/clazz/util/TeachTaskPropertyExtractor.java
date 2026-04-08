@@ -24,19 +24,20 @@ import org.beangle.commons.lang.Strings;
 import org.beangle.commons.lang.tuple.Pair;
 import org.beangle.commons.text.i18n.TextResource;
 import org.beangle.commons.transfer.exporter.DefaultPropertyExtractor;
-import org.openurp.code.edu.model.EducationLevel;
-import org.openurp.code.edu.model.ExamType;
-import org.openurp.base.resource.model.Classroom;
-import org.openurp.base.hr.model.Teacher;
 import org.openurp.base.edu.model.Textbook;
 import org.openurp.base.edu.model.TimeSetting;
+import org.openurp.base.hr.model.Teacher;
+import org.openurp.base.resource.model.Classroom;
 import org.openurp.base.service.SemesterService;
 import org.openurp.base.service.TimeSettingService;
+import org.openurp.code.edu.model.EducationLevel;
+import org.openurp.code.edu.model.ExamType;
 import org.openurp.code.edu.model.TeachingNature;
-import org.openurp.edu.clazz.model.*;
+import org.openurp.edu.clazz.model.Clazz;
+import org.openurp.edu.clazz.model.ClazzActivity;
+import org.openurp.edu.clazz.model.ClazzRestriction;
 import org.openurp.edu.clazz.service.CourseLimitService;
 import org.openurp.edu.exam.util.ExamActivityDigestor;
-import org.openurp.edu.textbook.model.Material;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -67,7 +68,7 @@ public class TeachTaskPropertyExtractor extends DefaultPropertyExtractor {
   public Object getPropertyValue(Object target, String property) throws Exception {
     Clazz clazz = (Clazz) target;
     TimeSetting timeSetting = timeSettingService.getClosestTimeSetting(clazz.getProject(),
-            clazz.getSemester(), null);
+        clazz.getSemester(), null);
     ScheduleDigestor digestor = ScheduleDigestor.getInstance();
     ExamActivityDigestor examDigestor = ExamActivityDigestor.getInstance();
     /**
@@ -77,7 +78,18 @@ public class TeachTaskPropertyExtractor extends DefaultPropertyExtractor {
       StringBuilder sb = new StringBuilder();
       for (Iterator<Teacher> iter = clazz.getTeachers().iterator(); iter.hasNext(); ) {
         Teacher teacher = iter.next();
-        sb.append(teacher.getName()).append('[').append(teacher.getCode()).append(']');
+        sb.append(teacher.getName());
+        if (iter.hasNext()) {
+          sb.append(',');
+        }
+      }
+      return sb.toString();
+    }
+    if ("fake.teachers.code".equals(property)) {
+      StringBuilder sb = new StringBuilder();
+      for (Iterator<Teacher> iter = clazz.getTeachers().iterator(); iter.hasNext(); ) {
+        Teacher teacher = iter.next();
+        sb.append(teacher.getCode());
         if (iter.hasNext()) {
           sb.append(',');
         }
@@ -178,25 +190,6 @@ public class TeachTaskPropertyExtractor extends DefaultPropertyExtractor {
       return null;
     }
 
-    // 教材
-    else if ("fake.materials".equals(property)) {
-      StringBuilder sb = new StringBuilder();
-      OqlBuilder<Material> query = OqlBuilder.from(Material.class, "book");
-      query.where("book.clazz = :clazz", clazz);
-      Material material = entityDao.uniqueResult(query);
-      if (material != null) {
-        for (Iterator<Textbook> iter = material.getBooks().iterator(); iter.hasNext(); ) {
-          Textbook book = iter.next();
-          sb.append(MessageFormat.format("名称:{0},作者:{1},ISBN:{2},出版社:{3}", book.getName(),
-                  book.getAuthor() == null ? "" : book.getAuthor(), book.getIsbn() == null ? "" : book.getIsbn(),
-                  book.getPress() == null ? "" : book.getPress().getName()));
-          if (iter.hasNext()) {
-            sb.append("\n");
-          }
-        }
-      }
-      return sb.toString();
-    }
     // 教室可容纳人数
     else if ("courseSchedule.activities.room.capacityOfCourse".equals(property)) {
       Set<Classroom> rooms = new HashSet<Classroom>();
@@ -237,7 +230,7 @@ public class TeachTaskPropertyExtractor extends DefaultPropertyExtractor {
      */
     else if ("eduLevel.name".equals(property)) {
       Map<ClazzRestriction, Pair<Boolean, List<EducationLevel>>> tmpRes = courseLimitService
-              .xtractEducationLimit(clazz.getEnrollment());
+          .xtractEducationLimit(clazz.getEnrollment());
       String eduLevelStr = "";
       for (Pair<Boolean, List<EducationLevel>> pair : tmpRes.values()) {
         if (!pair._1) {
@@ -272,8 +265,8 @@ public class TeachTaskPropertyExtractor extends DefaultPropertyExtractor {
     } else {
       try {
         return super.getPropertyValue(target, property);
-      }catch(Exception e){
-        System.out.println("Cannot find "+property+" in clazz");
+      } catch (Exception e) {
+        System.out.println("Cannot find " + property + " in clazz");
         return "";
       }
     }

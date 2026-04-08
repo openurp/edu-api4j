@@ -33,40 +33,57 @@ import java.util.*;
 
 public class CoursePlanProviderImpl extends BaseServiceImpl implements CoursePlanProvider {
 
-  public ExecutionPlan getExecutionPlan(Student student) {
-    OqlBuilder<ExecutionPlan> query = OqlBuilder.from(ExecutionPlan.class, "plan");
-    if (student.getState().getMajor() == null) {
+  private Program getProgram(Student std) {
+    OqlBuilder<StdProgramBinding> bq = OqlBuilder.from(StdProgramBinding.class, "binding");
+    bq.where("binding.std=:std", std);
+    var bindings = entityDao.search(bq);
+    if (bindings.isEmpty()) {
+      if (std.getState().getMajor() == null) {
+        return null;
+      } else {
+        OqlBuilder<Program> query = OqlBuilder.from(Program.class, "program");
+        query.where("program.grade=:grade", std.getGrade());
+        query.where("program.level=:level", std.getLevel());
+        query.where("program.major=:major", std.getState().getMajor());
+        var departs = new ArrayList<Department>();
+        departs.add(std.getDepartment());
+        if (null != std.getDepartment().getParent()) {
+          departs.add(std.getDepartment().getParent());
+        }
+        query.where("program.department in(:departments)", departs);
+        if (std.getState().getDirection() == null) {
+          query.where("program.direction is null");
+        } else {
+          query.where("program.direction is null or program.direction=:direction", std.getState().getDirection());
+        }
+        var programs = entityDao.search(query);
+        return programs.isEmpty() ? null : programs.get(0);
+      }
+    } else {
+      return bindings.get(0).getProgram();
+    }
+  }
+
+  public ExecutivePlan getExecutivePlan(Student student) {
+    var program = getProgram(student);
+    if (null == program) {
       return null;
     } else {
-      query.where("plan.program.grade=:grade", student.getGrade());
-      query.where("plan.program.level=:level", student.getLevel());
-      query.where("plan.program.major=:major", student.getState().getMajor());
-      var departs = new ArrayList<Department>();
-      departs.add(student.getDepartment());
-      if (null != student.getDepartment().getParent()) {
-        departs.add(student.getDepartment().getParent());
-      }
-      query.where("plan.program.department in(:departments)", departs);
-      if (student.getState().getDirection() == null) {
-        query.where("plan.program.direction is null");
-      } else {
-        query.where("plan.program.direction is null or plan.program.direction=:direction", student.getState().getDirection());
-      }
-      List<ExecutionPlan> plans = entityDao.search(query);
+      OqlBuilder<ExecutivePlan> query = OqlBuilder.from(ExecutivePlan.class, "plan");
+      query.where("plan.program=:program", program);
+      List<ExecutivePlan> plans = entityDao.search(query);
       if (plans.isEmpty()) {
         return null;
       } else {
-        List<ExecutionPlan> suitables = new ArrayList<>();
+        List<ExecutivePlan> suitables = new ArrayList<>();
         if (null == student.getState().getDirection()) {//non direction
-          for (ExecutionPlan plan : plans) {
-            var program = plan.getProgram();
+          for (ExecutivePlan plan : plans) {
             if (program.getStdTypes().isEmpty() || program.getStdTypes().contains(student.getStdType())) {
               suitables.add(plan);
             }
           }
         } else {// has direction
-          for (ExecutionPlan plan : plans) {//first try
-            var program = plan.getProgram();
+          for (ExecutivePlan plan : plans) {//first try
             if (plan.getProgram().getDirection() != null && program.getDirection().equals(student.getState().getDirection())) {
               if (program.getStdTypes().isEmpty() || program.getStdTypes().contains(student.getStdType())) {
                 suitables.add(plan);
@@ -74,8 +91,7 @@ public class CoursePlanProviderImpl extends BaseServiceImpl implements CoursePla
             }
           }
           if (suitables.isEmpty()) {
-            for (ExecutionPlan plan : plans) {
-              var program = plan.getProgram();
+            for (ExecutivePlan plan : plans) {
               if (program.getDirection() == null) {
                 if (program.getStdTypes().isEmpty() || program.getStdTypes().contains(student.getStdType())) {
                   suitables.add(plan);
@@ -87,12 +103,7 @@ public class CoursePlanProviderImpl extends BaseServiceImpl implements CoursePla
         return suitables.isEmpty() ? null : suitables.get(0);
       }
     }
-  }
 
-  public StdPlan getPersonalPlan(Student std) {
-    OqlBuilder<StdPlan> query = OqlBuilder.from(StdPlan.class, "plan");
-    query.where("plan.std = :std", std);
-    return entityDao.uniqueResult(query);
   }
 
   public Map<Student, CoursePlan> getCoursePlans(Collection<Student> students) {
@@ -105,14 +116,7 @@ public class CoursePlanProviderImpl extends BaseServiceImpl implements CoursePla
   }
 
   public CoursePlan getCoursePlan(Student student) {
-    // 个人计划
-    CoursePlan plan = getPersonalPlan(student);
-    // 专业计划
-
-    if (null == plan) {
-      plan = getExecutionPlan(student);
-    }
-    return plan;
+    return getExecutivePlan(student);
   }
 
   public List<PlanCourse> getPlanCourses(Student student) {

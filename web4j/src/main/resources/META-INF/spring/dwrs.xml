@@ -63,7 +63,7 @@
     <dwr:convert type="bean" class="org.openurp.base.std.model.StudentScope">
       <dwr:include method="project" />
     </dwr:convert>
-    <dwr:convert type="bean" class="org.openurp.edu.program.model.ExecutionPlanCourse" />
+    <dwr:convert type="bean" class="org.openurp.edu.program.model.ExecutivePlanCourse" />
     <dwr:convert type="bean" class="org.openurp.edu.program.model.StdPlanCourse" />
 
     <dwr:convert type="bean" class="org.openurp.edu.student.registration.model.Register"/>

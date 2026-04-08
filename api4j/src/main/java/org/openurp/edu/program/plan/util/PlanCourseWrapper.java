@@ -25,7 +25,7 @@ import org.beangle.commons.lang.functor.Transformer;
 import org.openurp.edu.program.model.PlanCourse;
 
 /**
- * ExecutionPlanCourse的包装类，用于提供不同的equals逻辑
+ * ExecutivePlanCourse的包装类，用于提供不同的equals逻辑
  * 从eams-3shufe移植
  */
 public class PlanCourseWrapper implements Comparable {
@@ -88,7 +88,7 @@ public class PlanCourseWrapper implements Comparable {
     public Object apply(Object object) {
       if (PlanCourse.class
           .isAssignableFrom(object.getClass())) { return new PlanCourseWrapper((PlanCourse) object); }
-      throw new IllegalArgumentException("cannot accept object other than ExecutionPlanCourse");
+      throw new IllegalArgumentException("cannot accept object other than ExecutivePlanCourse");
     }
   }
 
@@ -96,7 +96,7 @@ public class PlanCourseWrapper implements Comparable {
     public Object apply(Object object) {
       if (object.getClass()
           .equals(PlanCourseWrapper.class)) { return ((PlanCourseWrapper) object).getPlanCourse(); }
-      throw new IllegalArgumentException("cannot accept object other than stdType of ExecutionPlanCourseWrapper");
+      throw new IllegalArgumentException("cannot accept object other than stdType of ExecutivePlanCourseWrapper");
     }
   }
 
@@ -114,7 +114,7 @@ public class PlanCourseWrapper implements Comparable {
 
   @Override
   public String toString() {
-    return "ExecutionPlanCourseWrapper [executePlanCourse=" + planCourse + "]";
+    return "ExecutivePlanCourseWrapper [executePlanCourse=" + planCourse + "]";
   }
 
 }

@@ -27,11 +27,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.openurp.code.edu.model.CourseType;
-import org.openurp.edu.program.model.ExecutionCourseGroup;
+import org.openurp.edu.program.model.ExecutiveCourseGroup;
 
 /**
  * 假的课程组
- * 被ExecutionPlanCourseModifyDetailBean使用
+ * 被ExecutivePlanCourseModifyDetailBean使用
  */
 @Embeddable
 public class FakeCourseGroup implements Serializable {
@@ -50,7 +50,7 @@ public class FakeCourseGroup implements Serializable {
   public FakeCourseGroup() {
   }
 
-  public FakeCourseGroup(ExecutionCourseGroup group) {
+  public FakeCourseGroup(ExecutiveCourseGroup group) {
     if (group != null) {
       this.id = group.getId();
       this.courseType = group.getCourseType();

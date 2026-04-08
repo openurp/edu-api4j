@@ -20,7 +20,7 @@ package org.openurp.edu.clazz.util;
 
 import org.openurp.base.edu.model.Semester;
 import org.openurp.base.std.model.Squad;
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 import org.openurp.edu.program.model.PlanCourse;
 
 public class CourseTaskBO {
@@ -35,7 +35,7 @@ public class CourseTaskBO {
     this.semester = semester;
   }
 
-  private ExecutionPlan teachPlan;
+  private ExecutivePlan teachPlan;
 
   private Squad adminClass;
 
@@ -57,11 +57,11 @@ public class CourseTaskBO {
     this.planCourse = planCourse;
   }
 
-  public ExecutionPlan getExecutionPlan() {
+  public ExecutivePlan getExecutivePlan() {
     return teachPlan;
   }
 
-  public void setExecutionPlan(ExecutionPlan teachPlan) {
+  public void setExecutivePlan(ExecutivePlan teachPlan) {
     this.teachPlan = teachPlan;
   }
 
@@ -69,13 +69,13 @@ public class CourseTaskBO {
 
   }
 
-  public CourseTaskBO(ExecutionPlan teachPlan, Squad adminClass, PlanCourse planCourse) {
+  public CourseTaskBO(ExecutivePlan teachPlan, Squad adminClass, PlanCourse planCourse) {
     this.teachPlan = teachPlan;
     this.adminClass = adminClass;
     this.planCourse = planCourse;
   }
 
-  public CourseTaskBO(ExecutionPlan teachPlan, Squad adminClass, PlanCourse planCourse, Semester semester) {
+  public CourseTaskBO(ExecutivePlan teachPlan, Squad adminClass, PlanCourse planCourse, Semester semester) {
     this.teachPlan = teachPlan;
     this.adminClass = adminClass;
     this.planCourse = planCourse;

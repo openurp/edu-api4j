@@ -19,13 +19,12 @@
 package org.openurp.edu.program.plan.util;
 
 import org.beangle.commons.lang.functor.Transformer;
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 import org.openurp.edu.program.model.MajorPlan;
-import org.openurp.edu.program.model.StdPlan;
 
 /**
  * 被CollectionUtils.collect使用，用于从*Plan中收集Program<br>
- * 这个类以后最终可能都是要删除的，因为ExecutionPlan中获取Program的方法是不得以而为之
+ * 这个类以后最终可能都是要删除的，因为ExecutivePlan中获取Program的方法是不得以而为之
  */
 public class ProgramCollector implements Transformer {
   public static final ProgramCollector INSTANCE = new ProgramCollector();
@@ -33,10 +32,8 @@ public class ProgramCollector implements Transformer {
   public Object apply(Object input) {
     if (input instanceof MajorPlan) {
       return ((MajorPlan) input).getProgram();
-    } else if (input instanceof ExecutionPlan) {
-      return ((ExecutionPlan) input).getProgram();
     } else {
-      return ((StdPlan) input).getProgram();
+      return ((ExecutivePlan) input).getProgram();
     }
   }
 

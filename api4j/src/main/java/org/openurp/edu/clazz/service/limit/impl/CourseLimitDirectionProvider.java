@@ -20,15 +20,15 @@ package org.openurp.edu.clazz.service.limit.impl;
 
 import org.beangle.commons.dao.query.builder.OqlBuilder;
 import org.beangle.commons.lang.Strings;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.edu.clazz.model.ClazzRestrictionMeta;
 
 import java.util.Date;
 import java.util.Map;
 
-public class CourseLimitDirectionProvider extends AbstractCourseLimitEntityProvider<Direction> {
+public class CourseLimitDirectionProvider extends AbstractCourseLimitEntityProvider<MajorDirection> {
   @Override
-  protected void addCascadeQuery(OqlBuilder<Direction> builder, Map<ClazzRestrictionMeta, String> cascadeField) {
+  protected void addCascadeQuery(OqlBuilder<MajorDirection> builder, Map<ClazzRestrictionMeta, String> cascadeField) {
     builder.where("entity.project = :project", projectContext.getProject());
     if (cascadeField.isEmpty()) {
       return;
@@ -41,7 +41,7 @@ public class CourseLimitDirectionProvider extends AbstractCourseLimitEntityProvi
     }
     if (Strings.isNotBlank(departIds) || Strings.isNotBlank(levelIds)) {
       StringBuilder sb = new StringBuilder(
-          "exists(from entity.departs journal where journal.beginOn <= :now and (journal.endOn is null or journal.endOn >= :now)");
+          "exists(from entity.journals journal where journal.beginOn <= :now and (journal.endOn is null or journal.endOn >= :now)");
       if (Strings.isNotBlank(departIds)) {
         sb.append(" and journal.depart.id in (:departIds)");
       }

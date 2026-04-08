@@ -18,16 +18,16 @@
  */
 package org.openurp.edu.program.model;
 
+import org.beangle.commons.entity.pojo.LongIdObject;
+import org.hibernate.annotations.Type;
+import org.openurp.base.edu.model.Course;
+import org.openurp.base.time.Terms;
+
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.beangle.commons.entity.pojo.LongIdObject;
-import org.hibernate.annotations.Type;
-import org.openurp.base.time.Terms;
-import org.openurp.base.edu.model.Course;
 
 /**
  * 抽象计划内课程
@@ -40,20 +40,28 @@ public abstract class AbstractPlanCourse extends LongIdObject implements PlanCou
 
   private static final long serialVersionUID = 8777711425517220702L;
 
-  /** 课程 */
+  /**
+   * 课程
+   */
   @NotNull
   @ManyToOne(fetch = FetchType.LAZY)
   protected Course course;
 
-  /** 开课学期 */
+  /**
+   * 开课学期
+   */
   @NotNull
   @Type(type = "org.openurp.base.time.hibernate.TermsType")
   protected Terms terms = Terms.Empty;
 
-  /** 是否必修 */
+  /**
+   * 是否必修
+   */
   protected boolean compulsory;
 
-  /** 备注 */
+  /**
+   * 备注
+   */
   @Size(max = 500)
   protected String remark;
 
@@ -69,6 +77,11 @@ public abstract class AbstractPlanCourse extends LongIdObject implements PlanCou
     AbstractPlanCourse planCourse = (AbstractPlanCourse) super.clone();
     planCourse.setId(null);
     return planCourse;
+  }
+
+  public float getCredits() {
+    if (null == getGroup()) return course.getDefaultCredits();
+    else return course.getCredits(getGroup().getPlan().getProgram().getLevel());
   }
 
   public Course getCourse() {

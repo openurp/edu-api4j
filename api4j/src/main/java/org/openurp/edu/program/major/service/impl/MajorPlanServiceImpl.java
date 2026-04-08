@@ -47,6 +47,9 @@ public class MajorPlanServiceImpl extends BaseServiceImpl implements MajorPlanSe
     // 先得保存program
     Program program = sourcePlan.getProgram();
     Program newProgram = newProgram(program, genParameter);
+    newProgram.setStartTerm(program.getStartTerm());
+    newProgram.setEndTerm(program.getEndTerm());
+
     entityDao.saveOrUpdate(newProgram);
     tryCloneDoc(program, newProgram);
 
@@ -54,19 +57,13 @@ public class MajorPlanServiceImpl extends BaseServiceImpl implements MajorPlanSe
     MajorPlan newPlan = (MajorPlan) sourcePlan.clone();
     newPlan.setId(null);
     newPlan.setCredits(sourcePlan.getCredits());
-    newPlan.setStartTerm(sourcePlan.getStartTerm());
-    newPlan.setEndTerm(sourcePlan.getEndTerm());
-    newPlan.setStatus(AuditStatus.UNSUBMITTED);
-    newPlan.setBeginOn(newProgram.getBeginOn());
-    newPlan.setEndOn(newProgram.getEndOn());
+    newPlan.setCreditHours(sourcePlan.getCreditHours());
+    newPlan.setHourRatios(sourcePlan.getHourRatios());
     newPlan.setUpdatedAt(new java.util.Date());
 
     if (genParameter != null) {
-      newPlan.setStartTerm(genParameter.getStartTerm());
-      newPlan.setEndTerm(genParameter.getEndTerm());
-    } else {
-      newPlan.setStartTerm(sourcePlan.getStartTerm());
-      newPlan.setEndTerm(sourcePlan.getTermsCount());
+      newProgram.setStartTerm(genParameter.getStartTerm());
+      newProgram.setEndTerm(genParameter.getEndTerm());
     }
     newPlan.setGroups(new ArrayList<CourseGroup>());
     newPlan.setProgram(newProgram);
@@ -91,8 +88,8 @@ public class MajorPlanServiceImpl extends BaseServiceImpl implements MajorPlanSe
       t_param.setBeginOn(partialParams.getBeginOn());
       t_param.setEndOn(partialParams.getEndOn());
       t_param.setDuration(plan.getProgram().getDuration());
-      t_param.setStartTerm(plan.getStartTerm());
-      t_param.setEndTerm(plan.getEndTerm());
+      t_param.setStartTerm(plan.getProgram().getStartTerm());
+      t_param.setEndTerm(plan.getProgram().getEndTerm());
 
       t_param.setDegree(plan.getProgram().getDegree());
       t_param.setDepartment(plan.getProgram().getDepartment());

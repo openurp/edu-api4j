@@ -20,8 +20,8 @@ package org.openurp.edu.program.plan.dao;
 
 import org.openurp.base.edu.model.Course;
 import org.openurp.edu.program.model.CoursePlan;
-import org.openurp.edu.program.model.ExecutionPlan;
-import org.openurp.edu.program.model.ExecutionPlanCourse;
+import org.openurp.edu.program.model.ExecutivePlan;
+import org.openurp.edu.program.model.ExecutivePlanCourse;
 import org.openurp.edu.program.model.PlanCourse;
 
 public interface PlanCourseCommonDao {
@@ -65,5 +65,5 @@ public interface PlanCourseCommonDao {
    */
   void updatePlanCourse(PlanCourse planCourse, CoursePlan plan);
 
-  ExecutionPlanCourse getExecutionPlanCourseByCourse(ExecutionPlan executePlan, Course course);
+  ExecutivePlanCourse getExecutivePlanCourseByCourse(ExecutivePlan executePlan, Course course);
 }

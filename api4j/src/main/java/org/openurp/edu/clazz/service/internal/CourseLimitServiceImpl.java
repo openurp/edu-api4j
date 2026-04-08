@@ -25,7 +25,7 @@ import org.beangle.commons.lang.Strings;
 import org.beangle.commons.lang.tuple.Pair;
 import org.openurp.code.edu.model.EducationType;
 import org.openurp.code.std.model.StdType;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.std.model.Squad;
 import org.openurp.base.std.model.Student;
@@ -89,17 +89,17 @@ public class CourseLimitServiceImpl extends BaseServiceImpl implements CourseLim
       }
       limitEnrollment(true, target, tmp_collection.toArray(new StdType[0]));
     } else if (ClazzRestrictionMeta.Direction.equals(mergeType)) {
-      Set<Direction> tmp_collection = new HashSet<Direction>();
-      List<Direction> targetCollection = extractDirections(target);
+      Set<MajorDirection> tmp_collection = new HashSet<MajorDirection>();
+      List<MajorDirection> targetCollection = extractDirections(target);
       if (CollectUtils.isNotEmpty(targetCollection)) {
         tmp_collection.addAll(targetCollection);
       }
 
-      List<Direction> sourceCollection = extractDirections(source);
+      List<MajorDirection> sourceCollection = extractDirections(source);
       if (CollectUtils.isNotEmpty(sourceCollection)) {
         tmp_collection.addAll(sourceCollection);
       }
-      limitEnrollment(true, target, tmp_collection.toArray(new Direction[0]));
+      limitEnrollment(true, target, tmp_collection.toArray(new MajorDirection[0]));
     } else if (ClazzRestrictionMeta.Gender.equals(mergeType)) {
       Gender targetGender = extractGender(target);
       Gender sourceGender = extractGender(source);
@@ -282,12 +282,12 @@ public class CourseLimitServiceImpl extends BaseServiceImpl implements CourseLim
     return CollectUtils.newArrayList();
   }
 
-  public List<Direction> extractDirections(Enrollment teachclass) {
-    Map<ClazzRestriction, Pair<Boolean, List<Direction>>> res = xtractDirectionLimit(teachclass);
-    List<Direction> directions = CollectUtils.newArrayList();
-    for (Pair<Boolean, List<Direction>> tmpRes : res.values()) {
+  public List<MajorDirection> extractDirections(Enrollment teachclass) {
+    Map<ClazzRestriction, Pair<Boolean, List<MajorDirection>>> res = xtractDirectionLimit(teachclass);
+    List<MajorDirection> directions = CollectUtils.newArrayList();
+    for (Pair<Boolean, List<MajorDirection>> tmpRes : res.values()) {
       if (tmpRes._1) {
-        for (Direction direction : tmpRes._2) {
+        for (MajorDirection direction : tmpRes._2) {
           if (!directions.contains(direction)) {
             directions.add(direction);
           }
@@ -297,8 +297,8 @@ public class CourseLimitServiceImpl extends BaseServiceImpl implements CourseLim
     return directions;
   }
 
-  public List<Direction> extractDirections(ClazzRestriction group) {
-    Pair<Boolean, List<Direction>> res = xtractDirectionLimit(group);
+  public List<MajorDirection> extractDirections(ClazzRestriction group) {
+    Pair<Boolean, List<MajorDirection>> res = xtractDirectionLimit(group);
     if (res._1) {
       return res._2;
     }
@@ -449,7 +449,7 @@ public class CourseLimitServiceImpl extends BaseServiceImpl implements CourseLim
         builder.clear(ClazzRestrictionMeta.StdType);
       } else if (first instanceof Major) {
         builder.clear(ClazzRestrictionMeta.Major);
-      } else if (first instanceof Direction) {
+      } else if (first instanceof MajorDirection) {
         builder.clear(ClazzRestrictionMeta.Direction);
       } else if (first instanceof Department) {
         builder.clear(ClazzRestrictionMeta.Department);
@@ -503,7 +503,7 @@ public class CourseLimitServiceImpl extends BaseServiceImpl implements CourseLim
         if (ClazzRestrictionMeta.Direction
             .equals(item.getMeta())) {
           return new Pair<Boolean, List<?>>(item.isIncluded(),
-              entityDao.get(Direction.class, Strings.splitToLong(item.getContents())));
+              entityDao.get(MajorDirection.class, Strings.splitToLong(item.getContents())));
         }
       } else if (ClazzRestrictionMeta.StdType.equals(limitMeta)) {
         if (ClazzRestrictionMeta.StdType
@@ -597,21 +597,21 @@ public class CourseLimitServiceImpl extends BaseServiceImpl implements CourseLim
     return new Pair<Boolean, List<Department>>(tmpRes._1, (List<Department>) tmpRes._2);
   }
 
-  public Map<ClazzRestriction, Pair<Boolean, List<Direction>>> xtractDirectionLimit(Enrollment teachclass) {
+  public Map<ClazzRestriction, Pair<Boolean, List<MajorDirection>>> xtractDirectionLimit(Enrollment teachclass) {
     Map<ClazzRestriction, Pair<Boolean, List<?>>> tmpRes = xtractLimitDirtyWork(teachclass,
         ClazzRestrictionMeta.Direction);
-    Map<ClazzRestriction, Pair<Boolean, List<Direction>>> results = CollectUtils.newHashMap();
+    Map<ClazzRestriction, Pair<Boolean, List<MajorDirection>>> results = CollectUtils.newHashMap();
     for (Map.Entry<ClazzRestriction, Pair<Boolean, List<?>>> tmpEntrySet : tmpRes.entrySet()) {
       Pair<Boolean, List<?>> tmpPair = tmpEntrySet.getValue();
       results.put(tmpEntrySet.getKey(),
-          new Pair<Boolean, List<Direction>>(tmpPair._1, (List<Direction>) tmpPair._2));
+          new Pair<Boolean, List<MajorDirection>>(tmpPair._1, (List<MajorDirection>) tmpPair._2));
     }
     return results;
   }
 
-  public Pair<Boolean, List<Direction>> xtractDirectionLimit(ClazzRestriction group) {
+  public Pair<Boolean, List<MajorDirection>> xtractDirectionLimit(ClazzRestriction group) {
     Pair<Boolean, List<?>> tmpRes = xtractLimitDirtyWork(group, ClazzRestrictionMeta.Direction);
-    return new Pair<Boolean, List<Direction>>(tmpRes._1, (List<Direction>) tmpRes._2);
+    return new Pair<Boolean, List<MajorDirection>>(tmpRes._1, (List<MajorDirection>) tmpRes._2);
   }
 
   public Map<ClazzRestriction, Pair<Boolean, List<String>>> xtractGradeLimit(Enrollment teachclass) {

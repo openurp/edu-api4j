@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
 
 import org.beangle.commons.collection.CollectUtils;
 import org.beangle.commons.entity.Component;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.model.Department;
@@ -70,7 +70,7 @@ public class StudentScope implements Component {
 
   /** 专业方向集合 */
   @ManyToMany
-  private Set<Direction> directions = new HashSet<Direction>();
+  private Set<MajorDirection> directions = new HashSet<MajorDirection>();
 
   public Set<Department> getDepartments() {
     return departments;
@@ -88,11 +88,11 @@ public class StudentScope implements Component {
     this.majors = majors;
   }
 
-  public Set<Direction> getDirections() {
+  public Set<MajorDirection> getDirections() {
     return directions;
   }
 
-  public void setDirections(Set<Direction> directions) {
+  public void setDirections(Set<MajorDirection> directions) {
     this.directions = directions;
   }
 

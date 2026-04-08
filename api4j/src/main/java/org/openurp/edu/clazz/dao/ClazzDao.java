@@ -22,7 +22,7 @@ import org.beangle.commons.collection.page.Page;
 import org.openurp.base.edu.model.Semester;
 import org.openurp.edu.clazz.model.Clazz;
 import org.openurp.edu.clazz.service.ClazzFilterStrategy;
-import org.openurp.edu.program.model.ExecutionPlan;
+import org.openurp.edu.program.model.ExecutivePlan;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -105,7 +105,7 @@ public interface ClazzDao {
    * @param clazzes 没有保存的任务
    * @param removeExists 是否删除已经生成过的教学任务
    */
-  public void saveGenResult(ExecutionPlan plan, Semester semester, List<Clazz> clazzes, boolean removeExists);
+  public void saveGenResult(ExecutivePlan plan, Semester semester, List<Clazz> clazzes, boolean removeExists);
 
   /**
    * 保存新的教学任务或更新老的教学任务<br>

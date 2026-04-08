@@ -26,7 +26,7 @@ import org.hibernate.annotations.Type;
 import org.openurp.code.edu.model.CourseType;
 import org.openurp.code.edu.model.EducationType;
 import org.openurp.base.edu.model.Course;
-import org.openurp.base.edu.model.Direction;
+import org.openurp.base.edu.model.MajorDirection;
 import org.openurp.base.edu.model.Major;
 import org.openurp.base.edu.model.Project;
 import org.openurp.base.model.AuditStatus;
@@ -60,6 +60,20 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
   @NotNull
   @Size(max = 200)
   private String name;
+  /**
+   * 起始学期
+   */
+  private int startTerm;
+
+  /**
+   * 结束学期
+   */
+  private int endTerm;
+  /**
+   * 要求学分
+   */
+  @NotNull
+  private float credits;
   /**
    * 年级
    */
@@ -106,7 +120,7 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
    * 专业方向
    */
   @ManyToOne(fetch = FetchType.LAZY)
-  private Direction direction;
+  private MajorDirection direction;
 
   /**
    * 学制
@@ -173,6 +187,26 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
   @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "edu.course")
   private Set<Course> degreeCourses = CollectUtils.newHashSet();
 
+  public int getEndTerm() {
+    return endTerm;
+  }
+
+  public void setEndTerm(int endTerm) {
+    this.endTerm = endTerm;
+  }
+
+  public int getStartTerm() {
+    return startTerm;
+  }
+
+  public void setStartTerm(int startTerm) {
+    this.startTerm = startTerm;
+  }
+
+  public int getTermsCount() {
+    return endTerm - startTerm + 1;
+  }
+
   public Program() {
     super();
   }
@@ -229,11 +263,11 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
     this.major = major;
   }
 
-  public Direction getDirection() {
+  public MajorDirection getDirection() {
     return direction;
   }
 
-  public void setDirection(Direction direction) {
+  public void setDirection(MajorDirection direction) {
     this.direction = direction;
   }
 
@@ -349,6 +383,14 @@ public class Program extends NumberIdTimeObject<Long> implements Cloneable {
 
   public void setEduType(EducationType eduType) {
     this.eduType = eduType;
+  }
+
+  public float getCredits() {
+    return credits;
+  }
+
+  public void setCredits(float credits) {
+    this.credits = credits;
   }
 
   public StdType getStdType() {
