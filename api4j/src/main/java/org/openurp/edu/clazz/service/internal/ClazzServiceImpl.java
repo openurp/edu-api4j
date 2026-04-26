@@ -349,7 +349,10 @@ public class ClazzServiceImpl extends BaseServiceImpl implements ClazzService {
               newOcc.setActivityId(l.getId());
               newOcc.setActivityType(new ActivityType(ActivityType.Course));
               newOcc.setRoom(r);
-              newOcc.setComments(l.getCrn() + "[" + l.getCourse().getName() + "]");
+              newOcc.setSubject(l.getCrn() + "[" + l.getCourse().getName() + "]");
+              newOcc.setDepart(l.getTeachDepart());
+              newOcc.setStdCount(l.getEnrollment().getStdCount());
+              newOcc.setShared(false);
               savedOccupancies.add(newOcc);
             }
           }

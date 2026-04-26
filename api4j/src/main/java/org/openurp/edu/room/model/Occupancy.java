@@ -20,6 +20,7 @@ package org.openurp.edu.room.model;
 
 import org.beangle.commons.entity.pojo.LongIdObject;
 import org.beangle.orm.hibernate.udt.WeekTime;
+import org.openurp.base.model.Department;
 import org.openurp.code.edu.model.ActivityType;
 import org.openurp.base.resource.model.Classroom;
 
@@ -63,7 +64,14 @@ public class Occupancy extends LongIdObject {
   /** 说明 */
   @NotNull
   @Size(max = 500)
-  protected String comments;
+  protected String subject;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Department depart;
+
+  private int stdCount;
+
+  private boolean shared;
 
   public Classroom getRoom() {
     return room;
@@ -97,12 +105,12 @@ public class Occupancy extends LongIdObject {
     this.app = app;
   }
 
-  public String getComments() {
-    return comments;
+  public String getSubject() {
+    return subject;
   }
 
-  public void setComments(String comments) {
-    this.comments = comments;
+  public void setSubject(String subject) {
+    this.subject = subject;
   }
 
   public Long getActivityId() {
@@ -121,4 +129,27 @@ public class Occupancy extends LongIdObject {
     this.updatedAt = updatedAt;
   }
 
+  public Department getDepart() {
+    return depart;
+  }
+
+  public void setDepart(Department depart) {
+    this.depart = depart;
+  }
+
+  public int getStdCount() {
+    return stdCount;
+  }
+
+  public void setStdCount(int stdCount) {
+    this.stdCount = stdCount;
+  }
+
+  public boolean isShared() {
+    return shared;
+  }
+
+  public void setShared(boolean shared) {
+    this.shared = shared;
+  }
 }
