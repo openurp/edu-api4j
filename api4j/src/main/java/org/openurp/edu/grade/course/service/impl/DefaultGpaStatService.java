@@ -121,7 +121,7 @@ public class DefaultGpaStatService implements GpaStatService {
   private void merge(StdGpa target, StdGpa source) {
     target.setWms(source.getWms());
     target.setGpa(source.getGpa());
-    target.setGradeCount(source.getGradeCount());
+    target.setTotalCount(source.getTotalCount());
     target.setCredits(source.getCredits());
     target.setTotalCredits(source.getTotalCredits());
 

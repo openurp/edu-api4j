@@ -177,7 +177,7 @@ public class DefaultGpaPolicy implements GpaPolicy {
         courseMap.put(grade.getCourse(), grade);
       }
     }
-    stdGpa.setGradeCount(courseMap.size());
+    stdGpa.setTotalCount(courseMap.size());
     Float[] totalStats = statCredits(courseMap.values());
     stdGpa.setTotalCredits(totalStats[0]);
     stdGpa.setCredits(totalStats[1]);
