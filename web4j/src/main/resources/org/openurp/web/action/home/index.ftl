@@ -1,161 +1,12 @@
 [#ftl]
-[@b.head/]
-<style>
-[#--这一段定制的css，在app模块中的nav.ftl也有一份--]
-[#assign sidebar_width=156/]
-[#--限定宽度为sidebar_widthpx,这两个宽度的css定义要放在一个文件里面,仅仅重置768px,一定要保留991.98px那一段--]
-  @media (min-width: 768px) {
-   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
-   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
-   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
-    transition:margin-left .3s ease-in-out;
-    margin-left:${sidebar_width}px;
-   }
-  }
-  @media (max-width:991.98px) {
-   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
-   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
-   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
-    margin-left:0
-   }
-  }
-
-  .sidebar-mini.sidebar-collapse.layout-fixed .main-sidebar:hover .brand-link {
-    width:${sidebar_width}px;
-  }
-
-  .layout-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link {
-    transition: width 0.3s ease-in-out;
-    width: ${sidebar_width}px;
-  }
-
-  .main-sidebar, .main-sidebar::before {
-    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-    width: ${sidebar_width}px;
-  }
-
-  @media (max-width:767.98px) {
-   .main-sidebar, .main-sidebar::before {
-    box-shadow:none!important;
-    margin-left:-${sidebar_width}px
-   }
-   .sidebar-open .main-sidebar,
-   .sidebar-open .main-sidebar::before {
-    margin-left:0
-   }
-  }
-  .layout-fixed .brand-link {
-   width:${sidebar_width}px
-  }
-  .sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand).sidebar-focused,
-  .sidebar-mini.sidebar-collapse .main-sidebar:not(.sidebar-no-expand):hover {
-    width:${sidebar_width}px
-  }
-  [#--字体紧凑 靠左--]
-  .nav-legacy {
-      line-height:1.1;
-      width:${sidebar_width}px;
-      font-size:0.875rem;
-  }
-  .nav-legacy.nav-sidebar .nav-item > .nav-link{
-    border-radius: 0;
-    margin-bottom: 0;
-    padding-left:0;
-  }
-  [#--图标小一点--]
-  .nav-sidebar > .nav-item .nav-icon{
-    font-size: 0.7rem;
-  }
-  .nav-sidebar > .nav-item .nav-icon.fa, .nav-sidebar > .nav-item .nav-icon.fas, .nav-sidebar > .nav-item .nav-icon.far, .nav-sidebar > .nav-item .nav-icon.fab, .nav-sidebar > .nav-item .nav-icon.fal, .nav-sidebar > .nav-item .nav-icon.fad, .nav-sidebar > .nav-item .nav-icon.svg-inline--fa, .nav-sidebar > .nav-item .nav-icon.ion {
-    font-size: 0.7rem;
-  }
-  [#--靠左边一点--]
-  .text-sm .nav-legacy.nav-sidebar > .nav-item > .nav-link.active > .nav-icon {
-    margin-left: 3px;
-  }
-  [#--层级之间的缩进小一点--]
- .text-sm .nav-legacy.nav-sidebar .nav-item > .nav-link > .nav-icon {
-    margin-left: 3px;
-  }
-  .nav-sidebar .nav-treeview > .nav-item > .nav-link > .nav-icon{
-    width: 1.3rem;
-  }
-  [#--图标窄一点--]
-  .nav-sidebar .nav-treeview > .nav-item  .nav-icon {
-    width: 1.3rem;
-  }
-  [#--每个连接的宽度窄一些--]
-  .sidebar-mini .main-sidebar .nav-legacy .nav-link, .sidebar-mini-md .main-sidebar .nav-legacy .nav-link, .sidebar-mini-xs .main-sidebar .nav-legacy .nav-link {
-    width: ${sidebar_width}px;
-  }
-  [#--文件夹的箭头靠右一些--]
-  .nav-sidebar .nav-link > .right, .nav-sidebar .nav-link > p > .right {
-    position: absolute;
-    right: 0.1rem;
-    top: .7rem;
-  }
-  [#--缩小时宽度变为3rem--]
-  @media (min-width: 992px){
-    .sidebar-mini.sidebar-collapse.layout-fixed .brand-link {
-      width: 3rem;
-    }
-    .sidebar-mini.sidebar-collapse .main-sidebar, .sidebar-mini.sidebar-collapse .main-sidebar::before {
-      margin-left: 0;
-      width: 3rem;
-    }
-    .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header {
-      margin-left: 3rem !important;
-    }
-  }
-  #navbar-setting .nav-link{
-    padding:0.3125rem 0.5rem;
-  }
-  .control-sidebar, .control-sidebar::before {
-    width:13rem;
-  }
-  [#--override bootstrap--]
-  .btn-outline-primary {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  .btn-outline-primary {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  a {
-    color: var(--primary-color);
-  }
-  .btn-primary {
-    color: #fff;
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  .sidebar.nav-legacy > .nav-item > .nav-link.active {
-    border-color: var(--primary-color);
-  }
-  .sidebar-dark-lightblue .nav-sidebar.nav-legacy > .nav-item > .nav-link.active, .sidebar-light-lightblue .nav-sidebar.nav-legacy > .nav-item > .nav-link.active {
-    border-color: var(--primary-color);
-  }
-  .card-primary.card-outline {
-    border-top: 3px solid var(--primary-color);
-  }
-  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: var(--primary-color);
-  }
-  .btn-primary:focus, .btn-primary.focus {
-    background-color: var(--primary-color);
-  }
-  .btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-</style>
+[@b.head]
+  ${b.static.load(["ems-shell"])}
+[/@]
 <div class="wrapper">
-    <nav id="main_header" class="main-header navbar navbar-expand navbar-dark navbar-lightblue border-bottom-0">
+    <nav id="main_header" class="main-header navbar navbar-expand navbar-dark border-bottom-0" style="background-color:var(--navbar-bg-color)">
       <ul class="nav navbar-nav">
          <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu"  title="隐藏/显示菜单" href="#" role="button"><i class="fas fa-bars"></i></a>
+            <a class="nav-link" data-ems-pushmenu title="隐藏/显示菜单" href="#" role="button"><i class="fas fa-bars"></i></a>
          </li>
       </ul>
       <ul class="nav navbar-nav" id="top_nav_bar"></ul>
@@ -169,47 +20,24 @@
           <div id="newly-message" class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;min-width:280px"></div>
         </li>
 
-        <li class="nav-item dropdown notifications-menu">
-          <a href="#" class="nav-link" data-toggle="dropdown">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">0</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="nav-header">You have 0 notifications</li>
-            <li>
-              <ul class="menu">
-              </ul>
-            </li>
-            <li class="footer"><a href="#">View all</a></li>
-          </ul>
-        </li>
-
         <li class="nav-item dropdown tasks-menu">
           <a href="#" class="nav-link" data-toggle="dropdown">
             <i class="far fa-flag"></i>
-            <span class="badge badge-warning navbar-badge">0</span>
+            <span class="badge badge-warning navbar-badge" id="newly-task-count">0</span>
           </a>
-          <ul class="dropdown-menu">
-            <li class="nav-header">You have 0 tasks</li>
-            <li>
-              <ul class="menu">
-              </ul>
-            </li>
-            <li class="footer">
-              <a href="#">View all tasks</a>
-            </li>
-          </ul>
+          <div id="newly-task" class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;min-width:280px"></div>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <a class="nav-link" data-ems-fullscreen href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
           </a>
         </li>
-        <li class="nav-item dropdown user user-menu" style="margin-right: -5px;">
-          <a href="#" class="nav-link" data-toggle="dropdown" title="${nav.principal.description}" style="padding-left: 5px;padding-right: 0px;">
+        <li class="nav-item dropdown user user-menu">
+          <a href="#" class="nav-link" data-toggle="dropdown" title="${nav.principal.description}">
             <img src="${nav.avatarUrl}" class="user-image">
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu dropdown-menu-right">
             <li class="user-header">
               <img src="${nav.avatarUrl}" class="img-circle" alt="User Image">
               <p>
@@ -224,7 +52,7 @@
               </div>
               [/#if]
               <div class="float-sm-right">
-                <a href="${b.url('!logout')}" onclick="emsnav.clearNavState();return true;" class="btn btn-default btn-flat" target="_top">
+                <a href="${b.url('!logout')}" onclick="emsShell.clearNavStateOnLogout();return true;" class="btn btn-default btn-flat" target="_top">
                   <i class="nav-icon fa fa-door-open"></i>退出&nbsp;&nbsp;
                 </a>
               </div>
@@ -232,23 +60,22 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" style="padding:0.3125rem 0.35rem" class="nav-link" data-slide="true" data-widget="control-sidebar"><i class="fa fa-cog"></i></a>
+          <a href="#" style="padding:0.3125rem 0.35rem" class="nav-link" data-ems-control-sidebar><i class="fa fa-cog"></i></a>
         </li>
       </ul>
     </nav>
 
-  <aside id="main_siderbar" class="main-sidebar sidebar-dark-primary elevation-4" style="font-size:0.875rem;overflow: hidden;">
-    <a href="${b.base}" class="brand-link navbar-lightblue" title="${nav.org.name} ${nav.domain.title}" style="border:0px;" onclick="emsnav.clearNavState();return true;">
+  <aside id="main_siderbar" class="main-sidebar sidebar-light-lightblue elevation-4" style="font-size:0.875rem;overflow: hidden;">
+    <a href="${b.base}" class="brand-link" title="${nav.org.name} ${nav.domain.title}" style="border:0px;background-color:var(--navbar-bg-color)" onclick="emsShell.clearNavState();return true;">
       <img src="${nav.domain.logoUrl!}" class="brand-image" style="margin-left: 0rem;"/>
       <span class="brand-text font-weight-light" id="appName" style="font-size: 1rem;color: rgba(255,255,255,.8);"></span>
     </a>
     <div class="form-inline" style="display:none">
       <div class="input-group">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" id="menu_searcher"
-               style="height: 29px;font-size: 12px;border:0px;border-radius: 0px;">
+        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" id="menu_searcher">
         <div class="input-group-append">
-          <button class="btn btn-sidebar" style="border:0px;padding-top: 0px;padding-bottom: 0px;border-radius: 0px;">
-            <i class="fas fa-search fa-fw" style="width: 0.6rem;"></i>
+          <button type="button" class="btn btn-sidebar">
+            <i class="fas fa-search fa-fw"></i>
           </button>
         </div>
       </div>
@@ -256,19 +83,19 @@
     </div>
     <div class="sidebar" style="padding-right:0px">
       <nav class="mt-2">
-        <ul id="menu_ul" class="nav nav-pills nav-sidebar flex-column nav-legacy nav-child-indent" data-widget="treeview" role="menu" data-accordion="false"></ul>
+        <ul id="menu_ul" class="nav nav-pills nav-sidebar flex-column nav-child-indent ems-sidebar-menu" role="menu"></ul>
       </nav>
     </div>
   </aside>
   <div class="content-wrapper" id="main_wrapper">
     [#if mainHref?? && mainHref?length>0 ]
-    [@b.div id="main"  href="${mainHref}"/]
+    [@b.div id="main" href="${mainHref}"/]
     [#else]
     [@b.div id="main"/]
     [/#if]
   </div>
 
-  <aside id="control_sidebar" class="control-sidebar control-sidebar-dark control-sidebar-open" style="display: block;">
+  <aside id="control_sidebar" class="control-sidebar control-sidebar-light">
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
       <li class="nav-item"><a class="nav-link active" style="padding: .4rem .8rem;" href="#control-sidebar-theme-options-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-wrench"></i></a></li>
       <li class="nav-item"><a class="nav-link" style="padding: .4rem .8rem;" href="#control-sidebar-home-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-home"></i></a></li>
@@ -280,10 +107,10 @@
           <div class="mb-2"><input type="checkbox" id="sticky_header"><label for="sticky_header">固定头部导航</label></div>
           <div class="mb-2">
             导航风格:
-            <input name="nav_siderbar_theme" value="dark" checked="checked" id="nav_siderbar_theme_dark" type="radio" onclick="emsnav.changeNavSidebarTheme(this.value)">
-              <label for="nav_siderbar_theme_dark">暗黑</label>
-            <input name="nav_siderbar_theme" value="light" id="nav_siderbar_theme_light" type="radio" onclick="emsnav.changeNavSidebarTheme(this.value)">
+            <input name="nav_siderbar_theme" value="light" checked="checked" id="nav_siderbar_theme_light" type="radio" onclick="emsShell.changeNavSidebarTheme(this.value)">
               <label for="nav_siderbar_theme_light">浅白</label>
+            <input name="nav_siderbar_theme" value="dark" id="nav_siderbar_theme_dark" type="radio" onclick="emsShell.changeNavSidebarTheme(this.value)">
+              <label for="nav_siderbar_theme_dark">暗黑</label>
           </div>
           <div class="mb-2">
             界面语言:
@@ -310,11 +137,23 @@
               [/#list]
             </select>
           </div>
+          <hr/>
+          <div class="mb-2">
+            <ul style="padding-left: 0px;list-style-type: none;">
+              <li class="mb-2">主要字体颜色：<input type="color" id="theme_primaryColor" onchange="changeTheme()" style="height: 20px;padding: 0px;" value=""/></li>
+              <li class="mb-2">导航区背景：<input type="color" id="theme_navbarBgColor" onchange="changeTheme()" style="height: 20px;padding: 0px;" value=""/></li>
+              <li class="mb-2">查询区背景：<input type="color" id="theme_searchBgColor" onchange="changeTheme()" style="height: 20px;padding: 0px;"  value=""/></li>
+              <li class="mb-2">工具栏背景：<input type="color" id="theme_gridbarBgColor" onchange="changeTheme()" style="height: 20px;padding: 0px;"  value=""/></li>
+              <li class="mb-2">表格边框颜色：<input type="color" id="theme_gridBorderColor" onchange="changeTheme()" style="height: 20px;padding: 0px;"  value=""/></li>
+              <li><button class="btn btn-outline-primary btn-sm" onclick="emsShell.changeTheme(null,true)">恢复默认值</button>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="tab-pane" id="control-sidebar-home-tab" style="padding: 10px 15px;">
         <h6 class="control-sidebar-heading">近期活动</h6>
         <ul class="control-sidebar-menu">
+          <li>时间 <div id="clock" style="display:inline"></div></li>
         </ul>
       </div>
     </div>
@@ -322,35 +161,80 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <script type="text/javascript">
- beangle.load(["adminlte","ems","ems-nav"],function(adminlte,ems,emsnav){
-    ems.config.api='${nav.ems.api}';
-    var app = {'name':'${thisAppName}','base':'${appBase}','navStyle':'adminlte'}
-    var portal={'name':'platform-portal','title':'首页','url':'${nav.ems.portal}'}
-    var params={}
-    params['webapp']='${webappBase}';
-    params['sysName']='${nav.domain.title}';
+  beangle.require(["ems-shell"], function (emsShell) {
+    emsShell.config.api = '${nav.ems.api}';
+    var app = {'name': '${thisAppName}', 'base': '${appBase}'};
+    var portal = {'name': 'platform-portal', 'base': '${nav.ems.portal}', 'title': '首页'};
+    var params = {};
+    params['webapp'] = '${webappBase}';
+    params['sysName'] = '${nav.domain.title}';
+    [#if nav.params??]
+    [#list nav.params as k,v]
+    params['${k}'] = '${v}';
+    [/#list]
+    [/#if]
     [#if nav.profiles??]
-    ems.init(${nav.profiles},${nav.cookie!'null'});
-    if(ems.config.profiles.length>0 && ems.config.profile){
-      var default_p = ems.config.profile
-      for(var i in default_p){
-        if(i != "id") params[i] = default_p[i];
+    emsShell.init(${nav.profiles}, ${nav.cookie!'null'});
+    if (emsShell.config.profiles.length > 0 && emsShell.config.profile) {
+      var default_p = emsShell.config.profile;
+      for (var i in default_p) {
+        if (i != "id") params[i] = default_p[i];
       }
-      params['maxTopItem']=8;
+      params['maxTopItem'] = 8;
     }
     [/#if]
-    jQuery(document).ready(function(){
-      var navMenu = emsnav.createNav(app,portal,${nav.menusJson},params,false);
+
+    jQuery(document).ready(function () {
+      var navMenu = emsShell.createNav(app, portal, ${nav.menusJson}, params, false);
       navMenu.displayAppMenus('${thisAppName}');
       [#if nav.profiles??]
-      emsnav.createProfileNav();
+      emsShell.createProfileNav();
       [/#if]
-      var theme={"primaryColor": "#007bff","navbarBgColor": "#3c8dbc", "searchBgColor": "#e1ecff", "gridbarBgColor": "#c7dbff", "gridBorderColor": "#006cb2"}
-      emsnav.setup(theme,params);
-      emsnav.enableSearch('menu_searcher');
-      window.emsnav=emsnav;
+      [#if mainHref?? && mainHref?length>0 ]
+      emsShell.setWelcomeUrl('${b.url(mainHref)}');
+      [#else]
+      emsShell.setWelcomeUrl('${b.url("!welcome")}');
+      [/#if]
+      var theme = {
+        "primaryColor": "#007bff",
+        "navbarBgColor": "#3c8dbc",
+        "searchBgColor": "#e1ecff",
+        "gridbarBgColor": "#c7dbff",
+        "gridBorderColor": "#006cb2"
+      };
+      emsShell.setup(theme, params);
+      emsShell.enableSearch('menu_searcher');
     });
   });
+
+  var clockOffset = 0;
+  $.get("${nav.ems.api}/tools/sys/time/now", function (data, status) {
+    clockOffset = parseInt(data) - (new Date()).getTime();
+    setInterval(showTime, 1000);
+  });
+
+  function showTime() {
+    var time = new Date();
+    time.setTime(time.getTime() + clockOffset);
+    var hour = time.getHours();
+    var min = time.getMinutes();
+    var sec = time.getSeconds();
+    hour = hour < 10 ? "0" + hour : hour;
+    min = min < 10 ? "0" + min : min;
+    sec = sec < 10 ? "0" + sec : sec;
+    document.getElementById("clock").innerHTML = (hour + ":" + min + ":" + sec);
+  }
+
+  function changeTheme(i) {
+    if (!i) i = 20;
+    var theme = {};
+    theme.primaryColor = jQuery("#theme_primaryColor").val();
+    theme.navbarBgColor = jQuery("#theme_navbarBgColor").val();
+    theme.searchBgColor = jQuery("#theme_searchBgColor").val();
+    theme.gridbarBgColor = jQuery("#theme_gridbarBgColor").val();
+    theme.gridBorderColor = jQuery("#theme_gridBorderColor").val();
+    emsShell.changeTheme(theme);
+  }
 </script>
 
 [@b.foot/]
