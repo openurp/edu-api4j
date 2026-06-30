@@ -1,7 +1,5 @@
 [#ftl]
-[@b.head]
-  ${b.static.load(["ems-shell"])}
-[/@]
+[@b.head/]
 <div class="wrapper">
     <nav id="main_header" class="main-header navbar navbar-expand navbar-dark border-bottom-0" style="background-color:var(--navbar-bg-color)">
       <ul class="nav navbar-nav">
