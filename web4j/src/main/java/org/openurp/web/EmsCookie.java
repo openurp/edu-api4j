@@ -34,7 +34,7 @@ public class EmsCookie {
     this.data = data;
   }
 
-  public final static String CookieName = "URP_PROFILE";
+  public final static String CookieName = "beangle.ems.profile";
   public final static int COOKIE_AGE = 60 * 60 * 24 * 7; // 7 days
 
   public static final EmsCookie parse(String cookieValue) {
