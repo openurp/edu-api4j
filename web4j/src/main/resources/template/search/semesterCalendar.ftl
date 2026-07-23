@@ -61,6 +61,7 @@
       App.contextPath="${base}";
     }
     bg.requireCss("${base}/static/themes/default/css/semesterCalendar.css");
+    var semesterCalendarUrl = window.location.origin+"${base}/static/scripts/semesterCalendar.js?v=1";
     [#if !tag.emptyTree]
       jQuery(function(){
         jQuery("#${tag.id}").data("semesters", {
@@ -72,12 +73,12 @@
             ]${(entry_index==(tag.semesterTree.entrySet()?size-1))?string("",",")}
           [/#list]
         });
-          bg.require("${base}/static/scripts/semesterCalendar.js?v=1",function(){
+          bg.require([semesterCalendarUrl],function(){
             jQuery("#${tag.id}").semesterCalendar({projectId:${project.id},empty:"${tag.empty?string}"[#if tag.onChange??],onChange:"${tag.onChange}"[/#if][#if (tag.value.id)??],value:"${(tag.value.id)}"[/#if]}[#if tag.initCallback??],"${tag.initCallback}"[/#if]);
           });
       });
     [#else]
-        bg.require("${base}/static/scripts/semesterCalendar.js?v=1",function(){
+        bg.require([semesterCalendarUrl],function(){
           jQuery("#${tag.id}").semesterCalendar({projectId:${project.id},empty:"${tag.empty?string}"[#if tag.onChange??],onChange:"${tag.onChange}"[/#if][#if (tag.value.id)??],value:"${(tag.value.id)}"[/#if]}[#if tag.initCallback??],"${tag.initCallback}"[/#if]);
         });
     [/#if]

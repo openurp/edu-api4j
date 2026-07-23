@@ -9,15 +9,16 @@
   <groupId>org.openurp.edu</groupId>
   <artifactId>openurp-edu-parent4j</artifactId>
   <packaging>pom</packaging>
-  <version>0.49.0</version>
+  <version>0.49.4</version>
   <name>OpenURP Edu Java API Parent</name>
 
   <properties>
     <java.version>17</java.version>
-    <beangle3.version>3.11.7</beangle3.version>
+    <beangle3.version>3.11.9</beangle3.version>
     <quartz.version>2.3.2</quartz.version>
     <mvn.compiler.version>3.13.0</mvn.compiler.version>
     <mvn.javadoc.version>3.6.3</mvn.javadoc.version>
+    <mvn.central.publish.version>0.11.0</mvn.central.publish.version>
   </properties>
 
   <modules>
@@ -88,13 +89,86 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>0.6.0</version>
+        <version>${mvn.central.publish.version}</version>
         <extensions>true</extensions>
         <configuration>
           <publishingServerId>central</publishingServerId>
           <deploymentName>${project.groupId}:${project.artifactId}:${project.version}</deploymentName>
         </configuration>
       </plugin>
+
+      <!-- 跳过完整 Javadoc，改为打包 README 占位（满足 Central 对 -javadoc.jar 的要求） -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${mvn.javadoc.version}</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>stub-javadoc</id>
+      <activation>
+        <file>
+          <exists>${project.basedir}/src/main/java</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-stub-javadoc</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/stub-javadoc</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.parent.basedir}/src/stub-javadoc</directory>
+                      <includes>
+                        <include>README.md</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-stub-javadocs</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <classifier>javadoc</classifier>
+                  <classesDirectory>${project.build.directory}/stub-javadoc</classesDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

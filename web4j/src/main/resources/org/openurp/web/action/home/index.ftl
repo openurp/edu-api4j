@@ -1,7 +1,5 @@
 [#ftl]
-[@b.head]
-  ${b.static.load(["ems-shell"])}
-[/@]
+[@b.head/]
 <div class="wrapper">
     <nav id="main_header" class="main-header navbar navbar-expand navbar-dark border-bottom-0" style="background-color:var(--navbar-bg-color)">
       <ul class="nav navbar-nav">
@@ -39,7 +37,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-right">
             <li class="user-header">
-              <img src="${nav.avatarUrl}" class="img-circle" alt="User Image">
+              <img src="${nav.avatarUrl}" class="rounded-circle" alt="User Image">
               <p>
                 ${nav.principal.description} - (${nav.principal.name})[#if nav.username != nav.principal.name] 模拟${nav.username}[/#if]
                 <small>[#if nav.principal.remoteToken??]统一身份平台登录[#else]本地登录[/#if]</small>
@@ -174,7 +172,7 @@
     [/#list]
     [/#if]
     [#if nav.profiles??]
-    emsShell.init(${nav.profiles}, ${nav.cookie!'null'});
+    emsShell.init(${nav.profiles}, [#if nav.profileId??]"${nav.profileId}"[#else]null[/#if]);
     if (emsShell.config.profiles.length > 0 && emsShell.config.profile) {
       var default_p = emsShell.config.profile;
       for (var i in default_p) {

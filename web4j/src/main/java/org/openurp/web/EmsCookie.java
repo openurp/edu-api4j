@@ -21,20 +21,24 @@ package org.openurp.web;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.beangle.commons.lang.Numbers;
 import org.beangle.commons.lang.Strings;
 import org.beangle.commons.web.util.CookieUtils;
+import org.beangle.security.core.context.SecurityContext;
+import org.beangle.security.core.userdetail.Profile;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EmsCookie {
   Map<String, String> data;
-
+  private long profile;
   public EmsCookie(Map<String, String> data) {
     this.data = data;
   }
 
-  public final static String CookieName = "URP_PROFILE";
+  public final static String ProfileIdCookieName = "beangle.security.profileId";
+  public final static String EmsCookieName = "beangle.ems.context";
   public final static int COOKIE_AGE = 60 * 60 * 24 * 7; // 7 days
 
   public static final EmsCookie parse(String cookieValue) {
@@ -48,34 +52,34 @@ public class EmsCookie {
     return gson.toJson(this.data);
   }
 
+  public static final String getProfileId(HttpServletRequest request) {
+    Profile profile = SecurityContext.get().getProfile();
+    return (null==profile)?null:String.valueOf(profile.id);
+  }
+
   public static final EmsCookie get(HttpServletRequest request, HttpServletResponse response) {
-    String cv = CookieUtils.getCookieValue(request, EmsCookie.CookieName);
+    String cv = CookieUtils.getCookieValue(request, EmsCookie.EmsCookieName);
     EmsCookie cookie = null;
     if (org.beangle.commons.lang.Strings.isEmpty(cv)) cookie = new EmsCookie(new HashMap<String, String>());
     else cookie = EmsCookie.parse(cv);
-    String profileId = request.getParameter("contextProfileId");
-    if (Strings.isNotBlank(profileId) && null != response) {
+
+    String profileId = CookieUtils.getCookieValue(request, EmsCookie.ProfileIdCookieName);
+    if(Strings.isNotBlank(profileId)) {
       cookie.setProfile(Long.valueOf(profileId));
-      set(request, response, cookie);
     }
     return cookie;
   }
 
   public static final void set(HttpServletRequest request, HttpServletResponse response, EmsCookie ec) {
-    CookieUtils.addCookie(request, response, CookieName, ec.toJson(), "/", COOKIE_AGE);
+    CookieUtils.addCookie(request, response, EmsCookieName, ec.toJson(), "/", COOKIE_AGE);
   }
 
   public long getProfile() {
-    String p = data.get("profile");
-    if (Strings.isBlank(p)) {
-      return 0l;
-    } else {
-      return Long.parseLong(p);
-    }
+    return profile;
   }
 
-  public void setProfile(long id) {
-    data.put("profile", String.valueOf(id));
+  public void setProfile(long profile) {
+    this.profile = profile;
   }
 
   public void put(String key, String value) {

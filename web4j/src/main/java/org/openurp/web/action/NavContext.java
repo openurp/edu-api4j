@@ -33,7 +33,7 @@ public class NavContext {
   private Map<String, String> params;
   private String profiles;
   private Object ems;
-  private String cookie;
+  private String profileId;
 
   private Domain domain;
 
@@ -85,12 +85,12 @@ public class NavContext {
     this.profiles = profiles;
   }
 
-  public String getCookie() {
-    return cookie;
+  public String getProfileId() {
+    return profileId;
   }
 
-  public void setCookie(String cookie) {
-    this.cookie = cookie;
+  public void setProfileId(String profileId) {
+    this.profileId = profileId;
   }
 
   public Object getEms() {
