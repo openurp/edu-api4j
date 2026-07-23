@@ -34,6 +34,7 @@ import org.beangle.commons.lang.Strings;
 import org.beangle.ems.app.security.SecurityUtils;
 import org.beangle.security.Securities;
 import org.beangle.security.authz.AccessDeniedException;
+import org.beangle.security.core.context.SecurityContext;
 import org.beangle.security.core.userdetail.Profile;
 import org.beangle.security.data.Permission;
 import org.beangle.security.data.ProfileService;
@@ -309,36 +310,9 @@ public class ProjectContextImpl implements ProjectContext {
     if (cache != null) {
       return cache;
     }
-    HttpServletRequest request = getRequest();
-    EmsCookie cookie = EmsCookie.get(request,getResponse());
-    long cookieProfileId = cookie.getProfile();
-    String contextProfileId = request.getParameter("contextProfileId");
-    if (Strings.isNotBlank(contextProfileId)) {
-      cookieProfileId = Long.parseLong(contextProfileId);
-    }
-
-    List<Profile> profiles = profileService.getProfiles(Securities.getUsername(), null);
-    if (profiles.isEmpty()) throw new EamsException("用户缺少数据级权限配置");
-    Profile result = null;
-    if (cookieProfileId > 0) {
-      for (Profile p : profiles) {
-        if (p.id == cookieProfileId) {
-          result = p;
-          break;
-        }
-      }
-      if (null == result) {
-        result = profiles.get(0);
-      }
-    } else {
-      result = profiles.get(0);
-    }
-    cache(prefix + "getCurrentProfile", result);
-    if (cookie.getProfile() != result.id) {
-      cookie.setProfile(result.id);
-      EmsCookie.set(request, getResponse(), cookie);
-    }
-    return result;
+    Profile  profile = SecurityContext.get().getProfile();
+    if (null==profile) throw new EamsException("用户缺少数据级权限配置");
+    return profile;
   }
 
   private List getAllProjects() {
