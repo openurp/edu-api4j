@@ -105,7 +105,7 @@ public class HomeAction extends AdminBaseAction {
     String url = Ems.Instance.getApi() + "/platform/user/profiles/" + user.getCode() + ".json?domain=edu&resolved=1";
     String profiles = HttpUtils.getResponseText(url);
     nav.setProfiles(profiles);
-    nav.setCookie(EmsCookie.get(request,getResponse()).toJson());
+    nav.setProfileId(EmsCookie.getProfileId(request));
     return forward();
   }
 

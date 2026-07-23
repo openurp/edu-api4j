@@ -172,7 +172,7 @@
     [/#list]
     [/#if]
     [#if nav.profiles??]
-    emsShell.init(${nav.profiles}, ${nav.cookie!'null'});
+    emsShell.init(${nav.profiles}, [#if nav.profileId??]"${nav.profileId}"[#else]null[/#if]);
     if (emsShell.config.profiles.length > 0 && emsShell.config.profile) {
       var default_p = emsShell.config.profile;
       for (var i in default_p) {

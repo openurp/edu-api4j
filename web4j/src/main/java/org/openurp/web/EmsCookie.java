@@ -24,6 +24,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.beangle.commons.lang.Numbers;
 import org.beangle.commons.lang.Strings;
 import org.beangle.commons.web.util.CookieUtils;
+import org.beangle.security.core.context.SecurityContext;
+import org.beangle.security.core.userdetail.Profile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +50,11 @@ public class EmsCookie {
   public String toJson() {
     Gson gson = new Gson();
     return gson.toJson(this.data);
+  }
+
+  public static final String getProfileId(HttpServletRequest request) {
+    Profile profile = SecurityContext.get().getProfile();
+    return (null==profile)?null:String.valueOf(profile.id);
   }
 
   public static final EmsCookie get(HttpServletRequest request, HttpServletResponse response) {
